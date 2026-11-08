@@ -1,0 +1,9 @@
+{
+  "servers": {
+    "listing-studio": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["<PROJECT_DIR>/mcp/server.mjs"]
+    }
+  }
+}

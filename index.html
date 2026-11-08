@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>跨境 Listing 质检工作台 · Cross-border Listing QC Studio</title>
+<link rel="stylesheet" href="assets/app.css">
+<!-- 站点图标：真图形路径（购物车），不靠字体字形/emoji —— 后者在不同系统上会渲染成不同表情，
+     甚至渲染成豆腐块。stroke 用 currentColor：独立 SVG 文档里它取 canvastext，浅色/深色标签页都看得见。 -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><circle cx='8' cy='21' r='1'/><circle cx='19' cy='21' r='1'/><path d='M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12'/></svg>">
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     🔴 这段必须是**经典脚本**（不是 type="module"）。
+
+     原因（2026-09-29 用 Edge 153 headless --dump-dom 实测）：
+       本页的应用是一个 ES 模块（<script type="module" src="assets/app.js">）。
+       浏览器对 file:// 下的模块请求走 CORS 检查，origin 为 null → **一律拦掉**。
+       实测结果：file:// 打开时导出的 DOM 是 23.9KB（只有静态骨架，JS 一行没跑）；
+                 http://127.0.0.1 打开时是 322KB（应用真的渲染了）。
+       也就是说"双击 index.html 也能用"是**假的** —— 用户看到的是一个死页面。
+
+     所以这里用一段不依赖任何模块的原生 JS，在 file:// 下直接把原因和正确姿势
+     摆在页面上。用 module 写这段提示，提示自己就加载不了。
+     ═══════════════════════════════════════════════════════════════════ -->
+<script>
+(function () {
+  function show() {
+    if (location.protocol !== "file:") return;
+    var d = document.createElement("div");
+    d.setAttribute("role", "alert");
+    d.style.cssText = "position:fixed;inset:0 0 auto 0;z-index:99999;background:#7f1d1d;color:#fff;" +
+      "padding:14px 18px;font:13px/1.75 system-ui,-apple-system,'Segoe UI',sans-serif;box-shadow:0 6px 22px rgba(0,0,0,.35)";
+    d.innerHTML =
+      '<b style="font-size:14px">这个页面不能直接双击打开 —— 不是页面坏了，是浏览器的安全策略。</b><br>' +
+      '整个应用是一个 ES 模块，浏览器会以 CORS 为由拦掉 <code style="background:rgba(255,255,255,.15);padding:1px 5px;border-radius:4px">file://</code> 下的模块请求，' +
+      '所以下面的界面是空的。<br>' +
+      '<b>正确姿势（在项目目录里跑）：</b>' +
+      '<code style="display:inline-block;margin:4px 0;background:rgba(0,0,0,.3);padding:3px 8px;border-radius:5px">node server.mjs</code>' +
+      ' 然后浏览器打开 <code style="background:rgba(255,255,255,.15);padding:1px 5px;border-radius:4px">http://127.0.0.1:8787/</code>';
+    var host = document.body || document.documentElement;
+    host.insertBefore(d, host.firstChild);
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", show);
+  else show();
+})();
+</script>
+
+<div class="app">
+
+  <!-- ═══════════ 侧栏 ═══════════ -->
+  <aside class="sidebar">
+    <div class="brand">
+      <h1>跨境 Listing <span>质检工作台</span></h1>
+      <p>全品类文案质检 · 每周词库</p>
+    </div>
+    <!-- 导航图标：统一描边 inline SVG（viewBox 24 / 描边 1.75 / currentColor / 20px），
+         与 app.js 里 ICONS 注册表的规格**逐项一致**。
+         注意：这 8 个是全项目唯一的「内联例外」—— index.html 是静态页面，拿不到 app.js 的常量；
+         除它们之外任何图标都必须从那个注册表取，不许在这里再抄一份图形。 -->
+    <nav class="nav" id="nav">
+      <div class="group">创作</div>
+      <button data-view="chat" class="on" title="创作台：描述产品 → 匹配模板 → 出 Prompt 或直接出图"><span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:middle"><path d="M20.5 3.5h-17A1.5 1.5 0 0 0 2 5v10a1.5 1.5 0 0 0 1.5 1.5H7v4l5-4h8.5A1.5 1.5 0 0 0 22 15V5a1.5 1.5 0 0 0-1.5-1.5z"/><path d="M7.5 8.5h9"/><path d="M7.5 12h5.5"/></svg></span><span class="lbl">创作台<em>描述产品 → 出图</em></span></button>
+      <button data-view="templates" title="模板库：25 个场景模板，可搜索、可预览"><span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:middle"><rect x="3" y="3" width="7.5" height="7.5" rx="1.5"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="1.5"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="1.5"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="1.5"/></svg></span><span class="lbl">模板库<em>25 个场景模板</em></span></button>
+      <button data-view="library" title="图片库：生成过的图片都在这里"><span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:middle"><rect x="3" y="3" width="18" height="18" rx="2.5"/><circle cx="8.7" cy="8.7" r="1.8"/><path d="M21 16l-4.2-4.2a1.8 1.8 0 0 0-2.54 0L6.5 21"/></svg></span><span class="lbl">图片库<em>生成的图在这</em></span></button>
+      <div class="group">Listing</div>
+      <button data-view="listing" title="文案与质检：填产品 → 生成草稿 → 逐条体检（主流程）"><span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:middle"><path d="M14 2.5H7A1.5 1.5 0 0 0 5.5 4v16A1.5 1.5 0 0 0 7 21.5h10a1.5 1.5 0 0 0 1.5-1.5V7z"/><path d="M14 2.5V7h4.5"/><path d="M9 12.5h6"/><path d="M9 16.5h4"/></svg></span><span class="lbl">文案与质检<em>填 → 生成 → 体检</em></span></button>
+      <button data-view="capture" title="数据采集：贴商品页或搜索结果，抓成结构化字段"><span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:middle"><path d="M20.5 15v4.5a1.5 1.5 0 0 1-1.5 1.5H5a1.5 1.5 0 0 1-1.5-1.5V15"/><path d="m7.5 10.5 4.5 4.5 4.5-4.5"/><path d="M12 15V3.5"/></svg></span><span class="lbl">数据采集<em>从商品页抓字段</em></span></button>
+      <button data-view="words" title="本周词库：定时任务每周抓的词，可搜索、可排序、可送进文案页"><span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:middle"><path d="M9.5 7h11"/><path d="M9.5 12h11"/><path d="M9.5 17h11"/><circle cx="4.6" cy="7" r="1"/><circle cx="4.6" cy="12" r="1"/><circle cx="4.6" cy="17" r="1"/></svg></span><span class="lbl">本周词库<em>每周抓的词</em></span></button>
+      <button data-view="vault" title="本地产物：保存在浏览器 IndexedDB 里的结果，可导出"><span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:middle"><rect x="2.5" y="3.5" width="19" height="5.5" rx="1.5"/><path d="M4.5 9v10.5a1.5 1.5 0 0 0 1.5 1.5h12a1.5 1.5 0 0 0 1.5-1.5V9"/><path d="M10 13.5h4"/></svg></span><span class="lbl">本地产物<em>存在这台机器</em></span></button>
+      <div class="group">系统</div>
+      <button data-view="settings" title="设置与诊断：接口配置、服务状态、自检"><span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:middle"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg></span><span class="lbl">设置与诊断<em>接口 / 状态</em></span></button>
+    </nav>
+    <div class="status" id="status">
+      <div><span class="dot off"></span>探测中…</div>
+    </div>
+  </aside>
+
+  <!-- ═══════════ 主区 ═══════════ -->
+  <main class="main">
+
+    <!-- ── 创作台 ── -->
+    <section class="view on" data-view="chat">
+      <header class="chat-head">
+        <div>
+          <h1>创作台</h1>
+          <p>描述产品与需求 → 匹配 25 个场景模板 → 套用六条铁律 → 出 Prompt 或直接出图</p>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <button class="btn sm ghost" id="tplLockBtn" style="display:none" title="点此恢复自动匹配"></button>
+          <span class="tag" id="chatModeTag">…</span>
+          <button class="btn sm ghost" id="clearBtn">清空对话</button>
+        </div>
+      </header>
+
+      <div class="chat-scroll" id="chatScroll">
+        <div class="chat-inner" id="chatInner"></div>
+      </div>
+
+      <div class="composer">
+        <div class="composer-inner">
+          <div id="attachBox"></div>
+          <div class="crow">
+            <input type="file" id="file" accept="image/png,image/jpeg,image/webp,image/gif" style="display:none">
+            <!-- 只有图标没有文字，所以除了 title 还要给 aria-label（读屏软件读 title 不可靠）。
+                 图形本身由 app.js 的 ICONS 注册表在启动时注入 —— 同一张图不许在 HTML 里再抄一份。 -->
+            <button class="btn ghost" id="attachBtn" title="上传参考图（走图生图）" aria-label="上传参考图（走图生图）"></button>
+            <button class="btn ghost" id="plusBtn" title="随机来一个示例">＋</button>
+            <textarea class="field" id="input" rows="2"
+              placeholder="描述你的产品和图片需求，例如：帮我生成一款蓝色蓝牙耳机的白底主图"></textarea>
+            <button class="btn ghost" id="packBtn" title="规划整套图片包（5 主图 + 9 详情页）">整套</button>
+            <button class="btn primary" id="sendBtn">发送</button>
+            <button class="btn danger" id="stopBtn" style="display:none">停止</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 模板库 ── -->
+    <section class="view" data-view="templates">
+      <div class="pane-scroll">
+        <div class="pane-narrow">
+          <h2 class="sec">场景模板库</h2>
+          <p class="sub">25 个模板由 <code>tools/build-templates.mjs</code> 从参考仓库的 <code>references/templates/*.json</code> 自动生成——<b>不手抄、不改写</b>。每个模板含 prompt_template / 风格变体 / 品类建议 / 示例 / anti_ai_tips。</p>
+
+          <div class="rowline" style="margin-bottom:14px">
+            <input class="in" id="tplSearch" placeholder="搜模板：白底 / 小红书 / UGC / 爆炸图 / infographic …" style="max-width:420px">
+            <span class="chip p" id="tplCount">25 / 25</span>
+          </div>
+
+          <div class="card" id="autoMatchCard">
+            <h3>自动匹配预览 <span class="chip">默认机制 · 不需要手选</span></h3>
+            <p class="hint">
+              创作台<b>默认自动选模板</b>：从你这句话里找关键词（trigger_phrases &gt; 别名 &gt; keywords），
+              再叠加当轮上下文（品类 / 转化驱动力 / 有没有上传参考图）来决定用哪一个。
+              把想说的话敲进下面，这里会实时显示<b>会选到哪个、依据是什么、还有哪些备选</b>：
+            </p>
+            <input class="in" id="autoMatchInput" style="width:100%"
+              placeholder="例如：给这件黑色 T 恤做一张图 / 帮我做一张白底主图 / 蓝牙耳机怎么拍 / 不露脸展示服装">
+            <div id="autoMatchOut" class="hint" style="margin-top:10px">（在上面输入一句话，即时看匹配过程）</div>
+          </div>
+
+          <div class="grid c3" id="tplGrid"></div>
+
+          <div class="card" id="tplDetail" style="margin-top:18px"></div>
+
+          <div class="card">
+            <h3>用这个模板出一段 Prompt</h3>
+            <p class="hint">本地引擎直接生成，不需要任何 API key。产品主体取最近一次对话里识别出的主体。</p>
+            <div class="rowline" style="margin-bottom:10px">
+              <button class="btn ghost sm" id="tplUse">固定用这个模板（仅下一条）</button>
+              <button class="btn ghost sm" id="tplAuto">恢复自动匹配</button>
+              <button class="btn ghost sm" id="tplPromptOnly">只生成 Prompt</button>
+              <button class="btn ghost sm" id="tplCopy">复制 Prompt</button>
+            </div>
+            <pre class="code" id="tplPromptOut">（点上面「只生成 Prompt」）</pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Listing ── -->
+    <section class="view" data-view="listing">
+      <div class="pane-scroll">
+        <div class="pane-wide">
+
+          <!-- 页头：一句话说清这页干什么，右边放两个"随时可用"的动作。
+               原来这里是一条 5 步步骤条 + 两张大卡平铺，第一屏有 8 个区块；
+               现在主区只有两张卡：左边输入、右边产出，其余全部降到页脚抽屉。 -->
+          <header class="vhead">
+            <div class="vhead-main">
+              <h2 class="sec">Listing 文案与合规质检</h2>
+              <p class="sub">左边填产品与竞品语料，右边改文案、看体检。质检是<b>机械判定</b>（字符数 / 促销词 / 特殊符号 / 保证性用语 / 站外引流），不靠模型「觉得没问题」。</p>
+            </div>
+            <div class="vhead-act">
+              <button class="btn sm" id="btnDraft">生成草稿</button>
+              <button class="btn primary sm" id="btnLintDraft">生成并质检</button>
+            </div>
+          </header>
+
+          <div class="workbench">
+            <!-- ═══ 左：输入 ═══ -->
+            <div class="wb-col">
+              <div class="card" id="cardInput">
+                <div class="card-h">
+                  <h3>产品与语料</h3>
+                  <span class="chip">输入</span>
+                </div>
+
+                <div class="seg">
+                  <div class="seg-h">我的产品</div>
+                  <label class="f"><span>品牌 Brand</span><input class="in" id="lBrand" placeholder="你的品牌名（Search Terms 里要排除它）"></label>
+                  <label class="f"><span>产品名 / 核心词</span><input class="in" id="lName" placeholder="Ceramic Coffee Mug"></label>
+                  <label class="f"><span>核心关键词 primary keyword</span><input class="in" id="lKey" placeholder="用软 C1 检查它有没有前置"></label>
+                  <label class="f"><span>主要卖点（每行一条，最多取 5 条）</span>
+                    <textarea class="field" id="lFeatures" rows="4" placeholder="Double-wall vacuum insulation keeps drinks hot 6 hours&#10;Food-grade 304 stainless steel, BPA free&#10;..."></textarea></label>
+                  <div class="fgroup">
+                    <span class="flabel">规格 / 数量 / 适用人群</span>
+                    <div class="grid c3">
+                      <input class="in" id="lSize" placeholder="容量 350ml">
+                      <input class="in" id="lQty" placeholder="数量 2">
+                      <input class="in" id="lAudience" placeholder="适用人群">
+                    </div>
+                  </div>
+                  <label class="f"><span>品类（可选，用于提示）</span><input class="in" id="lCategory" placeholder="home"></label>
+                  <label class="f"><span>类目口径<span class="chip">决定标题上限</span></span>
+                    <select class="in" id="lMedia">
+                      <option value="">普通类目 —— 标题 ≤ 75 字符</option>
+                      <option value="media">media（图书 / 音乐 / 影像）—— 标题 ≤ 200 字符</option>
+                    </select>
+                    <small>除 media 外全类目 <b>75 字符（含空格）</b>。做成显式开关 —— 猜错会把超限标题报成「通过」。</small></label>
+                  <label class="f"><span>自定义关键词（逗号分隔）</span><input class="in" id="lKeywords" placeholder="留空则只用卖点挖掘"></label>
+                </div>
+
+                <div class="seg">
+                  <div class="seg-h">竞品在说什么</div>
+                  <label class="f"><span>竞品文本 / 类目语料<span class="chip">多个竞品用一行 <code>---</code> 分隔</span></span>
+                    <textarea class="field" id="lCorpus" rows="6" placeholder="竞品 A 的标题+五点…&#10;---&#10;竞品 B 的标题+五点…"></textarea></label>
+                  <div class="rowline">
+                    <label class="f grow" style="margin:0"><span>语种</span>
+                      <select class="in" id="lLang">
+                        <option value="">英文 / 默认</option>
+                        <option value="de">德语（amazon.de / .at）</option>
+                        <option value="fr">法语（amazon.fr）</option>
+                        <option value="es">西班牙语（amazon.es）</option>
+                        <option value="it">意大利语（amazon.it）</option>
+                        <option value="nl">荷兰语（amazon.nl / .com.be）</option>
+                        <option value="ja">日语（amazon.co.jp，不做分词）</option>
+                      </select></label>
+                  </div>
+                  <details class="why">
+                    <summary>语种边界：哪些语种能判、哪些会标成「未覆盖」</summary>
+                    <div>
+                      <p>德国站标题里满篇 <code>mit / für / und</code>，不切语种就会把它们当成卖点关键词。词频与停用词支持 <b>中/英/德/法/西/意/荷/日 7 套</b>；
+                        利益词判据（C3）有 <b>中 / 英 / 德 / 日 4 套</b>（德语必须在这里显式选中 —— 拉丁字母单看字形会被当成英文）；
+                        <b>法 / 西 / 意 / 荷</b> 没有利益词表，会明确标成「未覆盖·跳过」，不会拿英文词表硬套。
+                        Prompt 输出仍只有中文、英文两套。</p>
+                    </div>
+                  </details>
+                  <div class="rowline">
+                    <button class="btn primary sm" id="btnMine">挖掘关键词</button>
+                    <button class="btn sm" id="btnCompare">多竞品对比</button>
+                  </div>
+                  <div id="mineOut"></div>
+                  <div id="compareOut"></div>
+                </div>
+
+                <div class="seg">
+                  <div class="seg-h">取词 · 四个来源</div>
+                  <p class="hint">本页语料是默认来源；另外三个是「已经把数据准备好了」的快捷入口。</p>
+                  <div class="rowline">
+                    <button class="btn ghost sm" id="lUseProduct">用采集到的商品数据填充</button>
+                    <button class="btn ghost sm" id="btnLoadVault">载入本周词库</button>
+                  </div>
+                  <!-- 第三方词表：卖家精灵 / Helium 10 / JS 导出的 CSV。
+                       🔴 这是「读别人算好的数据」，不是本工具去算搜索量 —— 界面上必须写清来源。 -->
+                  <div class="rowline" style="margin-top:8px">
+                    <label class="btn ghost sm" for="csvFile">导入关键词 CSV</label>
+                    <input type="file" id="csvFile" accept=".csv,.tsv,.txt,text/csv,text/plain" hidden>
+                    <span class="hint" style="margin:0" id="csvStatus">卖家精灵 / Helium 10 / JS 的导出表；带 Search Volume 就能按量排序</span>
+                  </div>
+                  <div id="csvImportOut"></div>
+                  <div id="vaultOut"></div>
+                </div>
+
+                <!-- 草稿自动保存：写在左卡最底部，因为它管的是"这一整张卡里的东西"。
+                     没有这一行，用户不会知道刷新之后内容还在（也就不会相信它）。 -->
+                <div class="rowline" id="formSavedRow">
+                  <span class="hint" id="formSaved" style="margin:0">还没开始写 · 输入会自动存在这台机器上，刷新不丢</span>
+                  <button class="btn ghost sm" id="btnClearForm" disabled>清空草稿</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- ═══ 右：产出 ═══ -->
+            <div class="wb-col">
+              <!-- 健康分：把 20 多条规则收成一个数，但**必须**同时列出扣分项。
+                   空着不占位（hidden），第一次跑质检后才出现 —— 没算过就显示 0 分是假数字。 -->
+              <div class="card score-card" id="scoreCard" hidden>
+                <div class="card-h">
+                  <h3>Listing 健康分</h3>
+                  <span class="chip" id="scoreGrade">—</span>
+                </div>
+                <div id="scoreOut"></div>
+              </div>
+
+              <div class="card" id="cardEdit">
+                <div class="card-h">
+                  <h3>文案编辑</h3>
+                  <div class="rowline" style="gap:6px">
+                    <span class="chip" id="lTitleCount">0 / 75</span>
+                    <span class="chip" id="lHighlightsCount">0 / 125</span>
+                    <span class="chip" id="lBudgetCount">两段合计 0 / 200</span>
+                  </div>
+                </div>
+
+                <!-- 五个字段做成 tab：一次只展开一个，句长限制却一直挂在 tab 上。
+                     原先五个 textarea 竖着叠，一张卡 1400px，改标题时看不到五点。 -->
+                <div class="ftabs" id="fieldTabs" role="tablist">
+                  <button type="button" class="on" data-tab="lTitle">标题</button>
+                  <button type="button" data-tab="lHighlights">亮点</button>
+                  <button type="button" data-tab="lBullets">五点</button>
+                  <button type="button" data-tab="lSearch">Search Terms</button>
+                  <button type="button" data-tab="lDesc">描述</button>
+                </div>
+
+                <div class="fpanels">
+                  <label class="f" data-panel="lTitle"><span>标题 Title</span><textarea class="field" id="lTitle" rows="3"></textarea></label>
+                  <label class="f" data-panel="lHighlights" hidden><span>Item Highlights（2026-07 新规新增）</span>
+                    <textarea class="field" id="lHighlights" rows="3" placeholder="逗号分隔的短语，不要写成整句。放材质 / 推荐用途 / 兼容性 / 关键规格。例：USB-C, PPS Support, Cable not included"></textarea>
+                    <small><b>它参与搜索</b>，显示在标题下方。官方要求写成<b>逗号分隔的短语</b>；内容要和标题<b>分工</b>（标题说「这是什么」，这里说材质与用途）。</small></label>
+                  <label class="f" data-panel="lBullets" hidden><span>五点 Bullets（每行一条）</span><textarea class="field" id="lBullets" rows="10"></textarea></label>
+                  <label class="f" data-panel="lSearch" hidden><span>Search Terms</span><textarea class="field" id="lSearch" rows="6"></textarea>
+                    <small>后台按<b>字节</b>算，不是字符 —— 一个中文字算 3 个。</small></label>
+                  <label class="f" data-panel="lDesc" hidden><span>商品描述 Product Description（可选）</span><textarea class="field" id="lDesc" rows="8" placeholder="不填也能导出，后台该字段会标成空"></textarea></label>
+                </div>
+
+                <div class="rowline act">
+                  <button class="btn primary sm" id="btnLint">跑质检</button>
+                  <button class="btn sm" id="btnExportFields">导出后台字段</button>
+                  <button class="btn ghost sm" id="btnMore" aria-expanded="false">更多 ▾</button>
+                </div>
+
+                <div id="morePanel" hidden>
+                  <div class="rowline" style="margin-top:2px">
+                    <button class="btn ghost sm" id="btnExportCsv">导出 Flat File CSV</button>
+                    <button class="btn ghost sm" id="btnPrecheck">上传前预校验</button>
+                    <button class="btn ghost sm" id="btnCopyFields">复制为文本</button>
+                    <button class="btn ghost sm" id="btnCoverage">关键词覆盖度分析</button>
+                    <button class="btn ghost sm" id="btnExportListing">导出质检报告 JSON</button>
+                    <button class="btn ghost sm" id="btnHealth">导出体检报告 HTML</button>
+                  </div>
+                  <p class="hint" style="margin:10px 0 0">「后台字段」是<b>逐字段可粘贴</b>的形态。三种计法别混：<b>标题 / Item Highlights / 五点 / 描述按字符，Search Terms 按字节</b>。
+                    「Flat File CSV」按官方属性名排好列，<b>不是可直接提交的官方模板</b> —— 上传请用你自己类目下载的那份。</p>
+                  <details class="why">
+                    <summary>覆盖度分析测什么、搜索量去哪拿</summary>
+                    <div>
+                      <p>它用<b>「自定义关键词」与「竞品语料」</b>逐词检查落在标题／Item Highlights／五点／描述／后台词哪几处，只测<b>文本覆盖</b>。</p>
+                      <p><b>搜索量 / 搜索热度</b>本工具不提供、也不估算 —— 编一个数字比不给更糟。真实值去：卖家后台「品牌分析 → 搜索词排名」（ABA）、
+                        卖家精灵 / Helium 10 / Jungle Scout、或广告后台的搜索词报告。拿到后把词贴回「自定义关键词」即可。</p>
+                    </div>
+                  </details>
+                </div>
+
+                <div id="draftOut"></div>
+                <div id="csvOut"></div>
+
+                <div class="split"></div>
+
+                <div class="card-h">
+                  <h3>体检结果</h3>
+                </div>
+                <p class="hint" style="margin:-4px 0 10px">未命中的规则也会列出，方便你看见「检查过什么」。</p>
+                <div id="lintOut"></div>
+                <div id="coverOut"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ═══ 页脚抽屉：低频但必须有，默认收起 ═══
+               Rufus 准入检查 / 竞品榜单抓取 / 平台规则表 —— 三件事都不是「每次上架都要走」的一步，
+               但它们各有硬要求（跳过项可见、抓不到要说、每条规则带 why+source），所以不能删，只能降层。 -->
+          <div class="drawers">
+            <details class="drawer" id="drawerRufus">
+              <summary><b>⑥ Rufus 信息架构检查</b><span>准入层 · 能不能被纳进结构化比对</span></summary>
+              <div class="drawer-body">
+                <p class="hint">⑤ 查「文案合不合规」，这一层查「能不能被纳入结构化比对」：必填字段有没有空、跨字段事实有没有矛盾、同一维度有没有两套单位制、买家高频问题有没有答案句、图里的字有没有文本化。<b>不做 OCR、不猜图上内容</b>；<b>跳过项一律列出来并说明原因</b>。</p>
+                <details class="why">
+                  <summary>Rufus / Alexa+ 是什么关系、能力边界</summary>
+                  <div>
+                    <p>Rufus / Alexa for Shopping 的机制是<b>先做结构化比对、再决定要不要引用你的文案</b>。2025 年起亚马逊把购物助手逐步收进 <b>Alexa+</b> 品牌，
+                      两个名字指同一类能力，但本工具<b>不宣称</b>二者功能完全等同（官方更名公告原文未取得，按待核实处理）。</p>
+                    <p><b>能力边界：</b>这是一套<b>基于公开字段规范与帮助文档的启发式检查</b>，<b>不是官方评分，也不预测排名或流量</b>。跑完没红 ≠ 平台会给流量。</p>
+                  </div>
+                </details>
+                <div class="grid c2">
+                  <label class="f"><span>产品类型 productType<span class="chip">决定 R1 / R4</span></span>
+                    <select class="in" id="rProductType">
+                      <option value="">未选择 —— R1 与 R4 会全部跳过</option>
+                    </select>
+                    <small>不选就不替你猜：R1（属性完整性）与 R4（问题覆盖）会如实标成<b>跳过</b>并写出原因。</small></label>
+                  <label class="f"><span>图内文字 imageText<span class="chip">人工粘贴 · 不做 OCR</span></span>
+                    <textarea class="field" id="rImageText" rows="2" placeholder="把图上印的字打进来，每行一条。例：&#10;350ml&#10;Dishwasher safe"></textarea>
+                    <small>R5 只检查「<b>你告诉我们</b>图上有什么字、而文本字段里没有」。留空就整条<b>跳过</b>。</small></label>
+                </div>
+                <div class="rowline" style="margin-bottom:10px">
+                  <button class="btn primary sm" id="btnRufus">跑 Rufus 检查</button>
+                  <span class="hint" style="margin:0">结论只有一条，来自引擎的 <code>summary.conclusion</code>。</span>
+                </div>
+                <div id="rufusOut"></div>
+              </div>
+            </details>
+
+            <details class="drawer" id="drawerCp">
+              <summary><b>⑦ 竞品关键词 → 文案提示词</b><span>从 Best Sellers 实时抓标题 → 本地算权重</span></summary>
+              <div class="drawer-body">
+                <p class="hint">从亚马逊 <b>Best Sellers 公开榜单页实时抓</b>竞品标题 → <b>本地</b>算关键词权重（覆盖率×50% + 位置×30% + 精准度×20%）→ 生成可复制的文案提示词。
+                  ⚠️ 亚马逊改页面结构时会<b>抓不到</b>（如实报错，不会静默给假数据）；带 10 分钟缓存。原「关键词搜索」路径（<code>/s?k=</code>）已被封锁，本工作台不提供。</p>
+                <div class="grid c3">
+                  <label class="f"><span>站点</span><select class="in" id="cpSite"></select></label>
+                  <label class="f"><span>类目</span><select class="in" id="cpCat"></select></label>
+                  <label class="f"><span>子类目<span class="chip">可选</span></span><select class="in" id="cpSub"><option value="">全部（不限定）</option></select></label>
+                </div>
+                <div class="grid c3" style="margin-top:10px">
+                  <label class="f"><span>抓几页<span class="chip">一页约 50 条</span></span>
+                    <select class="in" id="cpPages">
+                      <option value="1">1 页（约 50 条）</option>
+                      <option value="2">2 页（约 100 条，串行 + 间隔 0.6s）</option>
+                      <option value="3">3 页（约 150 条，最慢）</option>
+                    </select>
+                    <small>多页按 ASIN 去重；某一页失败不影响已抓到的页，界面会如实列出失败页。</small></label>
+                </div>
+                <div class="rowline">
+                  <button class="btn primary sm" id="btnCpFetch">抓取竞品榜单</button>
+                  <button class="btn sm" id="btnCpAnalyze">算关键词权重</button>
+                  <button class="btn sm ghost" id="btnCpToCorpus">把标题送进上方「竞品语料」</button>
+                  <span class="hint" style="margin:0" id="cpStatus"></span>
+                </div>
+                <div id="cpItems"></div>
+                <div id="cpKwWrap" style="display:none;margin-top:14px">
+                  <p class="hint" style="margin-bottom:6px">权重 = 覆盖率 × 50% + 位置 × 30% + 精准度 × 20%，满分 10 分。只保留出现 ≥2 条的词（出现 1 次的是噪声）。</p>
+                  <div id="cpKwOut"></div>
+                </div>
+                <div style="margin-top:14px;border-top:1px solid var(--slate-200);padding-top:14px">
+                  <div class="grid c3">
+                    <label class="f"><span>生成哪类文案提示词</span><select class="in" id="cpKind"></select></label>
+                    <label class="f"><span>媒体类目 media<span class="chip">标题 200</span></span>
+                      <select class="in" id="cpIsMedia">
+                        <option value="">否（标题 75 字符）</option>
+                        <option value="1">是（标题 200 字符）</option>
+                      </select></label>
+                    <label class="f"><span>产品名<span class="chip">必填</span></span><input class="in" id="cpProduct" placeholder="例：蒙氏忙碌板 / Montessori Busy Board"></label>
+                  </div>
+                  <div class="rowline">
+                    <button class="btn primary sm" id="btnCpGen">生成提示词</button>
+                    <button class="btn sm" id="btnCpCopy">复制提示词</button>
+                    <span class="hint" style="margin:0">提示词里只带<b>工具算好的结论</b>，并明确要求模型「直接采用、不要重算」。</span>
+                  </div>
+                  <div id="cpPromptOut"></div>
+                </div>
+              </div>
+            </details>
+
+            <details class="drawer" id="drawerAplus">
+              <summary><b>⑧ A+ 内容模块骨架</b><span>品牌故事 / 对比表 / 模块网格 + 配图提示词</span></summary>
+              <div class="drawer-body">
+                <p class="hint">品牌备案后才有 A+。这里给<b>三块模块的结构、写作预算与配图提示词</b>，内容从上面「产品与语料」里的品牌 / 产品名 / 卖点派生 —— 不是通用模板。
+                  <b>不生成可直接提交的模块代码、不生成图片</b>：后台编辑器只认它自己的字段，任何「导出即上传」的说法都是假的。</p>
+                <div class="rowline">
+                  <button class="btn primary sm" id="btnAplus">按当前文案生成骨架</button>
+                  <button class="btn sm ghost" id="btnAplusCopy" disabled>复制全部</button>
+                  <span class="hint" style="margin:0" id="aplusStatus">读的是「产品与语料」里的品牌 / 产品名 / 卖点</span>
+                </div>
+                <div id="aplusOut"></div>
+              </div>
+            </details>
+
+            <details class="drawer" id="drawerBatch">
+              <summary><b>⑨ 批量质检</b><span>多条 listing 一次粘进来 → 按「先改哪条」排序</span></summary>
+              <div class="drawer-body">
+                <p class="hint">单条质检回答「这条行不行」，批量回答<b>「我 20 条里先改哪条」</b>。每块第一行是标题、其余行是五点，块之间用一行 <code>---</code> 分隔；
+                  也可以在块首写 <code>B0XXXXXXXX</code> 或 <code>标题：</code> / <code>五点：</code> 标签。一次最多 <b id="batchMax">30</b> 条。</p>
+                <textarea class="field" id="batchIn" rows="8" placeholder="B0ABC12345&#10;Premium Ceramic Mug 350ml Double Wall Insulated ...&#10;- 保温 6 小时&#10;- 304 不锈钢&#10;---&#10;标题：Montessori Busy Board ...&#10;五点：&#10;- ..."></textarea>
+                <div class="rowline">
+                  <button class="btn primary sm" id="btnBatch">批量质检</button>
+                  <button class="btn sm" id="btnBatchCsv" disabled>导出汇总 CSV</button>
+                  <button class="btn ghost sm" id="btnBatchDemo">填个示例</button>
+                  <span class="hint" style="margin:0" id="batchStatus"></span>
+                </div>
+                <div id="batchOut"></div>
+              </div>
+            </details>
+
+            <details class="drawer" id="drawerRef">
+              <summary><b>平台限制与规则集</b><span>每条规则都附 why 与口径来源</span></summary>
+              <div class="drawer-body">
+                <p class="hint">这张表是<b>查</b>用的，不是流程的一步。判错任意一条，都会让一份超限文案被报成「通过」。</p>
+                <div id="limTable"></div>
+              </div>
+            </details>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 数据采集 ── -->
+    <section class="view" data-view="capture">
+      <div class="pane-scroll">
+        <div class="pane-narrow">
+          <h2 class="sec">亚马逊商品数据采集</h2>
+          <p class="sub">不做服务端爬虫（会被反爬拦、且抓到的价格/评价未必与真实所见一致）。改用两条<b>用户侧</b>路径，输出同一份数据结构。</p>
+
+          <div class="card">
+            <h3>方式 A · 书签脚本（推荐，选择器来自实战项目）</h3>
+            <p class="hint">同一个书签<b>自适应两种页面</b>：在<b>商品详情页</b>点 → 抓单条完整数据（含五点/规格/BSR）；在<b>搜索结果页</b>点 → 一次抓整页商品（标题/价格/评分/评论数/ASIN），做竞品对比用这个最省事。</p>
+            <ol style="font-size:13px;color:var(--slate-700);padding-left:20px;line-height:1.9">
+              <li>把下面这个链接<b>拖到浏览器书签栏</b>（或右键复制，新建一个书签并粘贴到网址栏）</li>
+              <li>打开亚马逊的<b>商品详情页</b>，或搜一个词停在<b>搜索结果页</b></li>
+              <li>点这个书签 → 结构化数据进剪贴板</li>
+              <li>回到本页「方式 B」的框里粘贴 → 点「解析」</li>
+            </ol>
+            <div class="rowline" style="margin:12px 0">
+              <!-- 静态内容只放文字：图标由 renderBookmarklet() 从 ICONS 注册表一起注入（避免图形写两份） -->
+              <a class="btn primary" id="bmLink" href="#">抓取亚马逊商品</a>
+              <button class="btn ghost sm" id="bmCopy">复制书签脚本</button>
+            </div>
+            <details>
+              <summary style="cursor:pointer;font-size:12.5px;color:var(--slate-600)">查看脚本源码与选择器出处</summary>
+              <pre class="code" id="bmSrc" style="margin-top:10px"></pre>
+              <!-- 选择器清单原来是首屏一个紫色提示框：对第一次用的人全是 #productTitle 这种噪音，
+                   对想改脚本的人又应该紧挨着源码。放进同一个折叠块，两边都更合适。 -->
+              <div class="note info" style="margin-top:10px">
+                选择器合并自两个实战项目：<code>#productTitle</code>、<code>#feature-bullets</code> / <code>#productFactsDesktopExpander</code>、
+                <code>#productDescription</code>、<code>#productDetails_expanderTables_depth*Sections</code> + <code>.a-keyvalue.prodDetTable</code>、
+                <code>#bylineInfo</code>、<code>#landingImage</code> 与 <code>data-old-hires</code> 高清图。<code>/dp/(ASIN)</code> 正则同源。
+              </div>
+            </details>
+          </div>
+
+          <div class="card">
+            <h3>方式 B · 粘贴内容</h3>
+            <p class="hint">自动识别四种输入：书签脚本产出的 <b>JSON</b>（详情页或搜索结果页）、页面源码 <b>HTML</b>（右键"查看网页源代码"后全选复制，搜索结果页也认）、或纯文本。</p>
+            <label class="f"><span>粘贴框</span>
+              <textarea class="field" id="pasteBox" rows="9" placeholder='{"title":"...","bullets":["..."], ...} 或 {"kind":"search","items":[...]} 或 <html>...</html> 或纯文本'></textarea></label>
+            <div class="rowline">
+              <button class="btn primary sm" id="btnParse">解析</button>
+              <button class="btn ghost sm" id="btnClearPaste">清空</button>
+              <button class="btn ghost sm" id="btnExportProduct">导出 JSON</button>
+            </div>
+            <div class="hint" style="margin-top:6px">粘的是<b>搜索结果页</b>时，解析结果会变成「整页商品表」——可以直接整页送去多竞品对比。</div>
+            <div id="captureOut" style="margin-top:14px"></div>
+          </div>
+
+          <!-- 评论分析：书签脚本抓到的首屏评论在这里变成痛点/好评/疑问三张清单。
+               放在「方式 B」后面而不是新开一页：它是采集的**下游**，不是独立功能。 -->
+          <div class="card" id="vocCard" hidden>
+            <div class="card-h">
+              <h3>评论分析（VOC）</h3>
+              <span class="chip" id="vocSample">—</span>
+            </div>
+            <div id="vocOut"></div>
+          </div>
+
+          <!-- 同 ASIN 的历史：价格 / 星级 / 评论数 / BSR。少于 2 条就照实说"画不出趋势"。 -->
+          <div class="card" id="snapCard" hidden>
+            <div class="card-h">
+              <h3>这个 ASIN 的历史</h3>
+              <span class="chip" id="snapCount">—</span>
+            </div>
+            <div class="rowline" style="margin-bottom:8px">
+              <button class="btn sm primary" id="btnSnapSave">记一条快照</button>
+              <button class="btn ghost sm" id="btnSnapRefresh">刷新</button>
+              <span class="hint" id="snapMsg" style="margin:0"></span>
+            </div>
+            <div id="snapOut"></div>
+          </div>
+
+          <div class="card">
+            <h3>刚采集的数据</h3>
+            <p class="hint">采集结果会自动存进<b>本地产物</b>（浏览器 IndexedDB），刷新页面不丢；也可以在这里手动存一份快照。</p>
+            <div class="rowline">
+              <button class="btn sm" id="btnSaveCapture">保存当前采集结果</button>
+              <span id="captureSaved" class="hint" style="margin:0"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 图片库 ── -->
+    <section class="view" data-view="library">
+      <div class="pane-scroll">
+        <div class="pane-wide">
+          <h2 class="sec">生图结果库</h2>
+          <p class="sub">这里列的是本机 <code>data/gen/</code> 里的真实文件 —— 关掉浏览器也还在，不依赖页面状态。<b>文件都留在你自己的机器上，没有任何上传。</b></p>
+
+          <div class="card">
+            <div class="rowline">
+              <button class="btn primary sm" id="btnLibRefresh">刷新列表</button>
+              <button class="btn sm" id="btnLibZip">打包下载全部（zip）</button>
+              <button class="btn ghost sm" id="btnLibCopyPaths">复制全部路径</button>
+              <span id="libMeta" class="hint" style="margin:0"></span>
+            </div>
+            <!-- 按文件名过滤：纯前端，不重新请求。文件名是 gen 目录里的真实文件名，
+                 生成时带时间戳前缀，所以「筛某一天」也成立。 -->
+            <div class="rowline" style="margin-top:10px">
+              <input class="in" id="libQ" placeholder="按文件名过滤，例如 1731 或 .jpg" autocomplete="off" style="max-width:260px">
+              <span class="hint" style="margin:0" id="libQHint"></span>
+            </div>
+            <!-- 成图体检：不只看"生成过的图"，也能传任何一张本地图（准备上传的主图就在这里先过一遍）。
+                 纯前端读像素，图片不上传。 -->
+            <div class="rowline" style="margin-top:10px">
+              <label class="btn sm ghost" for="auditFile" role="button">体检一张本地图</label>
+              <input type="file" id="auditFile" accept="image/*" hidden>
+              <span class="hint" style="margin:0">查背景是否纯白 / 商品占比 / 最长边 / 格式与体积 —— 只在本机读像素</span>
+            </div>
+            <div id="auditOut"></div>
+            <div class="note warn" id="libOffline" style="margin-top:12px;display:none">
+              本地服务没在跑，所以看不到图片库。<b>图片本身没有丢</b> —— 启动 <code>node server.mjs</code> 后点「刷新列表」即可。
+            </div>
+            <div id="libGrid" class="lib-grid"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 本周词库 ── -->
+    <!-- 这一页只有三块：一行数据体检 / 一行筛选 / 一张表。刻意不加抽屉、不加二级 tab、
+         不写方法论文案 —— 词库的用法不需要解释，需要的是能一眼看完、能搜、能带走。 -->
+    <section class="view" data-view="words">
+      <div class="pane-scroll">
+        <div class="pane-narrow">
+          <header class="vhead">
+            <div class="vhead-main">
+              <h2 class="sec">本周词库</h2>
+              <p class="sub">每周自动抓一次：<b>词根 → 搜索建议 → 榜单 ASIN</b>。这页只回答三件事 —— 数据<b>新不新</b>、<b>全不全</b>、词<b>怎么用</b>。</p>
+            </div>
+            <div class="vhead-act">
+              <button class="btn primary sm" id="btnWordsToCopy">送进文案页</button>
+              <button class="btn ghost sm" id="btnWordsReload">重新读取</button>
+            </div>
+          </header>
+
+          <div class="wstat" id="wordsStat"></div>
+          <!-- 外部词表（卖家精灵这类）导进来之后才出现；没导入就整块不占位 -->
+          <div id="wordsExt"></div>
+
+          <div class="card">
+            <div class="wbar">
+              <input class="in" id="wordsQ" placeholder="搜词面，例如 phone stand（部分匹配即可）" autocomplete="off">
+              <button class="btn sm primary" data-wsort="roots">词根命中</button>
+              <button class="btn sm ghost" data-wsort="new">本周新词</button>
+              <button class="btn sm ghost" data-wsort="az">字母序</button>
+            </div>
+            <div id="wordsTable"></div>
+          </div>
+
+          <!--
+            词库页扩展区：6 组低频能力全部收在**本页**、用 <details> 默认收起。
+            一屏只多出 6 行小标题 —— 不新增视图、不把页面堆满。
+            复用现有 .drawer / .card / .note / .chip / .wbar / table.tbl，不引新样式体系。
+            每个 id 都被 app.js 引用（tools/selftest.mjs 会静态检查这一条）。
+          -->
+          <div class="drawers" id="wordsExtras">
+
+            <details class="drawer" id="dWCover">
+              <summary><b>覆盖度体检</b><span>用本周词库对照你写的 Listing，找出一个字都没提的词</span></summary>
+              <div class="drawer-body">
+                <p class="hint">拿本周词库里的词逐条对照标题 / 五点 / 描述 / 后台词。只判「有没有出现」，不估搜索量、不查排名。</p>
+                <button class="btn primary sm" id="btnWCoverRun">用本周词库做覆盖度体检</button>
+                <div id="wCoverOut" style="margin-top:10px"></div>
+              </div>
+            </details>
+
+            <details class="drawer" id="dWCompare">
+              <summary><b>本周 vs 上周</b><span>两份快照并排，看新词 / 回归词 / 掉出词</span></summary>
+              <div class="drawer-body">
+                <div id="wCompareOut"></div>
+              </div>
+            </details>
+
+            <details class="drawer" id="dWAsin">
+              <summary><b>ASIN 榜单变动</b><span>这周谁进了榜单、谁掉了</span></summary>
+              <div class="drawer-body">
+                <div id="wAsinOut"></div>
+              </div>
+            </details>
+
+            <details class="drawer" id="dWSite">
+              <summary><b>站点验证状态</b><span>哪些站点的抓取规则实测过</span></summary>
+              <div class="drawer-body">
+                <!-- 占位项：JS 会用 /api/keywords 的 verifiedMarkets 覆盖；留在这里是为了让
+                     「未验证项带 data-verified=false」在静态页面上也成立，且服务没起时不是空框。 -->
+                <label class="f"><span>站点</span><select class="in" id="wSiteSel">
+                  <option value="US" data-verified="true">● 已实测 US</option>
+                  <option value="DE" data-verified="false">○ 未实测 DE</option>
+                </select></label>
+                <div id="wSiteNote"></div>
+              </div>
+            </details>
+
+            <details class="drawer" id="dWRoots">
+              <summary><b>词根管理</b><span>加减词根，看本周命中，零命中建议替换</span></summary>
+              <div class="drawer-body">
+                <div class="wbar">
+                  <input class="in" id="wRootAdd" placeholder="新词根，如 silicone mat" autocomplete="off">
+                  <input class="in" id="wRootAddGroup" placeholder="分组，如 kitchen" autocomplete="off">
+                  <button class="btn sm primary" id="btnWRootAdd">添加</button>
+                </div>
+                <div class="wbar">
+                  <input class="in" id="wRootDel" placeholder="要删除的词根（也可在表格里点删除）" autocomplete="off">
+                  <button class="btn sm ghost" id="btnWRootDel">删除</button>
+                  <button class="btn sm" id="btnWRootSave">保存词根改动</button>
+                </div>
+                <div class="hint" id="wRootsMsg"></div>
+                <div id="wRootsOut"></div>
+              </div>
+            </details>
+
+            <details class="drawer" id="dWExport">
+              <summary><b>导出 CSV</b><span>词表 / ASIN 两份，带 BOM，Excel 直接打开</span></summary>
+              <div class="drawer-body">
+                <div class="rowline">
+                  <button class="btn sm primary" id="btnWExpKeywords">导出词表 CSV</button>
+                  <button class="btn sm ghost" id="btnWExpAsins">导出 ASIN CSV</button>
+                </div>
+                <div id="wExpOut" style="margin-top:10px"></div>
+              </div>
+            </details>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 本地产物 ── -->
+    <section class="view" data-view="vault">
+      <div class="pane-scroll">
+        <div class="pane-narrow">
+          <h2 class="sec">本地产物（浏览器里）</h2>
+          <p class="sub">采集到的竞品数据、算出来的图像方案、质检报告、覆盖度结果 —— 都存在<b>本机浏览器的 IndexedDB</b> 里，刷新/关页面都不会丢。产物可以导出成 JSON 带走，<b>但 API Key 不在里面</b>（密钥与产物刻意分开存）。</p>
+
+          <div class="card">
+            <div id="vaultStat" class="hint"></div>
+            <div class="rowline" style="margin-top:10px">
+              <button class="btn primary sm" id="btnVaultRefresh">刷新</button>
+              <button class="btn sm" id="btnVaultExport">导出全部（JSON）</button>
+              <button class="btn ghost sm" id="btnVaultImport">导入 JSON</button>
+              <button class="btn ghost sm" id="btnVaultClear">清空全部</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>历史记录</h3>
+            <p class="hint">按时间倒序，每类最多保留 60 条（超了淘汰最旧的）。导出后可以换台电脑导入。<br>
+              同一件商品抓过两次以上时，勾选两条 → <b>对比快照</b>，看对方改了哪些字段（标题 / 价格 / 五点 / 评分…）。
+              对比只比<b>你两次抓到的内容</b>，不猜改动原因。</p>
+            <div id="vaultDiffCtl" style="margin-bottom:8px"></div>
+            <div id="vaultList"></div>
+            <div id="vaultDiff"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 设置 ── -->
+    <section class="view" data-view="settings">
+      <div class="pane-scroll">
+        <div class="pane-narrow">
+          <h2 class="sec">设置与诊断</h2>
+          <p class="sub">密钥只存在两处：浏览器 localStorage（前端直连用），或本机服务内存 + <code>.env.local</code>（推荐）。<b>不写入任何远端。</b></p>
+
+          <div class="card">
+            <h3>本地服务</h3>
+            <label class="f"><span>服务地址</span>
+              <input class="in" id="sServer" placeholder="留空 = 同源（用 node server.mjs 打开时即 http://127.0.0.1:8787）">
+              <small>以 file:// 直接打开页面时浏览器禁止访问本地服务，必须在设置里填 <code>http://127.0.0.1:8787</code>。</small></label>
+            <div class="rowline">
+              <button class="btn ghost sm" id="btnRecheck">重新探测</button>
+            </div>
+            <pre class="code" id="healthOut" style="margin-top:10px">点「重新探测」查看本地服务能力。</pre>
+          </div>
+
+          <div class="card">
+            <h3>图片生成 API</h3>
+            <p class="hint">兼容两类接口：<b>OpenAI 同步式</b>（<code>POST /images/generations</code> 直接返回 URL/b64）与 <b>apimart 异步式</b>（返回 task_id 后轮询 <code>/tasks/{id}</code>）。填 apimart 域名会自动判为异步。</p>
+            <div class="grid c2">
+              <label class="f"><span>IMG_BASE_URL</span><input class="in" id="sImgBase" placeholder="https://api.apimart.ai/v1"></label>
+              <label class="f"><span>IMG_MODEL</span><input class="in" id="sImgModel" placeholder="gpt-image-2"></label>
+            </div>
+            <label class="f"><span>IMG_API_KEY</span><input class="in" id="sImgKey" type="password" placeholder="sk-..."></label>
+            <div class="grid c2">
+              <label class="f"><span>调用模式</span>
+                <select class="in" id="sImgMode">
+                  <option value="auto">auto（按域名自动判断）</option>
+                  <option value="sync">sync（OpenAI 兼容）</option>
+                  <option value="async">async（apimart 轮询）</option>
+                </select></label>
+              <label class="f"><span>分辨率档位（异步模式）</span>
+                <select class="in" id="sRes"><option value="1k">1k</option><option value="2k" selected>2k</option><option value="4k">4k</option></select>
+                <small>4K 仅 16:9 / 9:16 / 2:1 / 1:2 / 21:9 / 9:21 六个比例支持。</small></label>
+            </div>
+            <!-- 测试用的是**表单里当前的值**（不用先保存），且只探 /models：
+                 不生成图片、不消耗额度。留空的项自动回落到已保存的配置。 -->
+            <div class="rowline" style="margin-top:6px">
+              <button class="btn ghost sm" id="btnTestImg">测试连接</button>
+              <span class="hint" id="testImgOut" style="margin:0">只探 <code>/models</code>，不生成图片、不花额度</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>对话 / 识图模型（可选）</h3>
+            <p class="hint">不填也能用：模板匹配、Prompt 组装、Listing 质检全部是本地代码。只有「AI 润色主体描述」需要它。</p>
+            <div class="grid c2">
+              <label class="f"><span>CHAT_BASE_URL</span><input class="in" id="sChatBase" placeholder="https://api.openai.com/v1"></label>
+              <label class="f"><span>CHAT_MODEL</span><input class="in" id="sChatModel" placeholder="gpt-4o-mini"></label>
+            </div>
+            <label class="f"><span>CHAT_API_KEY</span><input class="in" id="sChatKey" type="password"></label>
+            <label class="f"><span>识图模型（留空则复用图片 API 的视觉模型）</span><input class="in" id="sVisionModel" placeholder="agnes-2.0-flash"></label>
+            <label class="f" style="display:flex;align-items:center;gap:8px">
+              <input type="checkbox" id="sPolish"><span style="margin:0">启用「AI 润色主体描述」（默认关，走本地规则）</span></label>
+            <div class="rowline" style="margin-top:6px">
+              <button class="btn ghost sm" id="btnTestChat">测试连接</button>
+              <span class="hint" id="testChatOut" style="margin:0">只探 <code>/models</code>，不发对话</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>可选插件 · 本地抠图（rembg）</h3>
+            <p class="hint">本项目<b>不打包模型</b>（rembg 要 Python + onnxruntime，几百 MB）。想用抠图：在本机起一个 rembg 服务，
+              再在 <code>.env.local</code> 写 <code>REMBG_URL=http://127.0.0.1:7000/api/remove</code>，重启 <code>node server.mjs</code> 即可。
+              图片库里的每张图会多出一个「抠图」按钮。</p>
+            <div class="hint" id="rembgStatus" style="margin:0">正在读取…</div>
+          </div>
+
+          <div class="card">
+            <div class="rowline">
+              <button class="btn primary" id="btnSaveCfg">保存到浏览器</button>
+              <button class="btn" id="btnSaveKeyToServer">写入服务端配置</button>
+              <button class="btn ghost" id="btnReset">恢复默认</button>
+              <span style="font-size:12px;color:var(--slate-500)" id="cfgSaved"></span>
+            </div>
+            <div class="note info" style="margin-top:12px">推荐做法：把密钥写进项目根目录 <code>.env.local</code>（<code>.env</code> 也认，同名键 <code>.env.local</code> 优先；两个都已在 <code>.gitignore</code> 里），再 <code>node server.mjs</code>。这样密钥不进浏览器、不进 localStorage，且服务端可以避免 CORS 问题。</div>
+          </div>
+
+          <div class="card" id="extCard">
+            <h3>外部数据源（第三方 MCP）</h3>
+            <p class="hint">本地引擎算不出<b>真实搜索量 / ABA 排名</b>。卖家精灵这类服务把自己的能力开放成 MCP（Streamable HTTP），
+              填上<b>你自己的</b>密钥就能在这里直接查词，导进来之后和「本周词库」做对比。
+              密钥只写进本机 <code>.env.local</code>、只由本机服务使用，<b>不回传浏览器、不写进页面</b>。</p>
+            <div class="wbar">
+              <select class="in" id="extProvider" style="max-width:190px"></select>
+              <input class="in" id="extKey" type="password" placeholder="secret-key（在服务商后台生成，本项目不提供）" autocomplete="off">
+              <button class="btn primary sm" id="btnExtSaveTest">保存并测试</button>
+            </div>
+            <div class="hint" id="extStatus">正在读取…</div>
+            <div class="rowline" style="margin:2px 0 8px">
+              <button class="btn ghost sm" id="btnExtDemo">没有账号？看示例对比</button>
+              <span class="hint" style="margin:0">用仓库自带的 12 个示例词，和你本地词库真算一次交集（只读也能用）</span>
+            </div>
+            <div id="extTools"></div>
+            <!-- 参数面板的占位：内容由 app.js 填，先留在这里是为了让"引用的 id 必须存在"这条检查能过 -->
+            <div id="extRun" class="extrun" hidden></div>
+          </div>
+
+          <div class="card">
+            <h3>启动方式</h3>
+            <pre class="code">cd 跨境Listing优化工作台
+node server.mjs
+# 浏览器打开 http://127.0.0.1:8787/</pre>
+            <div class="note warn">⚠️ <b>不要双击 index.html</b>。本应用是 ES 模块，浏览器会以 CORS 为由拦掉 <code>file://</code> 下的模块请求，页面会是一张空壳（实测：file:// 下 JS 一行都没跑）。必须通过 <code>node server.mjs</code> 打开。<br>
+            没配图片 API 也能用全部本地能力（模板库 / Prompt 引擎 / Listing 质检 / 采集解析），只是不能真出图。</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script type="module" src="assets/app.js"></script>
+</body>
+</html>

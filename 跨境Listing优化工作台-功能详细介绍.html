@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>跨境 Listing 质检工作台 · 功能详细介绍</title>
+<style>
+:root{
+  --ink:#1f2328; --ink-2:#4b5563; --ink-3:#6b7280;
+  --line:#e5e7eb; --bg:#ffffff; --bg-2:#f7f8f7; --accent:#1a3a2e; --accent-2:#2f6f57;
+  --warn:#b45309; --warn-bg:#fffbeb; --red:#b42318; --code:#f4f5f4;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font:16px/1.85 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+}
+.page{max-width:920px;margin:0 auto;padding:48px 28px 96px}
+header.top{border-bottom:1px solid var(--line);padding-bottom:18px;margin-bottom:8px}
+header.top .kicker{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin:0 0 6px}
+h1{font-size:32px;line-height:1.3;margin:0 0 10px;letter-spacing:-.01em}
+h2{font-size:23px;margin:52px 0 14px;padding-top:14px;border-top:1px solid var(--line);letter-spacing:-.01em}
+h3{font-size:18px;margin:32px 0 10px}
+h4{font-size:16px;margin:24px 0 8px}
+p{margin:12px 0}
+strong{font-weight:650}
+a{color:var(--accent-2);text-decoration:none;border-bottom:1px solid rgba(47,111,87,.25)}
+a:hover{border-bottom-color:var(--accent-2)}
+hr{border:0;border-top:1px solid var(--line);margin:34px 0}
+ul,ol{padding-left:24px;margin:12px 0}
+li{margin:5px 0}
+blockquote{
+  margin:16px 0;padding:12px 16px;border-left:3px solid #cbd5cf;background:var(--bg-2);
+  color:var(--ink-2);border-radius:0 6px 6px 0;
+}
+blockquote p{margin:6px 0}
+code{
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+  font-size:.9em;background:var(--code);border-radius:4px;padding:2px 5px;
+}
+pre{background:transparent;margin:16px 0;padding:0}
+pre code{display:block;background:var(--code);padding:14px 16px;border-radius:8px;overflow-x:auto;
+  font-size:13px;line-height:1.65;border:1px solid var(--line)}
+.tblwrap{overflow-x:auto;margin:16px 0}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{border:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top}
+th{background:var(--bg-2);font-weight:650;white-space:nowrap}
+tbody tr:nth-child(even){background:#fbfbfa}
+nav.toc{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:6px 18px;
+  margin:26px 0 8px;padding:18px 20px;background:var(--bg-2);border-radius:10px;border:1px solid var(--line);
+}
+nav.toc a{display:block;padding:4px 0;border:0;font-size:14.5px;color:var(--ink-2)}
+nav.toc a:hover{color:var(--accent-2)}
+footer.end{margin-top:64px;padding-top:18px;border-top:1px solid var(--line);font-size:13px;color:var(--ink-3)}
+@media (max-width:640px){
+  .page{padding:28px 18px 64px}
+  h1{font-size:26px} h2{font-size:20px;margin-top:40px}
+}
+@media print{
+  .page{max-width:none;padding:0}
+  nav.toc{break-inside:avoid}
+  h2{break-after:avoid} table{break-inside:avoid}
+  a{color:inherit;border:0}
+}
+</style>
+</head>
+<body>
+<div class="page">
+<header class="top">
+  <p class="kicker">跨境 Listing 质检工作台 · 使用说明</p>
+  <p style="margin:0;color:var(--ink-3);font-size:13.5px">这份文档可以直接转发给同事或客户，不需要安装任何环境。</p>
+</header>
+<h1>跨境 Listing 质检工作台 · 功能详细介绍</h1>
+<blockquote>面向使用者的说明书。不需要懂代码，也不要求会写提示词。<br>版本：1.0.0 ｜ 更新：2026-11-06 ｜ 适配：桌面版 Chrome / Edge</blockquote>
+<hr>
+<nav class="toc"><a href="#sec-2">一、这是什么</a><a href="#sec-3">二、三分钟上手</a><a href="#sec-6">三、界面总览</a><a href="#sec-7">四、创作台：把一句话变成可用的图片 Prompt</a><a href="#sec-16">五、模板库：25 个场景，按需挑</a><a href="#sec-17">六、图片库：生成结果都在本机</a><a href="#sec-18">七、文案与质检：一个 Listing 从写到查</a><a href="#sec-29">八、数据采集：把亚马逊页面变成结构化数据</a><a href="#sec-33">九、本周词库：每周抓来的词，怎么用</a><a href="#sec-39">十、本地产物：刷新不丢的历史记录</a><a href="#sec-41">十一、设置与诊断</a><a href="#sec-46">十二、配置项速查</a><a href="#sec-47">十三、常见问题</a><a href="#sec-48">十四、已知限制（先说清楚）</a><a href="#sec-49">十五、接进你自己的 AI 助手（MCP）</a><a href="#sec-55">十六、外部数据源：接上卖家精灵这类服务</a><a href="#sec-61">十七、三种用法建议</a><a href="#sec-65">十八、健康分 / 评论分析 / 成图体检 / 历史快照</a><a href="#sec-71">十九、A+ 骨架 / 批量质检 / 第三方词表</a><a href="#sec-75">二十、术语表</a><a href="#sec-76">附：版本与验证</a></nav><h2 id="sec-2">一、这是什么</h2>
+<p>一句话：<strong>把跨境 Listing 的两件苦活——配图与文案——从&quot;凭感觉&quot;变成&quot;有规则、可检查&quot;。</strong></p>
+<p>它解决三个具体问题：</p>
+<div class="tblwrap"><table><thead><tr><th>问题</th><th>常见做法</th><th>这个工作台的做法</th></tr></thead><tbody><tr><td>配图不知道怎么写 Prompt</td><td>抄别人的提示词，出来的图看着像但卖不动</td><td>先判断&quot;这是什么产品、想解决什么&quot;，再从 25 个场景模板里选一个，套上固定的视觉规则，生成一段可直接用的 Prompt</td></tr><tr><td>Listing 写完不知道合不合规</td><td>发上去被改、被压搜索，事后才发现</td><td>28 条规则逐条机械判定，每条都附&quot;为什么定这条&quot;和&quot;口径来源&quot;</td></tr><tr><td>不知道竞品在打什么词</td><td>靠猜，或者买付费工具</td><td>抓公开榜单 → 本地算关键词权重 → 生成文案提示词；也可以直接粘贴竞品文案做覆盖度对比</td></tr></tbody></table></div>
+<p><strong>它不做什么</strong>（这点更重要，避免期待错位）：</p>
+<ul><li>不代替你做选品和定价决策；</li><li>不自动改你的线上 Listing，也不自动投放；</li><li>不自己算、也不估搜索量——宁可给一个覆盖矩阵，也不编一个价值分；只有你导入第三方导出表时才显示搜索量，并标明&quot;来自哪个文件&quot;；</li><li>不做账号体系、不做云同步：所有产物留在你自己的电脑上。</li></ul>
+<hr>
+<h2 id="sec-3">二、三分钟上手</h2>
+<h3 id="sec-4">方式一：直接用线上演示版（零安装）</h3>
+<p>打开：<strong>https://ai-ecommerce-portfolio.app.workbuddy.host/</strong></p>
+<p>不用注册、不用登录。可以直接体验：25 个模板、Prompt 生成、Listing 质检、竞品榜单抓取、关键词权重。</p>
+<blockquote>⚠️ 演示版<strong>没有配置生图密钥</strong>，所以只能生成 Prompt，不能真的出图；也不能把密钥写进去（演示实例是只读的）。<br>想真出图，用下面的方式二在本地跑。</blockquote>
+<h3 id="sec-5">方式二：本地运行（推荐，能用全部功能）</h3>
+<p><strong>准备</strong>：电脑上装 Node.js 20.15 或更高版本（官网下载安装包，一路下一步即可）。不需要 <code>npm install</code>，因为整个项目没有任何第三方依赖。</p>
+<p><strong>启动</strong>：</p>
+<pre><code>cd 跨境Listing优化工作台
+node server.mjs</code></pre>
+<p>看到这几行就成功了：</p>
+<pre><code>跨境 Listing 质检工作台
+打开：http://127.0.0.1:8787/
+模板：25 个（本地引擎，无需 API）</code></pre>
+<p>浏览器打开 <code>http://127.0.0.1:8787/</code>。</p>
+<blockquote>⚠️ <strong>不要双击 <code>index.html</code></strong>。这个应用由多个模块组成，浏览器在 <code>file://</code> 下会以安全策略拦掉模块加载，页面只会是一张空壳。必须通过上面的命令打开。</blockquote>
+<p><strong>想真出图</strong>：把项目里的 <code>.env.example</code> 复制一份改名 <code>.env.local</code>，填上你的图片 API 地址与密钥（见<a href="#十二配置项速查">第十二节</a>），然后重启 <code>node server.mjs</code>。</p>
+<hr>
+<h2 id="sec-6">三、界面总览</h2>
+<p>左侧导航一共 8 个视图，按&quot;做图 → 写字 → 取数 → 存东西&quot;的顺序排列：</p>
+<div class="tblwrap"><table><thead><tr><th>视图</th><th>一句话作用</th><th>什么时候用</th></tr></thead><tbody><tr><td><strong>创作台</strong></td><td>对话式生成图片 Prompt，或直接出图</td><td>要给产品配图时</td></tr><tr><td><strong>模板库</strong></td><td>浏览 25 个场景模板，查看每个模板的构图口径</td><td>想知道&quot;这种图该长什么样&quot;时</td></tr><tr><td><strong>图片库</strong></td><td>列出本机生成的所有图片，可单张下载或打包</td><td>出完图要拿走时</td></tr><tr><td><strong>文案与质检</strong></td><td>写 Listing、挖关键词、跑 28 条规则、查 Rufus 准入</td><td>上架前</td></tr><tr><td><strong>数据采集</strong></td><td>用书签脚本或粘贴，把亚马逊页面变成结构化数据</td><td>要分析竞品时</td></tr><tr><td><strong>本周词库</strong></td><td>每周抓来的词：四格体检 + 可搜可排序的词表</td><td>想找词、想确认词库新不新时</td></tr><tr><td><strong>本地产物</strong></td><td>历史记录，可导出 / 导入 JSON</td><td>换电脑、备份时</td></tr><tr><td><strong>设置与诊断</strong></td><td>服务探活、密钥配置、健康检查</td><td>第一次用、出问题时</td></tr></tbody></table></div>
+<p>界面只有浅色主题，所有图标是内联矢量图（没有 emoji 图标，避免不同系统显示不一致）。</p>
+<hr>
+<h2 id="sec-7">四、创作台：把一句话变成可用的图片 Prompt</h2>
+<h3 id="sec-8">4.1 基本操作</h3>
+<p>在底部输入框里描述你的产品和需求，按「发送」。例如：</p>
+<ul><li><code>帮我生成一款蓝色蓝牙耳机的白底主图</code></li><li><code>给这件亚麻衬衫做一张场景化生活图，9:16</code></li><li><code>陶瓷马克杯，做一套详情页</code></li></ul>
+<p>系统会依次完成下面几件事，并把每一步的依据<strong>显示在对话里</strong>（不是黑箱）：</p>
+<ol><li><strong>识别上下文</strong> —— 这是什么品类、这句话想解决什么（卖点？场景？信任？）、有没有上传参考图；</li><li><strong>匹配模板</strong> —— 从 25 个模板里选一个，同时告诉你&quot;依据是什么&quot;和&quot;还有哪些并列候选&quot;；</li><li><strong>诊断转化驱动力</strong> —— 判断这句话偏&quot;视觉冲击 / 功能解释 / 信任建立&quot;哪一类；</li><li><strong>套用视觉风格锁（Style Lock）</strong> —— 固定配色、光线、字体、质感，保证一套图看起来是同一个品牌；</li><li><strong>组装 Prompt</strong> —— 按固定结构拼出可直接使用的提示词；</li><li><strong>机械自检</strong> —— 检查颜色是否写成色值、产品占比、留白、否定清单、画幅、角度是否齐全；</li><li><strong>输出简报</strong> —— 一段人话说明 + 一段可复制的 Prompt。</li></ol>
+<h3 id="sec-9">4.2 六条视觉铁律</h3>
+<p>生成 Prompt 时，这六条是硬约束，缺一条自检就会报出来：</p>
+<div class="tblwrap"><table><thead><tr><th>#</th><th>铁律</th><th>为什么</th></tr></thead><tbody><tr><td>1</td><td>颜色必须写成十六进制色值</td><td>&quot;高级灰&quot;每个人理解不同，<code>#8A8A8A</code> 不会跑偏</td></tr><tr><td>2</td><td>产品占画面比例必须给数字</td><td>不写比例，模型会把产品缩成一个小角落</td></tr><tr><td>3</td><td>留白必须显式声明</td><td>留白是给文案和平台元素的位置，不写就会被填满</td></tr><tr><td>4</td><td>必须有否定清单</td><td>只写&quot;要什么&quot;不够，还得写&quot;不要什么&quot;（多余文字、水印、多件产品…）</td></tr><tr><td>5</td><td>必须预留平台空间</td><td>国内电商要留价格浮层位；亚马逊首图反过来——整幅不许有任何叠加</td></tr><tr><td>6</td><td>三层信息架构（主标题 / 副标题 / 说明）</td><td>信息有层级，图才不像字帖</td></tr></tbody></table></div>
+<blockquote>🔴 <strong>亚马逊主图是例外</strong>：平台法规优先于设计口径。首图要求产品占 85–100%、纯白底、禁止任何文字与叠加——这跟&quot;产品占 35–40% + 留白 45%&quot;是两套互相矛盾的标准，所以系统对首图单独走一套法规层，不会把两套数字硬拼在一起。</blockquote>
+<h3 id="sec-10">4.3 它会告诉你&quot;为什么选这个模板&quot;</h3>
+<p>自动匹配不是猜的，判定顺序是：</p>
+<ol><li>你说出的模板名 / 别名（比如&quot;隐形模特&quot;&quot;平铺&quot;&quot;买家秀&quot;）；</li><li>关键词命中（产品的品类词、场景词）；</li><li>上下文推断（品类 + 转化驱动力 + 有没有参考图）；</li><li>都没有才走兜底，并且<strong>如实标注&quot;这是兜底，不是匹配上了&quot;</strong>。</li></ol>
+<p>所以如果结果不对，通常改一句描述就能换到另一个模板——对话里会列出并列候选，可以据此调整措辞。</p>
+<h3 id="sec-11">4.4 两种产出：Prompt 还是真图</h3>
+<div class="tblwrap"><table><thead><tr><th>情况</th><th>你会得到</th><th>说明</th></tr></thead><tbody><tr><td>没配图片 API</td><td>一段完整 Prompt</td><td>复制到任何生图工具（Midjourney、即梦、SD 等）都能用</td></tr><tr><td>配了图片 API</td><td>Prompt + 真实图片</td><td>图片存到本机 <code>data/gen/</code>，同时出现在「图片库」</td></tr><tr><td>上传了参考图</td><td>图生图 Prompt 或图生图结果</td><td>系统会先分析参考图；分析失败会<strong>明确告诉你&quot;未参考原图&quot;</strong>，不会假装用了</td></tr></tbody></table></div>
+<h3 id="sec-12">4.5 画幅怎么指定</h3>
+<p>直接写比例即可，支持 9 种：</p>
+<div class="tblwrap"><table><thead><tr><th>比例</th><th>像素</th><th>适合</th></tr></thead><tbody><tr><td>1:1</td><td>1024×1024</td><td>平台主图、社媒方图</td></tr><tr><td>4:3</td><td>1024×768</td><td>横版展示</td></tr><tr><td>3:4</td><td>768×1024</td><td>竖版展示</td></tr><tr><td>3:2</td><td>1536×1024</td><td>横版海报</td></tr><tr><td>2:3</td><td>1024×1536</td><td>详情页长图</td></tr><tr><td>16:9</td><td>1536×864</td><td>Banner、横屏</td></tr><tr><td>9:16</td><td>864×1536</td><td>抖音 / 小红书 / Story</td></tr><tr><td>4:5</td><td>819×1024</td><td>Instagram 竖图</td></tr><tr><td>5:4</td><td>1024×819</td><td>横版方图</td></tr></tbody></table></div>
+<p>也可以说人话：<code>竖版</code>→3:4、<code>横版/海报/banner</code>→16:9、<code>小红书/抖音/社媒</code>→9:16、<code>详情页</code>→2:3、<code>主图/方图</code>→1:1。</p>
+<blockquote>⚠️ 系统只认上表里的比例。写 <code>10:30</code> 这种数字不会被当成画幅（那是时间），写 <code>7:5</code> 会被忽略并回落到默认的 1:1。</blockquote>
+<p><strong>同步接口会&quot;吸附&quot;画幅，并如实告诉你</strong>：</p>
+<p>OpenAI 兼容的同步生图接口只接受三种像素（<code>1024×1024</code> / <code>1536×1024</code> / <code>1024×1536</code>）。所以当你请求 <code>16:9</code> 时，<br>系统会把它吸附成最接近的 <code>1536×1024</code>，并在消息里明确写一行：</p>
+<blockquote>画幅已吸附：请求 16:9（1536×864），同步接口只接受 1024x1024 / 1536x1024 / 1024x1536，实际发送 1536x1024，成图比例与请求不同</blockquote>
+<ul><li><strong>1:1 / 3:2 / 2:3</strong> 本来就等于白名单里的三种，不会吸附，也不会出这行提示；</li><li><strong>异步接口</strong>（apimart 这类收比例字符串的）不做吸附，原样发 <code>16:9</code>；</li><li>设置里把「同步模式」改成「自由」时，按上表原样发像素——<strong>能不能被接受取决于你的接口</strong>，报错就是它不支持。</li></ul>
+<blockquote>为什么不做&quot;请求什么就给什么&quot;：客户端悄悄换画幅和悄悄不换一样糟。宁可多一行字，也不让用户拿到一张比例不对的图还以为是自己的问题。</blockquote>
+<h3 id="sec-13">4.6 「整套」模式</h3>
+<p>点输入框右侧的「整套」（或在消息里说&quot;整套 / 一整套图&quot;），会一次规划 <strong>14 条 Prompt</strong>：</p>
+<ul><li><strong>H1–H5</strong>：5 张主图组（白底主图、细节微距、场景图、使用前后对比、促销海报）；</li><li><strong>D1–D9</strong>：9 张详情页（信息图、对比图、规格说明等）。</li></ul>
+<p>如果这句话被识别为&quot;亚马逊主图需求&quot;，会额外多一条 <strong>M0</strong>（合规首图），共 15 条。</p>
+<p>每条都带独立的构图口径与角度，不是同一段 Prompt 复制 14 遍。</p>
+<p><strong>规划 ≠ 出图，界面上会把这件事说清楚</strong>：</p>
+<ul><li>简报里写的是「14 条 Prompt 逐条核过」，<strong>不是「14 张图核过」</strong>——核的是 Prompt，不是成图；</li><li>如果配了生图 API，消息里会出现一张<strong>整套出图卡</strong>：按顺序逐张生成、每张一次独立调用、</li></ul>
+<p>  可随时停、某张失败不中断（失败项单独列出原因）；</p>
+<ul><li>开跑前会要你确认，并明确写「<strong>按你自己的接口计费，本工具不代你估算金额</strong>」；</li><li>只有一条 Prompt 时不会出现这张卡（那张图会直接出）。</li></ul>
+<blockquote>🔴 <strong>别把「14 条 Prompt」读成「14 张图已生成」</strong>。规划是零成本的，出图是 14 次计费调用。</blockquote>
+<h3 id="sec-14">4.7 说&quot;不要出图&quot;会怎样</h3>
+<p>系统会看<strong>同一分句</strong>里的否定词。所以：</p>
+<ul><li><code>先看文案，这款暂时不要出图</code> → 只给 Prompt，不调用生图接口；</li><li><code>不要加文字，直接出图</code> → 正常出图（&quot;不要&quot;修饰的是&quot;文字&quot;，不是&quot;出图&quot;）。</li></ul>
+<blockquote>这条看起来小，但很关键：判断错会导致「说了不要还是扣了 API 费用」或者「说了要却没反应」。</blockquote>
+<h3 id="sec-15">4.8 使用注意</h3>
+<ul><li><strong>一次说清一个需求</strong>。一句话里塞三个场景，系统只会选一个模板。</li><li><strong>产品名要具体</strong>。&quot;杯子&quot;不如&quot;350ml 双层不锈钢马克杯&quot;，后者能匹配到更准的模板与构图。</li><li><strong>不要指望它替你写卖点</strong>。它负责构图与视觉规则，卖点来自你对产品的了解。</li><li>输入框旁的「＋」是随机示例，不知道怎么写时可以先点一下看格式。</li><li>停止按钮只中断当前这一轮，已生成的结果不会丢。</li></ul>
+<hr>
+<h2 id="sec-16">五、模板库：25 个场景，按需挑</h2>
+<p>「模板库」列出全部 25 个模板。点开任意一个，可以看到它的构图口径、适用品类、示例，以及&quot;用这个模板出一段 Prompt&quot;。</p>
+<div class="tblwrap"><table><thead><tr><th>#</th><th>模板</th><th>典型用途</th></tr></thead><tbody><tr><td>01</td><td>白底 / 纯色底产品主图</td><td>平台首图、SKU 主图</td></tr><tr><td>02</td><td>场景化生活图</td><td>让产品出现在真实使用环境里</td></tr><tr><td>03</td><td>平铺图</td><td>服饰、配件、套装俯拍</td></tr><tr><td>04</td><td>细节微距图</td><td>材质、工艺、接口特写</td></tr><tr><td>05</td><td>促销海报 / Banner</td><td>活动、折扣、节日</td></tr><tr><td>06</td><td>社交媒体素材</td><td>信息流、方图、短图文</td></tr><tr><td>07</td><td>UGC 风格 / 买家秀</td><td>真实感、口碑感</td></tr><tr><td>08</td><td>模特展示图</td><td>服饰、配饰上身</td></tr><tr><td>09</td><td>使用前后对比图</td><td>清洁、修复、效果类产品</td></tr><tr><td>10</td><td>包装设计展示</td><td>礼盒、开箱</td></tr><tr><td>11</td><td>信息图 / A+ Content</td><td>详情页图文、卖点拆解</td></tr><tr><td>12</td><td>创意概念广告图</td><td>品牌向、视觉冲击</td></tr><tr><td>13</td><td>尺寸规格 + 使用步骤图</td><td>家具、器材、安装类</td></tr><tr><td>14</td><td>多产品套装 / 组合展示</td><td>套装、搭配购</td></tr><tr><td>15</td><td>电商直播间场景</td><td>直播背景、氛围图</td></tr><tr><td>16</td><td>虚拟试穿 / 产品融入场景</td><td>家居、穿戴类</td></tr><tr><td>17</td><td>技术拆解 / 爆炸图</td><td>数码、结构类</td></tr><tr><td>18</td><td>隐形模特</td><td>服饰（不露人，保留版型）</td></tr><tr><td>19</td><td>产品多角度网格</td><td>一张图看全六面</td></tr><tr><td>20</td><td>杂志大片 / 封面</td><td>品牌调性</td></tr><tr><td>21</td><td>季节主题网格</td><td>节日、季节性营销</td></tr><tr><td>22</td><td>奢华氛围渲染</td><td>高客单、礼赠</td></tr><tr><td>23</td><td>设备界面模型</td><td>软件、App、数码</td></tr><tr><td>24</td><td>店铺门面 / 空间摄影</td><td>线下店、展厅</td></tr><tr><td>25</td><td>运动 / 健身广告</td><td>运动品类、动感场景</td></tr></tbody></table></div>
+<p><strong>手动选模板的正确理解</strong>：在模板库里点「用这个模板」，<strong>只对你下一条消息生效</strong>。发完即恢复自动匹配——这是刻意的，避免你很久以前点过一次，之后每条消息都静默沿用。</p>
+<hr>
+<h2 id="sec-17">六、图片库：生成结果都在本机</h2>
+<ul><li>列出的是<strong>本机磁盘上的真实文件</strong>（<code>data/gen/</code>），关掉浏览器也还在；</li><li>支持单张下载、删除，以及一键复制全部路径；</li><li>顶部有<strong>按文件名过滤</strong>的搜索框：边打边筛，纯前端过滤、不重新请求；筛不到时给「清空筛选」的出路（图片没有被筛掉，只是没匹配上）；</li><li>「复制全部路径」跟随当前筛选——筛出 5 张，复制的就是这 5 条；</li><li>「打包下载全部」会打成一个 zip：上限 65535 个文件 / 4 GB，超出会直接报错（不会产出一个坏包）。注意 zip 始终打包 <code>data/gen/</code> <strong>全部</strong>文件，不受搜索框影响（界面上会提示这一点）。</li></ul>
+<blockquote>图片不会上传到任何服务器。你在「图片库」看到的，就是你电脑里的文件。<br>⚠️ 删除是<strong>直接删本机文件、不进回收站</strong>，确认框会明确提示，删了无法恢复。</blockquote>
+<blockquote>⚠️ 如果在界面上看到&quot;本地服务没在跑&quot;，图片并没有丢——启动服务后点「刷新列表」即可。</blockquote>
+<hr>
+<h2 id="sec-18">七、文案与质检：一个 Listing 从写到查</h2>
+<p>这个视图现在是<strong>两栏 + 五个抽屉</strong>，不再是七张卡平铺：</p>
+<ul><li><strong>左栏「产品与语料」</strong>＝ 原 ① 产品输入 + ② 关键词挖掘（合并成一张卡的三段：我的产品 / 竞品在说什么 / 取词）</li><li><strong>右栏「文案编辑」</strong>＝ 原 ④ 可编辑字段（五个字段做成 tab）+ ⑤ 质检结果（同一张卡的下半部）</li><li><strong>页头</strong>＝ 原 ③ 生成草稿的两个动作（生成草稿 / 生成并质检），随时可点，不再占一整张卡</li><li><strong>页脚五个抽屉（默认收起）</strong>＝ ⑥ Rufus 准入检查 / ⑦ 竞品榜单抓取 / ⑧ A+ 模块骨架 / ⑨ 批量质检 / 平台限制与规则集</li></ul>
+<p>推荐路径：<strong>填资料 → 取词 → 改文案 → 跑质检</strong>；Rufus 与竞品抓取按需展开。</p>
+<h3 id="sec-19">7.1 ① 产品输入（左栏 · 我的产品）</h3>
+<div class="tblwrap"><table><thead><tr><th>字段</th><th>填什么</th><th>注意</th></tr></thead><tbody><tr><td>品牌 Brand</td><td>你的品牌名</td><td>后台搜索词里会排除它，避免浪费额度</td></tr><tr><td>产品名 / 核心词</td><td>例：Ceramic Coffee Mug</td><td>越具体越好</td></tr><tr><td>核心关键词</td><td>你最主要的那一个搜索词</td><td>用于检查它有没有被放在标题前部</td></tr><tr><td>主要卖点</td><td>每行一条，最多取 5 条</td><td>一条一个利益点，不要写成一段话</td></tr><tr><td>规格 / 数量 / 适用人群</td><td>350ml、2、daily commuters</td><td>数量会自动补成 <code>Pack of 2</code></td></tr><tr><td>类目口径</td><td>普通 / media</td><td><strong>决定标题上限</strong>，见下</td></tr></tbody></table></div>
+<blockquote>🔴 <strong>类目口径是显式开关，不是让程序猜</strong>。猜错会把一个超限标题报成&quot;通过&quot;，这比不检查更糟。</blockquote>
+<p><strong>2026-07-27 生效的标题新规</strong>（必须知道）：</p>
+<div class="tblwrap"><table><thead><tr><th>字段</th><th>上限</th><th>说明</th></tr></thead><tbody><tr><td>标题 <code>item_name</code></td><td><strong>75 字符</strong>（含空格）</td><td>普通类目</td></tr><tr><td>标题（media 类目）</td><td>200 字符</td><td>图书 / 音乐 / 影像，唯一例外</td></tr><tr><td>Item Highlights <code>title_differentiation</code></td><td><strong>125 字符</strong></td><td>新增字段，参与搜索</td></tr><tr><td>两者合计</td><td><strong>200 字符</strong></td><td>两张字段共享这个总额度</td></tr></tbody></table></div>
+<p>超限的真实后果不是&quot;提交被拒&quot;，而是：Amazon 会按 AI 建议<strong>自动改写你的标题</strong>，同时你<strong>失去 Item Highlights 的提交资格</strong>（官方明确：只有标题 ≤75 才能提交该字段）。也就是说，代价是控制权，不是报错。</p>
+<h3 id="sec-20">7.2 ② 关键词挖掘（左栏 · 竞品在说什么）</h3>
+<p>把竞品标题 + 五点 + 类目页文案粘进来（多个竞品用一行 <code>---</code> 分隔），点「挖掘关键词」。</p>
+<p>它做的是<strong>词频统计</strong>，不是模型生成：</p>
+<ul><li>切 1–3 个词的组合，去掉停用词，按&quot;覆盖率 / 出现位置 / 精准度&quot;打分；</li><li>只保留在至少 2 个竞品里出现的词（只出现 1 次的是噪声）；</li><li>可以按语种切换停用词表（英 / 德 / 法 / 西 / 意 / 荷 / 日），否则德国站标题里的 <code>mit / für / und</code> 会被当成卖点词；</li><li>日语<strong>不做分词</strong>，界面会明说——不引入词典依赖，避免切出一堆无意义的碎片。</li></ul>
+<blockquote>⚠️ <strong>这不是搜索量</strong>。词频只说明&quot;竞品在反复用&quot;，不说明&quot;有多少人在搜&quot;。界面上也会标注这一点。</blockquote>
+<p>「多竞品对比」会按&quot;几个竞品用到这个词&quot;分成两类：<strong>全类目共识词</strong>（几乎人人都在打，必须覆盖）与<strong>差异化词 / 品牌词</strong>（少数人在打，是机会或必须避开）。</p>
+<p>还有一块是<strong>每周词库</strong>：点「载入本周词库」，读的是定时任务每周抓好的快照（词根 → 真实搜索建议词 + 榜单 ASIN）。<br>它先给你一张<strong>体检卡</strong>，而不是直接甩一堆数字：这份数据新不新（新鲜 / 偏旧 / 过期 / 没有，四档）、<br>站点有没有实测过、价格字段全不全、上次采集成没成、有没有被截断 —— <strong>任何一条不理想都会单独写一行，并说明该怎么办</strong>。<br>下面是三个排序（词根命中 / 新词优先 / 字母序），再下面是「把前 30 个词填入关键词框」。</p>
+<blockquote>为什么非要把&quot;不新 / 不全&quot;写在脸上：数据看着漂亮但其实是三周前的，比没有数据更危险 ——<br>你会拿它去下判断。所以这一块刻意做成&quot;先说哪里有毛病，再说有哪些词&quot;。</blockquote>
+<h3 id="sec-21">7.3 ③ 生成草稿（页头两个按钮）</h3>
+<p>点「生成草稿」，按规则填出一份结构合规的 Listing。</p>
+<blockquote>⚠️ 这是<strong>填空式草稿</strong>，不是文案创作。它的价值是省掉从零排版的时间：字段齐全、不超限、硬规则全过。<strong>措辞必须人工改写</strong>——直接发布会有浓浓的模板味。</blockquote>
+<p>「生成并质检」= 生成后立刻跑一遍 28 条规则。</p>
+<h3 id="sec-22">7.4 ④ 可编辑字段（右栏 · 五个 tab）</h3>
+<p>五个字段：标题、Item Highlights、五点、Search Terms、商品描述。标题上方有三个计数条，实时显示：标题 / 125 / 两段合计。</p>
+<p><strong>三种计法不要混</strong>：</p>
+<ul><li>标题、Item Highlights、五点、描述 —— <strong>按字符</strong>；</li><li>Search Terms —— <strong>按字节</strong>（中文、emoji 占多个字节，250 字节很快会用完）。</li></ul>
+<p><strong>导出有三种形态，用途不同</strong>：</p>
+<div class="tblwrap"><table><thead><tr><th>按钮</th><th>得到什么</th><th>用在哪</th></tr></thead><tbody><tr><td>导出后台字段</td><td>逐字段、可逐个粘贴的文本</td><td>卖家后台是一个字段一个框，整段 JSON 填不进去</td></tr><tr><td>导出 Flat File CSV</td><td>按官方属性名排好列</td><td>往批量表里搬数据。<strong>不是可直接提交的官方模板</strong>，各类目列名不同</td></tr><tr><td>导出质检报告 JSON</td><td>完整的规则命中结果</td><td>留档、给别人复核</td></tr></tbody></table></div>
+<blockquote>如果 Item Highlights 超了 125 字符，系统会<strong>按逗号整段移除</strong>末尾短语，并明确告诉你&quot;挤掉了哪几句&quot;——不会静默截断。</blockquote>
+<h3 id="sec-23">7.5 ⑤ 质检结果：28 条规则（右栏下半部）</h3>
+<p>规则分两档：</p>
+<ul><li><strong>P（必须改）</strong>：平台明文规则或入口级风险，发布前应清零；</li><li><strong>C（建议改）</strong>：影响可读性或转化，不影响合规。</li></ul>
+<div class="tblwrap"><table><thead><tr><th>编号</th><th>档</th><th>检查什么</th></tr></thead><tbody><tr><td>P1</td><td>P</td><td>标题超过 75 字符（media 类目除外）</td></tr><tr><td>P2</td><td>P</td><td>标题含促销词 / 最高级 / 平台徽章词（free shipping、best seller、Amazon&#39;s Choice）</td></tr><tr><td>P3</td><td>P</td><td>标题含特殊符号（`! ? $ _ \</td><td>&lt; &gt;` 等）</td></tr><tr><td>P4</td><td>P</td><td>标题 71–75 字符：离硬顶不足 5 字符，再补一个词就越线（项目自定的保守口径）</td></tr><tr><td>P5</td><td>P</td><td>标题大面积全大写（字母中大写占比 &gt; 60%）</td></tr><tr><td>P6</td><td>P</td><td>疾病 / 医疗声明、农药抗菌声明、绝对化保证性用语</td></tr><tr><td>P7</td><td>P</td><td>单条五点超过 500 字符（移动端会被截断）</td></tr><tr><td>P8</td><td>P</td><td>五点里写价格 / 促销 / 物流信息（五点是产品属性位）</td></tr><tr><td>C9</td><td>C</td><td>五点没有用&quot;大写引导词 + 冒号&quot;开头（影响扫读，不影响合规）</td></tr><tr><td>P10</td><td>P</td><td>Search Terms 超过 250 字节</td></tr><tr><td>P11</td><td>P</td><td>Search Terms 里重复了品牌名（挤占额度）</td></tr><tr><td>P12</td><td>P</td><td>文案含 HTML / 脚本标记</td></tr><tr><td>P13</td><td>P</td><td>Item Highlights 超过 125 字符</td></tr><tr><td>P14</td><td>P</td><td>Item Highlights 含禁用语或特殊符号（与标题同口径）</td></tr><tr><td>P15</td><td>P</td><td>文案里出现网址、邮箱、引导去站外或&quot;联系我们&quot;</td></tr><tr><td>C1</td><td>C</td><td>核心搜索词没有出现在标题前 5 个词里</td></tr><tr><td>C2</td><td>C</td><td>标题没有数字 / 规格（容量、数量、尺寸）</td></tr><tr><td>C3</td><td>C</td><td>五点是参数罗列，没有利益导向词</td></tr><tr><td>C4</td><td>C</td><td>五条长度差异过大（最短 &lt; 最长的 40%）</td></tr><tr><td>C5</td><td>C</td><td>标题里同一实词重复 ≥3 次</td></tr><tr><td>C6</td><td>C</td><td>五点没有任何材质 / 规格 / 工艺词</td></tr><tr><td>C7</td><td>C</td><td>标题符号密度过高（≥4 个非字母数字符号）</td></tr><tr><td>C8</td><td>C</td><td>环境声明或不证自明声明（eco-friendly、non-toxic、BPA free…）缺少依据</td></tr><tr><td>C10</td><td>C</td><td>Item Highlights 为空（新规下这是白丢 125 个可搜索字符）</td></tr><tr><td>C11</td><td>C</td><td>标题与 Item Highlights 内容重复（官方要求&quot;每一条都要补充新信息&quot;）</td></tr><tr><td>C12</td><td>C</td><td>疑似电话号 / 站外社交平台名（软规则，避免误伤 <code>350-500-1000</code> 这类规格）</td></tr><tr><td>C13</td><td>C</td><td>标题里同一个词反复出现（75 字符时代更不划算）</td></tr><tr><td>C14</td><td>C</td><td>标题含主观夸赞（HOT ITEM、BEST QUALITY 之类）</td></tr></tbody></table></div>
+<p><strong>读结果的方式</strong>：未命中的规则也会列出来，让你看见&quot;检查过什么&quot;。每条命中都带 <code>为什么定这条</code> 与 <code>口径来源</code>，可以自己判断是否接受。</p>
+<blockquote>规则里刻意保留了一些&quot;软判定&quot;。例如 C12 只挑形状像电话的串，因为硬禁会把规格数字全打成违规——<strong>误报多了，人就不信质检结果了</strong>，那比漏报更糟。</blockquote>
+<h3 id="sec-24">7.6 关键词覆盖度分析</h3>
+<p>用你填的&quot;自定义关键词&quot;和粘贴的竞品语料，逐词检查它落在<strong>标题 / 五点 / 描述 / 后台词</strong>的哪几处。</p>
+<p>输出不是分数，是一张矩阵：哪个词全覆盖、哪个词只出现在五点、哪个词一个字都没提。</p>
+<blockquote>它只测文本覆盖，<strong>不是搜索排名，也不是搜索量</strong>。</blockquote>
+<h3 id="sec-25">7.7 ⑥ Rufus 信息架构检查（准入层）</h3>
+<p>这一层和 ⑤ 的质检<strong>问的不是同一个问题</strong>：</p>
+<ul><li>⑤ 问：文案<strong>合不合规</strong>？</li><li>⑥ 问：<strong>能不能被 Rufus 纳入结构化比对</strong>？</li></ul>
+<p>Rufus / Alexa for Shopping 的工作方式是先做结构化比对，再决定要不要引用你的文案。所以字段缺失、事实矛盾、单位打架，都会让你的商品在&quot;被引用&quot;这一步就出局。</p>
+<p>5 组规则：</p>
+<div class="tblwrap"><table><thead><tr><th>组</th><th>检查什么</th><th>典型问题</th></tr></thead><tbody><tr><td>R1</td><td>属性完整性</td><td>官方必填字段空着 → 进不了最细的浏览分类</td></tr><tr><td>R2</td><td>跨字段事实一致性</td><td>标题说纯棉、描述说纯涤纶；标题 2 件、五点 3 件</td></tr><tr><td>R3</td><td>单位制一致性</td><td>同一维度同时用英制和公制，比价时取到互相打架的数值</td></tr><tr><td>R4</td><td>买家高频问题覆盖</td><td>80 条类目高频问题，listing 里找不到答案句</td></tr><tr><td>R5</td><td>图内文字未文本化</td><td>规格 / 成分只印在图上，机器读不到，等于不存在</td></tr></tbody></table></div>
+<p>使用要点：</p>
+<ol><li><strong>必须选&quot;产品类型&quot;</strong>，否则 R1 与 R4 会全部跳过——不选就不替你猜；</li><li><strong>图内文字要人工粘贴</strong>（每行一条）。系统<strong>不做 OCR、不猜图上内容</strong>；留空则 R5 整条跳过；</li><li><strong>跳过项一定可见并写明原因</strong>。把跳过藏起来，等于让你以为全通过；</li><li>结论只有一条，来自引擎统一计算，界面不会另写一套&quot;通过 / 不通过&quot;。</li></ol>
+<h3 id="sec-26">7.8 ⑦ 竞品关键词 → 文案提示词</h3>
+<p>从亚马逊 <strong>Best Sellers 公开榜单页实时抓取</strong>竞品标题，本地算权重，再生成可复制的文案提示词。</p>
+<p><strong>抓取范围</strong>：8 个站点（美国、英国、德国、法国、日本、加拿大、意大利、西班牙）× 20 个类目（玩具、宠物、电子、家居厨房、厨房餐具、运动户外、美妆个护、健康家居、母婴、办公、家电、汽车、艺术手工、乐器、服饰鞋包、电子游戏、图书、食品杂货、工业科研、工具五金），还可以再选子类目。</p>
+<p><strong>关键词权重公式</strong>：</p>
+<pre><code>权重 = 覆盖率 × 50% + 位置 × 30% + 精准度 × 20%   （满分 10）</code></pre>
+<p>只保留在至少 2 条竞品标题里出现的词。</p>
+<p><strong>生成提示词</strong>：可以选 5 类——竞品标题拆解、标题 + 产品亮点、五点描述、后台搜索词、多语言本地化。提示词里只带<strong>工具已经算好的结论</strong>，并明确要求模型&quot;直接采用、不要重算&quot;。</p>
+<p><strong>坐标说明</strong>：</p>
+<ul><li>数据源是公开榜单页，亚马逊改版时会抓不到——<strong>会如实报错，不会拿假数据凑</strong>；</li><li>有 10 分钟缓存，别高频轮询；</li><li>原「关键词搜索」路径（<code>/s?k=</code>）已被亚马逊封锁，本工作台不提供；</li><li>抓不到时，仍可把竞品标题手动粘到 ② 卡里，本地算法照样工作。</li></ul>
+<h3 id="sec-27">7.9 上传前预校验：分三层告诉你&quot;还差什么&quot;</h3>
+<p>点「上传前预校验」，得到三块结论，<strong>它们的分量完全不同</strong>：</p>
+<div class="tblwrap"><table><thead><tr><th>层</th><th>含义</th><th>例子</th></tr></thead><tbody><tr><td><strong>硬缺口</strong></td><td>现在一定传不上去</td><td>标题为空 / 标题超 75 字符 / 品牌为空 / 五点不足 3 条</td></tr><tr><td><strong>建议改</strong></td><td>能传，但明显吃亏</td><td>Item Highlights 留空、五点只写 3 条、Search Terms 留空、某字段超限</td></tr><tr><td><strong>本工具不查</strong></td><td>上传前你自己必须核一遍</td><td>UPC / EAN / GTIN、类目节点、价格币种库存、主图 slot 1、合规文件（CPC / FDA / UN38.3）</td></tr></tbody></table></div>
+<ul><li>五点的必填是<strong>逐条</strong>定义的（后台至少 3 条），但报错会合并成一条：「第 1 / 2 / 3 条为空」——</li></ul>
+<p>  报三条一样的错只会让人以为系统坏了；</p>
+<ul><li>「导出 Flat File CSV」会先跑这一遍：<strong>有硬缺口就不导出</strong>，把缺口摆在面板上，另给一个</li></ul>
+<p>  「仍然导出（内容就是我填的这些）」按钮。刻意不用浏览器弹窗——弹窗塞不下三层内容，<br>  而且会<strong>阻塞整个页面</strong>（连浏览器控制台都会被卡住）。</p>
+<blockquote>🔴 <strong>&quot;预校验通过&quot;只等于&quot;文本字段齐了&quot;</strong>。它不查 UPC、不查价格库存、不查主图，<br>也不是平台的官方评分。</blockquote>
+<h3 id="sec-28">7.10 导出体检报告（单文件 HTML）</h3>
+<p>点「导出体检报告」，得到一个 <code>.html</code> 文件：双击就能打开、可以直接发微信、也能用浏览器打印成 PDF。</p>
+<p>里面包含：</p>
+<ul><li>你填的全部字段与各自的字符/字节占用；</li><li>28 条质检的逐条结论（含跳过与异常项）；</li><li>Rufus 准入层的检查结果；</li><li>关键词覆盖度；</li><li><strong>「这份报告不覆盖什么」</strong>：UPC / 类目节点 / 价格库存 / 主图 / 合规文件；不是官方评分；不预测排名。</li></ul>
+<blockquote>最后那一节是刻意放的。一份&quot;全绿&quot;的报告如果不说边界，收件人会把它读成&quot;可以上架 + 会有流量&quot;。</blockquote>
+<hr>
+<h2 id="sec-29">八、数据采集：把亚马逊页面变成结构化数据</h2>
+<h3 id="sec-30">8.1 方式 A · 书签脚本（推荐）</h3>
+<p>同一个书签，自适应两种页面：</p>
+<ul><li>在<strong>商品详情页</strong>点 → 抓单条完整数据（标题、五点、规格、BSR、主图）；</li><li>在<strong>搜索结果页</strong>点 → 一次抓整页商品（标题、价格、评分、评论数、ASIN）。</li></ul>
+<p><strong>安装步骤</strong>：</p>
+<ol><li>把页面上的「抓取亚马逊商品」按钮<strong>拖到浏览器书签栏</strong>（或右键复制链接，新建书签后粘贴到网址栏）；</li><li>打开亚马逊商品详情页，或搜一个词停在搜索结果页；</li><li>点这个书签 → 结构化数据进入剪贴板；</li><li>回到「数据采集」页，粘到&quot;方式 B&quot;的框里，点「解析」。</li></ol>
+<blockquote>书签脚本是自包含的，不依赖本应用是否打开，也不会上传任何数据。</blockquote>
+<h3 id="sec-31">8.2 方式 B · 粘贴内容</h3>
+<p>自动识别四种输入：</p>
+<ul><li>书签脚本产出的 JSON（详情页）；</li><li>书签脚本产出的 JSON（搜索结果页，整页商品表）；</li><li>页面源码 HTML（右键&quot;查看网页源代码&quot;后全选复制，搜索结果页也认）；</li><li>纯文本（按标题 / 五点结构尽量解析）。</li></ul>
+<p>解析结果会自动存进「本地产物」，刷新不丢；也可以点「导出 JSON」单独带走。</p>
+<h3 id="sec-32">8.3 为什么不做服务端爬虫</h3>
+<p>这是刻意选择，不是没做完：</p>
+<ul><li>服务端直抓会被反爬与 TLS 指纹拦住，成功率低且不稳定；</li><li>即使用代理抓到了，返回的价格 / 评论数也未必等于用户实际看到的（地区、登录态、AB 实验都会影响）；</li><li>出错时最糟的是&quot;看起来成功了，数据其实是错的&quot;。</li></ul>
+<p>所以竞品数据走<strong>用户侧采集</strong>：你看到什么，就抓什么。</p>
+<hr>
+<h2 id="sec-33">九、本周词库：每周抓来的词，怎么用</h2>
+<p>侧栏 <strong>Listing → 本周词库</strong>。它是独立一页，只干一件事：<strong>告诉你这份词库新不新、全不全、有哪些词</strong>。</p>
+<h3 id="sec-34">9.1 页面只有三块</h3>
+<div class="tblwrap"><table><thead><tr><th>区块</th><th>内容</th><th>什么时候看它</th></tr></thead><tbody><tr><td>四格体检</td><td>条词 / ASIN / 本周新增 / 采集日期（带&quot;几天前&quot;）</td><td>进来先看这四格。日期不是本周，下面所有结论都要打折扣</td></tr><tr><td>筛选行</td><td>搜词面（部分匹配）+ 三种排序（词根命中 / 本周新词 / 字母序）</td><td>找某个词，或只看这周冒出来的</td></tr><tr><td>词表</td><td>词面 / 词根命中数 / 状态 / 来源词根</td><td>挑词</td></tr></tbody></table></div>
+<h3 id="sec-35">9.2 三个必须说清的口径</h3>
+<ol><li><strong>「分不出」不是 0。</strong> 第一次采集（或没有历史投影）时，「本周新增」那一格写「分不出」——</li></ol>
+<p>   意思是<strong>没算过</strong>，不是&quot;这周没有新词&quot;。下一周再采一次就有了。</p>
+<ol><li><strong>看到的是前 500 条。</strong> 词库通常两千多条，接口一次最多给 500 条；页面上会直说&quot;共 N 条，这里列前 500 条&quot;。</li></ol>
+<p>   想缩小范围用搜索，别以为词库只有 500 条。</p>
+<ol><li><strong>陈旧要认。</strong> 超过 10 天标黄提示；超过 21 天直接说&quot;别当本周数据用&quot;。</li></ol>
+<p>   站点若不是 US，会额外说明&quot;抓取规则没实测过，字段可能缺&quot;。</p>
+<h3 id="sec-36">9.3 把词送进文案页</h3>
+<p>点右上角 <strong>送进文案页</strong>：把<strong>当前筛选结果的前 30 个词</strong>填进「文案与质检」的关键词框，并自动切过去。<br>只填关键词框，<strong>不覆盖</strong>标题与五点 —— 这一步的语义是&quot;把词带过去&quot;，不是&quot;改文案&quot;。</p>
+<h3 id="sec-37">9.4 这份数据是怎么来的</h3>
+<p>定时任务每周跑一次（GitHub Actions，或本地 <code>node tools/collect-keywords.mjs</code>）：<br>194 个词根 → 抓搜索建议 → 再从类目榜单补 ASIN。产物是 <code>data/keywords/latest.json</code>；<br>界面、<code>GET /api/keywords</code>、MCP 的 <code>keyword_snapshot</code> 三处读的是<strong>同一份文件</strong>。</p>
+<p>任务没跑过时，这一页不会只说一句&quot;加载失败&quot;，而是直说&quot;暂时没有词库&quot;，并<strong>交代上次采集怎么了</strong><br>（失败原因 / 上次成功时间 / 从未跑过）—— 这才是能照着修的信息。</p>
+<h3 id="sec-38">9.5 这一版多出来的五件事（都默认收起，页面不会变复杂）</h3>
+<p>新增的能力全放在这一页的<strong>折叠区</strong>里，不另开视图，也不往首屏塞卡片。想用再点开。</p>
+<div class="tblwrap"><table><thead><tr><th>折叠区</th><th>解决什么</th><th>没有数据时怎么办</th></tr></thead><tbody><tr><td><strong>用本周词库做覆盖度体检</strong></td><td>原来「送进文案页」只把词填进框，不判断。现在直接算：本周热词里，我的 Listing <strong>一个字都没提的有几个</strong>，每条还标出是哪个词根带出来的</td><td>没写 Listing 就说「先去写 Listing」，不给 0</td></tr><tr><td><strong>本周 vs 上周</strong></td><td>两列并排：新进 / 回归 / 掉出的词。回归词单独算，不混进「新增」里糊弄人</td><td>只有一份快照时明说「暂时没法对比」</td></tr><tr><td><strong>ASIN 榜单变动</strong></td><td>「本周新进榜单 7 个、掉出 5 个、名次动了哪几个」。三个集合互不重叠</td><td>没有历史投影就说「暂无」，不编 0</td></tr><tr><td><strong>词根管理</strong></td><td>194 个词根以前写死在源码里，改一个要动 JS。现在 <code>data/keywords/roots.json</code> 就是运营可改的覆盖层：加、删、改名都在页面上，并反馈「这个词根本周带出多少词」「连续 0 命中，建议替换」</td><td>覆盖层读坏了会<strong>退回基线并说明</strong>，不中断采集；非法词根会列进「被拒」并给理由，不静默</td></tr><tr><td><strong>导出 CSV</strong></td><td>词表 / ASIN 两个导出，带 UTF-8 BOM，Excel 直接打开不乱码；字段里有逗号、引号、换行都按 RFC 4180 正确转义</td><td>没有快照时导出的是<strong>只有表头的空表</strong>，不是一份假数据</td></tr></tbody></table></div>
+<p>还有一处小改动：站点下拉里，除了 US 以外的站点都标 <strong>○ 未实测</strong>，选中时会提醒「类目映射可能不准，仅 US 经过实测」。<br>这是「可见但不承诺」—— 数据结构已经按一站一文件留好，将来开站是一个参数的事，但<strong>现在不假装跑过八站</strong>。</p>
+<h2 id="sec-39">十、本地产物：刷新不丢的历史记录</h2>
+<p>四类产物自动留档在浏览器的 IndexedDB 里：</p>
+<div class="tblwrap"><table><thead><tr><th>类型</th><th>内容</th></tr></thead><tbody><tr><td>采集</td><td>从亚马逊抓到的商品数据</td></tr><tr><td>图像方案</td><td>整套 Prompt 规划与简报</td></tr><tr><td>Listing</td><td>文案 + 质检报告</td></tr><tr><td>覆盖度</td><td>关键词覆盖分析结果</td></tr></tbody></table></div>
+<ul><li>每类最多保留 60 条，超出淘汰最旧的；</li><li>单条内容有大小上限，超大文本会被裁剪并标注；</li><li>可以「导出全部（JSON）」备份，换电脑后「导入 JSON」恢复；</li><li>「清空全部」会要求确认，清空后不可恢复。</li></ul>
+<blockquote>🔴 <strong>导出的 JSON 里没有 API Key</strong>。密钥与产物刻意分开存：产物在浏览器存储里，密钥在 <code>.env.local</code> 或浏览器 localStorage。</blockquote>
+<blockquote>⚠️ 浏览器隐私模式、清理站点数据、换浏览器，都会让这些记录消失。重要的东西请导出备份。</blockquote>
+<h3 id="sec-40">10.1 快照对比：同一件商品，前后两次抓的差在哪</h3>
+<p>同一件商品抓过两次以上时，在&quot;采集&quot;类记录前面<strong>勾两条</strong>，再点「对比快照」：</p>
+<ul><li><strong>按时间排前后</strong>，不是按你勾选的顺序——先勾新的再勾旧的，不会把&quot;改前/改后&quot;读反；</li><li>比 9 个文本字段：标题、品牌、价格、星级、评论数、类目排名、五点、规格、描述；</li><li>五点/规格这类列表会给<strong>增删明细</strong>（新增 1 条 / 删掉 1 条），不是只回一句&quot;变了&quot;；</li><li>搜索页对搜索页，按 <strong>ASIN 集合</strong>比谁进榜、谁掉榜（20 个商品逐字段摊开没人看得下去）。</li></ul>
+<p><strong>它不会做的事</strong>（界面上也写着）：</p>
+<ul><li>不猜对方<strong>为什么</strong>改，也不评价改前改后哪个更好；</li><li>两份记录的 ASIN 不同时，会在最上面直接写「这不是同一件商品的前后对比」；</li><li>两份里缺 ASIN 时，会写「无法确认是同一件商品」，不假装是同款；</li><li>主图、A+ 内容、变体结构<strong>不在比较范围内</strong>；价格与排名本身还会随地区、登录态、时间变化。</li></ul>
+<hr>
+<h2 id="sec-41">十一、设置与诊断</h2>
+<h3 id="sec-42">11.1 本地服务</h3>
+<ul><li>「重新探测」会请求 <code>/api/health</code>，显示服务是否在线、Node 版本是否达标、配了哪些 Key、模板数量；</li><li>探活有缓存：成功缓存 60 秒、失败只缓存 5 秒（失败时你往往正在启动服务，不该让你等）；</li><li>如果用 <code>file://</code> 打开页面（不推荐），需要在这里填 <code>http://127.0.0.1:8787</code>。</li></ul>
+<h3 id="sec-43">11.2 图片生成 API</h3>
+<p>兼容两类接口：</p>
+<div class="tblwrap"><table><thead><tr><th>类型</th><th>特征</th><th>例子</th></tr></thead><tbody><tr><td>同步式</td><td><code>POST /images/generations</code> 直接返回图片 URL 或 base64</td><td>OpenAI 兼容接口</td></tr><tr><td>异步式</td><td>返回 task_id，再轮询 <code>/tasks/{id}</code></td><td>apimart</td></tr></tbody></table></div>
+<p>填 apimart 域名会自动判为异步；也可以手动选 <code>sync</code> / <code>async</code>。异步模式的「分辨率档位」支持 1k / 2k / 4k（4K 仅部分比例支持）。</p>
+<p><strong>「测试连接」按钮</strong>（图片 API 与对话模型两张卡各一个）：填完不用先保存，直接点就能验。</p>
+<ul><li>它只请求一次 <code>{接口地址}/models</code> —— 这是 OpenAI 兼容网关的<strong>免费端点</strong>，不生成图片、不消耗额度；</li><li>结果分三档，不压成「成功 / 失败」：<strong>绿</strong> = 通了且密钥被验证（还会核对配的模型在不在清单里）；<strong>黄</strong> = 端点可达，但对方不提供 <code>/models</code>，密钥<strong>没被验证过</strong>；<strong>红</strong> = 真没通（会区分「连不上」和「密钥不被接受」）；</li><li>测试不发对话、不写任何配置，可以放心点。</li></ul>
+<h3 id="sec-44">11.3 对话 / 识图模型（可选）</h3>
+<p>不填也能用：模板匹配、Prompt 组装、Listing 质检、关键词全都是本地代码。只有「AI 润色主体描述」需要它，且默认关闭。</p>
+<h3 id="sec-45">11.4 密钥放哪</h3>
+<div class="tblwrap"><table><thead><tr><th>方式</th><th>密钥位置</th><th>适合</th></tr></thead><tbody><tr><td>推荐</td><td>项目根目录 <code>.env.local</code></td><td>不进浏览器、不进 localStorage，服务端直连避免跨域问题</td></tr><tr><td>备选</td><td>浏览器 localStorage</td><td>临时试用</td></tr></tbody></table></div>
+<p>点「写入服务端配置」会把界面上填的值合并写入 <code>.env.local</code>（只覆盖你填了的键，其他键保留；留空表示删除该键）。写盘是原子替换，写到一半断电不会留下半截文件。</p>
+<blockquote>🔴 线上演示实例禁用了写入（<code>LISTING_NO_KEY_WRITE=1</code>），所以演示版不能保存密钥。</blockquote>
+<hr>
+<h2 id="sec-46">十二、配置项速查</h2>
+<p>把 <code>.env.example</code> 复制成 <code>.env.local</code> 后按需填写。全部留空也能启动。</p>
+<div class="tblwrap"><table><thead><tr><th>键</th><th>作用</th><th>默认</th></tr></thead><tbody><tr><td><code>IMG_BASE_URL</code></td><td>图片接口地址</td><td>空</td></tr><tr><td><code>IMG_MODEL</code></td><td>图片模型名</td><td><code>gpt-image-2</code></td></tr><tr><td><code>IMG_API_KEY</code></td><td>图片接口密钥</td><td>空（空 = 只出 Prompt）</td></tr><tr><td><code>IMG_API_MODE</code></td><td><code>auto</code> / <code>sync</code> / <code>async</code></td><td><code>auto</code></td></tr><tr><td><code>IMG_RESOLUTION</code></td><td>异步模式分辨率</td><td><code>2k</code></td></tr><tr><td><code>IMG_CHAT_MODEL</code></td><td>识图模型（图生图用）</td><td><code>agnes-2.0-flash</code></td></tr><tr><td><code>CHAT_BASE_URL</code> / <code>CHAT_MODEL</code> / <code>CHAT_API_KEY</code></td><td>可选，AI 润色用</td><td>空</td></tr><tr><td><code>PORT</code></td><td>服务端口</td><td><code>8787</code></td></tr><tr><td><code>HOST</code></td><td>监听地址</td><td><code>127.0.0.1</code>（只本机）</td></tr><tr><td><code>COMPETITOR_SCRAPE</code></td><td>设为 <code>0</code> 关闭榜单抓取</td><td>开启</td></tr><tr><td><code>LISTING_DATA</code></td><td>数据目录</td><td>项目内 <code>data/</code></td></tr><tr><td><code>PUBLIC_HOSTS</code></td><td>对外部署时的域名白名单</td><td>空</td></tr><tr><td><code>LISTING_NO_KEY_WRITE</code></td><td>设为 <code>1</code> 禁止写密钥</td><td>空</td></tr></tbody></table></div>
+<hr>
+<h2 id="sec-47">十三、常见问题</h2>
+<p><strong>Q1：打开页面是空白 / 只有标题。</strong><br>多半是双击了 <code>index.html</code>。请用 <code>node server.mjs</code> 启动后访问 <code>http://127.0.0.1:8787/</code>。</p>
+<p><strong>Q2：点了发送，只给了 Prompt，没有图。</strong><br>三种可能：① 没配图片密钥；② 消息里没有&quot;出图 / 生成图片&quot;之类的词；③ 本地服务没启动（此时是纯离线模式）。看右上角模式标签：写「本地编排」就是没连上服务。</p>
+<p><strong>Q3：出图很慢，是不是卡住了。</strong><br>异步接口通常要几十秒到两分钟：提交后先等 12 秒，再每 4 秒轮询一次结果。界面会显示进度，点「停止」可中断当前轮。</p>
+<p><strong>Q4：抓竞品榜单报错。</strong><br>亚马逊改版或临时限流都会导致抓不到。10 分钟后再试，或换类目；也可以手动复制竞品标题粘到 ② 卡，本地算法一样能用。系统不会用假数据顶替。</p>
+<p><strong>Q5：标题为什么只能 75 字符？我记得是 200。</strong><br>2026-07-27 起普通类目压到 75（含空格），media 类目仍是 200。另外新增了 Item Highlights 125 字符，两者合计 200。旧的&quot;标题 200&quot;说法已经过时。</p>
+<p><strong>Q6：Search Terms 明明没写几个字，怎么就说超了。</strong><br>它按<strong>字节</strong>算，不是字符。一个中文字通常 3 字节，250 字节大约只有 80 多个汉字。</p>
+<p><strong>Q7：Rufus 检查里好几项显示&quot;跳过&quot;，是不是坏了。</strong><br>不是。没选产品类型、没填图内文字、类目不适用，都会如实跳过并写明原因。<strong>跳过 ≠ 通过</strong>，这是刻意的设计。</p>
+<p><strong>Q8：数据存在哪？换电脑怎么办。</strong><br>生成的图在 <code>data/gen/</code>，其他产物在浏览器 IndexedDB。换电脑：拷 <code>data/</code> 目录 + 在「本地产物」导出 JSON 后在新机器导入。密钥要重新配。</p>
+<p><strong>Q9：会不会把我的数据传到网上。</strong><br>不会。只有三种情况会出网：调用你配置的生图 / 对话接口、抓取公开榜单、以及你主动点开的第三方链接。密钥不出本机。</p>
+<p><strong>Q10：能不能几个人一起用。</strong><br>当前是本地优先的单机工具，没有账号体系。多人协作需要自己搭共享目录 + 反向代理，不在本项目的设计范围内。</p>
+<p><strong>Q11：能不能直接连我的店铺后台改 Listing。</strong><br>不能，也不打算做。改线上内容是资金与合规风险最高的操作，本工具只做&quot;生成 + 检查&quot;，提交由你自己完成。</p>
+<p><strong>Q12：为什么没有搜索量 / 竞争度分数。</strong><br>真实搜索量来自付费数据源（Helium 10、Brand Analytics 等）。拿不到就编一个分数，会让决策建立在假数据上。本项目选择给覆盖矩阵与权重，并明确标注&quot;这不是搜索量&quot;。</p>
+<hr>
+<h2 id="sec-48">十四、已知限制（先说清楚）</h2>
+<ol><li><strong>中文部分能力有限</strong>：Rufus 规则里的单位识别对中文单位支持不完整；Listing 规则主要按英文平台口径设计。</li><li><strong>不做 OCR</strong>：图上的文字必须人工粘贴，系统不解析图片内容。</li><li><strong>不接付费数据</strong>：没有搜索量、没有竞品销量估算、没有广告花费分析。</li><li><strong>榜单抓取依赖页面结构</strong>：亚马逊改版会失效，届时需要更新选择器。</li><li><strong>模板数据是外部来源</strong>：25 个模板来自公开参考项目，本项目只消费不改写；模板本身的表达习惯未必适合所有品类。</li><li><strong>规则是启发式</strong>：28 条规则覆盖高频问题，不是平台审核的全部；P 档清零也不等于一定过审。</li><li><strong>浏览器存储有上限</strong>：产物每类 60 条，超出淘汰最旧；清站点数据会清空。</li><li><strong>没有多用户 / 权限 / 审计</strong>：定位是个人或小团队的单机工具。</li><li><strong>只在 Chromium 内核验证过</strong>：Chrome / Edge 可用；Safari 与 Firefox 未做端到端验证。</li><li><strong>界面上有少量&quot;多语言&quot;是提示词层面</strong>：生成的 Prompt 是英文（生图模型对英文更稳），不是界面多语言。</li><li><strong>语种支持是不对称的</strong>：词频与停用词支持中/英/德/法/西/意/荷/日 <strong>7 套</strong>；但<strong>利益词判据（C3）与 Prompt 输出只有中文、英文两套</strong>。日/德/法等语种的五点在质检里会被标成「跳过·未判定」——<strong>未判定不等于通过，也不等于不合格</strong>。另外：纯汉字的日文标题与中文无法区分（会按中文处理），德语复合词（<code>KaffeetassenSet</code>）不会被拆开。</li><li><strong>只读演示版不能写</strong>：线上那版把 6 条写路由关了（写配置、上传、生图、识图、对话模型、删图库），前端也会<strong>提前禁用</strong>按钮而不是等你点了才报 403。它只出 Prompt，不出图。</li><li><strong>资源上限是硬闸门</strong>：打包下载最多 <strong>300 个文件 / 单张 40MB / 合计 300MB</strong>；上传只认 PNG / JPEG / GIF / WebP 四种（按文件头魔数判断，不看你声明的类型）；竞品榜单一次最多抓 <strong>3 页</strong>。</li><li><strong>「主图禁 AI 生成」与「AI 图要打 XMP 标」标的是「待核实」</strong>：前者由亚马逊两条官方要求（主图须为摄影作品、图片须如实代表商品）合并推论得出，后者来自 IPTC / C2PA 行业规范，亚马逊是否强校验<strong>没有拿到官方原文</strong>。所以这两条在 Prompt 里写成&quot;交付前核对&quot;，不写成&quot;平台规定&quot;。</li><li><strong>MCP 那部分同样没有关键词数据</strong>：接进 AI 助手之后，判断能力和网页版<strong>完全一样</strong>（同一份代码），但搜索量、ABA 排行、关键词库依然没有。这不是没做完，是边界（数据要账号级 Token，不能随代码分发）。</li><li><strong>MCP 只在本机跑</strong>：它是本地子进程模型，没有网络端口，也就没有对外暴露面。<strong>不要</strong>把它挂到公网 HTTP 上给外部调用，那需要另加鉴权，本项目没做。</li></ol>
+<hr>
+<h2 id="sec-49">十五、接进你自己的 AI 助手（MCP）</h2>
+<p>这是给「不想开网页、想在自己常用的 AI 客户端里直接用」的人准备的。</p>
+<p>本工作台带一个 <strong>MCP server</strong>。MCP 是一个通用协议，Claude Desktop、Claude Code、Cursor、VS Code、Codex、WorkBuddy 都支持。接上之后，你在对话框里说「帮我检查这条标题」，AI 就会来调这里的规则，结果和网页里一模一样（因为<strong>是同一份代码</strong>，不是另写一套）。</p>
+<h3 id="sec-50">15.1 先说清楚它给什么、不给什么</h3>
+<div class="tblwrap"><table><thead><tr><th></th><th></th></tr></thead><tbody><tr><td>✅ 给</td><td>拿文案去<strong>判断</strong>：28 条规则质检、上传前还差什么、关键词覆盖到没覆盖、图片 Prompt 怎么拼、两次抓取的差异</td></tr><tr><td>❌ 不给</td><td><strong>关键词数据</strong>：没有搜索量、没有 ABA 排行、没有关键词库、没有 ASIN 榜单</td></tr></tbody></table></div>
+<p>这一条必须先讲，否则接上去第一句话就会失望：</p>
+<blockquote>你问它「ceramic mug 这个词有多少搜索量」——它答不出来，它没有这个数据。<br>你问它「我这条标题哪里会违规、还差什么才能上架、我埋的词漏了哪些」——它逐条给结论和依据。</blockquote>
+<p>想要搜索量 / 反查排名，得另外接数据源（卖家精灵、西柚洞察）。<strong>那两家的数据要你自己的账号 Token，谁用谁配，没法随代码发给别人</strong> —— 这也是这里自己做 MCP 的原因：<strong>判断层能跟着代码走，数据层不能。</strong></p>
+<h3 id="sec-51">15.2 三步接上</h3>
+<p><strong>第一步</strong>：确认电脑上有 Node.js 20.15 或更高（命令行敲 <code>node -v</code>）。<strong>不需要安装任何东西</strong>，这个项目零依赖。</p>
+<p><strong>第二步</strong>：把项目文件夹放到一个固定位置，记住它的完整路径。</p>
+<p><strong>第三步</strong>：把下面这段写进你用的客户端的配置文件，把 <code>&lt;项目路径&gt;</code> 换成刚才那个路径（用正斜杠 <code>/</code>，Windows 也一样）：</p>
+<pre><code>{
+  &quot;mcpServers&quot;: {
+    &quot;listing-studio&quot;: {
+      &quot;command&quot;: &quot;node&quot;,
+      &quot;args&quot;: [&quot;&lt;项目路径&gt;/mcp/server.mjs&quot;]
+    }
+  }
+}</code></pre>
+<p><code>mcp/clients/</code> 文件夹里有 6 份现成的，按你的客户端挑一份复制即可：</p>
+<div class="tblwrap"><table><thead><tr><th>你的客户端</th><th>用哪个文件</th><th>放哪里</th></tr></thead><tbody><tr><td>Claude Desktop</td><td><code>claude-desktop.json</code></td><td><code>%APPDATA%\Claude\claude_desktop_config.json</code></td></tr><tr><td>Claude Code</td><td><code>claude-code.json</code></td><td>项目根目录 <code>.mcp.json</code></td></tr><tr><td>Cursor</td><td><code>cursor.json</code></td><td>项目根目录 <code>.cursor/mcp.json</code></td></tr><tr><td>VS Code（Copilot）</td><td><code>vscode.json</code></td><td>项目根目录 <code>.vscode/mcp.json</code></td></tr><tr><td>Codex CLI</td><td><code>codex.toml</code></td><td><code>~/.codex/config.toml</code> 末尾追加</td></tr><tr><td>WorkBuddy</td><td><code>workbuddy.json</code></td><td><code>~/.workbuddy/mcp.json</code>（<strong>已有内容要合并，别覆盖</strong>）</td></tr></tbody></table></div>
+<p>改完重启客户端。列表里出现 <code>listing-studio</code> 就成功了。</p>
+<p><strong>不确定接没接上？</strong> 先跑一次示例，它会真的把 8 个工具挨个调一遍并告诉你哪一步失败：</p>
+<pre><code>node examples/mcp-demo.mjs --no-net</code></pre>
+<p>看到结尾 <code>示例全部通过 ✓</code> 就说明服务端本身没问题 —— 那么&quot;接不上&quot;就一定是客户端配置的事（键名写错 / 没重启 / 不在 Agent 模式）。</p>
+<h3 id="sec-52">15.3 能做什么（八个工具）</h3>
+<div class="tblwrap"><table><thead><tr><th>你说的话</th><th>AI 调的工具</th><th>你会看到</th></tr></thead><tbody><tr><td>「帮我查这条标题/五点有没有违规」</td><td><code>lint_listing</code></td><td>28 条规则逐条结论 + 四态计数 + 命中依据</td></tr><tr><td>「这个能上架吗，还差什么」</td><td><code>precheck_upload</code></td><td>三层：一定传不上去的 / 能传但吃亏的 / 本工具不管、你自己必须核的</td></tr><tr><td>「我埋的关键词够不够」</td><td><code>analyze_coverage</code></td><td>加权覆盖率 + 真缺口（<strong>噪声会单独列</strong>，不混进待办）</td></tr><tr><td>「用本周词库查我缺哪些热词」</td><td><code>analyze_coverage</code>（<code>useVault</code>）</td><td>自己给的词与词库词<strong>分开算两个数</strong>；无词库时如实说没有，不拿 0 充数</td></tr><tr><td>「竞品标题里都在打哪些词」</td><td><code>mine_keywords</code></td><td>1–3 词短语频次（支持 7 种语言的停用词）</td></tr><tr><td>「给这个产品写一段生图 Prompt」</td><td><code>build_image_prompt</code></td><td>完整 Prompt + 画幅像素；首图会强制 1:1 且禁止图内文字</td></tr><tr><td>「这条 listing 被人改了什么」</td><td><code>diff_snapshots</code></td><td>9 个字段的逐项差异（<strong>规格里的键也能比出来</strong>）</td></tr><tr><td>「ceramic mug 有什么长尾词」</td><td><code>amazon_suggest</code></td><td>亚马逊搜索框里的<strong>真实买家搜索词</strong>（免费、无需账号）</td></tr><tr><td>「这周收录了哪些词 / 哪些 ASIN」</td><td><code>keyword_snapshot</code></td><td>读<strong>本周词库</strong>（词面 + 榜单 ASIN），带「几天前采的 / 是否过期」标记</td></tr></tbody></table></div>
+<p>最后一个是唯一的联网工具。不想让它联网，启动参数加 <code>--no-net</code>，它就<strong>一个外部请求都不发</strong>。</p>
+<h3 id="sec-53">15.4 三个必须知道的坑</h3>
+<ol><li><strong>「跳过」不是「通过」。</strong> 字母太少的标题判不了全大写、没填品牌判不了品牌堆砌 —— 这些是「没查」，不是「查了没问题」。结论里会明写这一点，做自动化时别只看「命中 0 条」。</li><li><strong>建议词 ≠ 搜索量。</strong> <code>amazon_suggest</code> 只说明「有人这么打字」，不说明有多少人搜。</li><li><strong>覆盖度 ≠ 排名。</strong> 关键词覆盖只回答「这个词有没有出现在我的文案里」，覆盖上去不代表排名会涨。</li></ol>
+<h3 id="sec-54">15.5 接不上怎么办</h3>
+<div class="tblwrap"><table><thead><tr><th>现象</th><th>多半是</th><th>怎么办</th></tr></thead><tbody><tr><td>客户端里看不到这个工具</td><td>路径写成了相对路径</td><td>改绝对路径</td></tr><tr><td>显示 0 个工具</td><td>Node 版本太低</td><td><code>node -v</code>，要 ≥ 20.15</td></tr><tr><td>连上就没反应</td><td>路径写错 / 文件被移动</td><td>命令行手动跑 <code>node mcp/server.mjs</code>，能打出 <code>ready</code> 才是好的</td></tr><tr><td>搜索建议偶尔报错</td><td>亚马逊风控</td><td>正常，工具会如实报错，不会假装成功</td></tr></tbody></table></div>
+<p><strong>不想改配置文件：一个 URL 接上（P0-B2）</strong></p>
+<p>原来的 stdio 方式要写一份带绝对路径的客户端配置，路径写错就「工具不出现」且没有报错。<br>现在多一条路：</p>
+<pre><code>node mcp/http.mjs        # 或 npm run mcp:http</code></pre>
+<p>它只监听 <code>127.0.0.1:8790</code>，客户端填 <code>http://127.0.0.1:8790/mcp</code> 这一个 URL 就行。<br>启动时生成的密钥在 <code>data/mcp-setup/token.txt</code>，<strong>优先</strong>用 <code>Authorization: Bearer &lt;token&gt;</code> 传；<br>只有那种「只能填一个 URL」的客户端才降级成 <code>?token=</code>，且这个降级有 12 小时有效期并拒绝带 Referer 的请求。</p>
+<p>四道门一道不少：只绑回环、Host 白名单（防 DNS rebinding）、跨站 Origin 一律 403、Bearer 校验；<br><code>GET /mcp</code> 回 405 —— 八个工具都是单轮问答，不需要服务端主动推流。<br>它和 stdio 版<strong>共用同一个消息处理函数</strong>，所以两边 <code>tools/list</code> 出来的工具完全一致，不会出现「网页能用的工具命令行没有」。</p>
+<blockquote>⚠️ 带 <code>?token=</code> 的 URL 会进浏览器历史、Referer 和日志，<strong>别截图发出去</strong>。<br>能填 header 的客户端一律用 header。这一条不是洁癖：本机 HTTP 服务对浏览器天然可见，<br>少一道 Origin 校验，任何一个恶意网页都能拿你的浏览器去调本机工具。</blockquote>
+<p>现在每个工具还带了 <code>annotations</code>（只读 / 非破坏 / 幂等 / 是否访问外部世界）与 <code>outputSchema</code>，<br>结果里既有原来的文本 JSON，也有 <code>structuredContent</code> —— 老客户端照常读文本，新客户端可以直接拿结构。<br>参数校验也改成了表驱动：传错类型会明确说「应为 number」并带上上限值，不再笼统报一个「参数错误」。</p>
+<p>详细说明（含 JSON-RPC 示例、排错表、边界清单）见项目里的 <code>mcp/README.md</code>。</p>
+<hr>
+<h2 id="sec-55">十六、外部数据源：接上卖家精灵这类服务</h2>
+<h3 id="sec-56">16.1 它补的是哪块空白</h3>
+<p>本地引擎把<strong>判断</strong>做完了：标题怎么排、五点怎么写、词覆盖够不够、Rufus 会问什么。<br>但它算不出<strong>只有买数据才有</strong>的东西 —— 一个词的<strong>真实搜索量</strong>、它在 ABA 榜单上的<strong>排名</strong>、<br>某个 ASIN 的<strong>流量词</strong>。这就是&quot;看不了关键词榜单&quot;的那块空白。</p>
+<p>卖家精灵这类服务已经把自己的这些能力开放成了 MCP。本工作台<strong>可以当一个 MCP 客户端去连它</strong><br>（Streamable HTTP），于是它出的数据能直接进到工作台的流程里 —— 不是截图抄一遍，<br>而是取回来、归一成词表、和本地周词库做交集。</p>
+<h3 id="sec-57">16.2 三步接上</h3>
+<ol><li>打开「设置与诊断」→ 最下面的 <strong>外部数据源（第三方 MCP）</strong>；</li><li>选「卖家精灵」，把 <strong>secret-key</strong> 填进去（在<strong>你自己的</strong>账号后台生成）；</li><li>点 <strong>保存并测试</strong>。看到&quot;已连通 · N 个工具&quot;才算真的通了。</li></ol>
+<p>密钥会写进项目根目录的 <code>.env.local</code>（<code>SELLERSPRITE_KEY=...</code>，文件权限 <code>0600</code>），<br><strong>只由本机服务进程读取</strong>：</p>
+<ul><li>不回传浏览器、不回填输入框（保存成功后立刻清空，页面只留 <code>****末四位</code>）；</li><li>不进 localStorage、不进页面 DOM、不进日志；</li><li>线上演示版（只读模式）<strong>这三个接口一律 403</strong> —— 不让访客用站长的账号额度。</li></ul>
+<blockquote>⚠️ 需要<strong>自己的</strong>付费账号（按调用量计费）。本项目不内置密钥、不代付、不共享账号。</blockquote>
+<p><strong>还没有账号？不用等。</strong> 卡片里有一个 <strong>「没有账号？看示例对比」</strong> 按钮：</p>
+<ol><li>点它 → 直接跳到「本周词库」页；</li><li>页面顶部会出现一条<strong>琥珀色提示</strong>，明写&quot;这是示例数据，不是你账户里的&quot;；</li><li>下面照常是三格对比 + 词表 —— 用的还是<strong>同一套交集逻辑</strong>，只是数据源换成了</li></ol>
+<p>   仓库自带的 12 个示例词（<code>tools/fixtures/external/sellersprite-demo.json</code>）。</p>
+<p>它读的是<strong>仓库里的那份 fixture</strong>，不会在 <code>data/external/</code> 里留下任何东西，也不会碰你的本地词库。<br>所以&quot;导入之后长什么样、三格怎么算、盲区词长什么样&quot;这些你<strong>现在就能看到</strong>，<br>不用先付钱、也不用先注册。线上演示版（只读模式）同样能点 —— 它只是纯读。</p>
+<blockquote>示例能让你看懂<strong>界面</strong>，但看不出<strong>字段</strong>。真接上一个新工具时，<br>仍然要先点一次「调用」核对字段（见 16.4），这一步替代不了。</blockquote>
+<h3 id="sec-58">16.3 两种用法：先看，再导</h3>
+<p>测试通过后，卡片里会列出这家服务实际提供的工具（名字来自对方 <code>tools/list</code>，不是我们编的）。<br>每个工具两个按钮：</p>
+<div class="tblwrap"><table><thead><tr><th>按钮</th><th>做什么</th><th>什么时候用</th></tr></thead><tbody><tr><td><strong>调用（看原始返回）</strong></td><td>原样调一次，把原文显示出来（顺带算出回包多大）</td><td>第一次接一个工具，先确认&quot;它到底给我什么&quot;</td></tr><tr><td><strong>导入成词表</strong></td><td>调一次 → 归一成 <code>{词, 搜索量, 排名}</code> → 存到 <code>data/external/卖家精灵.json</code></td><td>已经确认过结构，要拿来用</td></tr></tbody></table></div>
+<p>参数框里只会预填<strong>对方声明为必填</strong>的字段（取自 <code>inputSchema</code>），其余留空。<br>本项目<strong>不替你猜参数</strong> —— 缺了对方会自己报错，那句报错比这里编一个更有用。</p>
+<p>导入之后，「本周词库」页顶部会多出一块 <strong>外部词表</strong>，直接给三个数：</p>
+<div class="tblwrap"><table><thead><tr><th>数字</th><th>含义</th><th>怎么用</th></tr></thead><tbody><tr><td><strong>外部有 · 本地没抓到</strong></td><td>本地每周采集的<strong>盲区</strong></td><td>这些词在外部数据里是真的，只是本地没抓到。值得单独看要不要打，<strong>别读成&quot;没需求&quot;</strong></td></tr><tr><td><strong>两边都有</strong></td><td>交叉印证</td><td>可以放心当主力词</td></tr><tr><td><strong>本地有 · 外部没有</strong></td><td>本地更全的部分</td><td>长尾词通常在这里</td></tr></tbody></table></div>
+<p>对比是在<strong>服务端</strong>用<strong>本地全量</strong>词库算的，不是页面上那 500 条截断后的 ——<br>用截断数据算&quot;盲区&quot;，会把大量已覆盖的词算成盲区，那种数字比不给更糟。</p>
+<p>如果这一块的数据来自<strong>示例</strong>，提示条里会多一个「看我自己的数据」按钮：<br>点它切回真实导入的那份（没有导入过就如实说&quot;暂时没法对比&quot;，不会拿 0 凑数）。</p>
+<h3 id="sec-59">16.4 归一为什么是&quot;猜字段&quot;</h3>
+<p>同一条数据，不同工具可能叫 <code>keyword</code> / <code>keywordText</code> / <code>searchTerm</code>，搜索量可能是<br><code>searches</code> / <code>searchVolume</code> / <code>monthlySearch</code>，还可能写成 <code>12.3K</code> 这种展示值。<br>对方改版也不会通知我们。</p>
+<p>所以归一层做的是<strong>有原则的宽容</strong>：认几个常见字段名，认不出就<strong>返回 0 条并说明为什么</strong>，<br>同时把&quot;这次用的是哪些字段&quot;原样回报（界面上显示成 <code>keyword→term · searches→volume</code>）。</p>
+<ul><li>猜对了：你能看见它怎么猜的，可以放心用；</li><li>猜错了：返回 0 条 + 一句原因，而不是给你一份假数据。</li></ul>
+<p><strong>第一次接上一个新工具，请先点「调用」核对一次字段</strong>，再点「导入」。</p>
+<h3 id="sec-60">16.5 四条边界</h3>
+<ol><li><strong>只连白名单里的端点</strong>：URL 是服务端的一个常量表，请求体里<strong>没有</strong> URL 字段 ——</li></ol>
+<p>   否则这个接口就成了通用跳板（内网地址、云元数据地址都能被塞进来）。</p>
+<ol><li><strong>不代付、不内置密钥</strong>：谁用谁配。想在团队里共享，请自行约定的方式，本项目不存共享凭据。</li><li><strong>只取数，不代操作</strong>：取回来的是词表，不会替你去投放、调价、改 listing。</li><li><strong>失败要能分清是谁的错</strong>：HTTP 401/403 会明说&quot;鉴权失败——检查密钥是否有效/是否过期&quot;，</li></ol>
+<p>   超时会带毫秒数，对方返回不合协议会说&quot;不是标准 Streamable HTTP 帧&quot;。不笼统报&quot;失败&quot;。</p>
+<hr>
+<h2 id="sec-61">十七、三种用法建议</h2>
+<h3 id="sec-62">新手（10 分钟内出第一个结果）</h3>
+<ol><li>打开创作台，输入&quot;帮我生成一款 [你的产品] 的白底主图&quot;；</li><li>看简报里的&quot;模板依据&quot;，不满意就换一句描述再发；</li><li>复制 Prompt，粘到你熟悉的生图工具；</li><li>到「文案与质检」，把标题和五点粘进 ④ 卡，点「跑质检」，先把 P 档清零。</li></ol>
+<h3 id="sec-63">运营日常（每个新品一轮）</h3>
+<ol><li>② 卡粘 3–5 个竞品文案 → 挖关键词 → 看共识词与差异化词；</li><li>③ 生成草稿 → ④ 人工改写措辞；</li><li>⑤ 跑质检，P 档清零；</li><li>⑥ 选产品类型、粘图内文字，跑 Rufus 准入；</li><li>⑦ 抓同品类榜单，生成文案提示词，交给模型扩写；</li><li>导出后台字段 / CSV，上架。</li></ol>
+<h3 id="sec-64">开发者（把它当规则库用）</h3>
+<ul><li><code>assets/listing.js</code> 是纯函数规则库，可直接 <code>import</code> 到自己的脚本里；</li><li><code>assets/prompt-engine.js</code> 的 Prompt 组装与自检也可以单独调用；</li><li>三套自检共 1,021 条断言，改完跑一遍就知道有没有破坏既有行为：</li></ul>
+<pre><code>node tools/selftest.mjs
+node tools/verify-server.mjs
+node tools/browser-selftest.mjs</code></pre>
+<hr>
+<h2 id="sec-65">十八、健康分 / 评论分析 / 成图体检 / 历史快照</h2>
+<p>这四块是 2026-11 新增的，共同点是<strong>都能给一个数或一张图，而且这个数/图能被验算</strong>。<br>它们没有新增独立视图 —— 都挂在原有页面的下游（质检结果里、采集页里、图片库里）。</p>
+<h3 id="sec-66">18.1 Listing 健康分（文案与质检页）</h3>
+<p>28 条规则 + 5 组信息架构 + 覆盖度，收成一个 0–100 的分。</p>
+<div class="tblwrap"><table><thead><tr><th>维度</th><th>权重</th><th>依据</th></tr></thead><tbody><tr><td>合规硬门槛</td><td>26</td><td>所有 P 级规则 + 需要举证的软规则</td></tr><tr><td>信息架构</td><td>18</td><td>Rufus 准入层（字段齐 / 事实自洽 / 单位不混 / 高频问题有答案）</td></tr><tr><td>关键词覆盖</td><td>14</td><td>候选词在标题/五点/描述/后台词的加权覆盖（要先跑一次覆盖度分析）</td></tr><tr><td>标题可读性</td><td>10</td><td>C 级标题规则</td></tr><tr><td>五点说服力</td><td>10</td><td>C 级五点规则</td></tr><tr><td>Item Highlights</td><td>8</td><td>新规第二段是否使用、是否重复标题</td></tr><tr><td>后台搜索词</td><td>7</td><td>是否填写（字节与重复词已在合规维度扣过，不重复扣）</td></tr><tr><td>长度预算</td><td>7</td><td>有上限的字段里，既没超限也没空的占比</td></tr></tbody></table></div>
+<p>三条硬规则，界面上一眼能看到：</p>
+<ol><li><strong>硬规则命中 → 封顶 55（D 档）</strong>。不给&quot;改改措辞还能拿 80&quot;的错觉。</li><li><strong>缺数据的维度不算分</strong>。没跑覆盖度分析时，&quot;关键词覆盖&quot;显示 <code>— / 14</code> 并注明原因，分数按已计分的权重归一，<strong>不按 0 分扣</strong>。</li><li><strong>每分都能追到规则</strong>。点开&quot;先改这三条&quot;，每条都带规则号、扣了多少、为什么、怎么改、来源。</li></ol>
+<blockquote>这是<strong>本项目自定义的加权分</strong>，不是亚马逊官方评分（官方没有公开的 Listing 分），也不预测排名或流量。界面上原话写着这句，改文案时别删。</blockquote>
+<h3 id="sec-67">18.2 评论分析（VOC，数据采集页）</h3>
+<p>书签脚本在商品页会顺手抓<strong>当前这一页</strong>的评论（默认 10 条，最多 20 条），粘回来就能看到：</p>
+<ul><li><strong>痛点簇</strong>：按&quot;低星提及数&quot;排序，带低星平均星级和<strong>低星原话</strong>（不会拿一句 5 星好评当抱怨）</li><li><strong>好评簇</strong>：4–5 星里被提到的方面 —— 这些词可以直接搬进五点</li><li><strong>高频疑问</strong>：评论里真有人问的问题，说明详情页没答</li><li><strong>词频线索</strong>：只当线索，不是关键词建议</li></ul>
+<p>边界写在卡片底部的折叠块里：只分析抓到的样本、按&quot;最有帮助&quot;排序天然带偏、聚类靠词表（14 个方面）、不推断原因。样本少于 5 条只说&quot;线索&quot;，不给百分比结论。</p>
+<h3 id="sec-68">18.3 成图体检（图片库）</h3>
+<p>图片库每张图多了「体检」按钮，也可以直接上传任意一张本地图。全部在浏览器里读像素，<strong>图片不上传</strong>。</p>
+<div class="tblwrap"><table><thead><tr><th>检查项</th><th>判据</th><th>说明</th></tr></thead><tbody><tr><td>背景接近纯白</td><td>8 个采样点，三通道 ≥250 且通道差 ≤5</td><td>有阴影/浅色背景时会低估</td></tr><tr><td>商品占画面</td><td>非白像素占比 ≥85%</td><td>背景不是纯白时这一项直接标&quot;未测&quot;</td></tr><tr><td>最长边</td><td>&lt;500 传不上去 / 500–999 可传无缩放 / ≥1000 可放大</td><td>按官方口径分三档</td></tr><tr><td>透明通道</td><td>有透明像素就警告</td><td>转 JPG 会变黑底</td></tr><tr><td>图内文字</td><td>边缘密度 &gt;8% 给<strong>线索</strong></td><td>不做 OCR，不下结论</td></tr><tr><td>格式 / 体积</td><td>JPEG/PNG/TIFF/GIF，≤10MB</td><td>WebP 主图不接受</td></tr></tbody></table></div>
+<p><strong>不判 Logo、不判侵权、不判类目禁图</strong>，这些得人自己看。</p>
+<h3 id="sec-69">18.4 历史快照与迷你趋势图（数据采集页）</h3>
+<p>采集到某个 ASIN 后点「记一条快照」，会写进本机 <code>data/snapshots/&lt;ASIN&gt;.jsonl</code>（一行一个 JSON）。下次再记，就能看到价格 / 星级 / 评论数 / 类目排名四条小趋势。</p>
+<p>三个刻意设计：</p>
+<ul><li><strong>值没变就不写</strong>。同一份数据点两次，第二次不落盘，并告诉你原因 —— 否则趋势图上会出现一串完全相同的点。</li><li><strong>不插值</strong>。中间缺数据就断开，绝不把相隔一个月的两点连成一条假曲线。</li><li><strong>不预测</strong>。两个点才画；只有 1 条时直接说&quot;一个点画不出趋势&quot;。</li></ul>
+<h3 id="sec-70">18.5 可选插件：本地抠图（设置页）</h3>
+<p>本项目<strong>不打包模型</strong>（rembg 要 Python + onnxruntime，几百 MB）。想用就自己在本机起一个 rembg 服务，在 <code>.env.local</code> 写：</p>
+<pre><code>REMBG_URL=http://127.0.0.1:7000/api/remove</code></pre>
+<p>重启服务后，图片库每张图会多一个「抠图」按钮，结果存进 <code>data/gen/</code>。<br>目标地址<strong>只允许本机或私网</strong>（127.0.0.1 / localhost / ::1 / 10.x / 192.168.x / 172.16–31.x）—— 这个代理是服务端代发请求，不限制就是 SSRF 跳板。没配时接口明确回 <code>not-configured</code>，界面显示&quot;未启用&quot;，不假装有这个功能。</p>
+<h2 id="sec-71">十九、A+ 骨架 / 批量质检 / 第三方词表</h2>
+<p>这三块解决的是同一类问题：<strong>单条流程走通之后，真实工作里还会卡住的地方</strong>。<br>它们都没有新增独立视图 —— 两个在「文案与质检」页的抽屉里，一个在「取词」区。</p>
+<h3 id="sec-72">19.1 A+ 内容模块骨架（文案与质检页 → 抽屉 ⑧）</h3>
+<p>品牌备案之后才有 A+。多数人卡在&quot;打开编辑器，三栏空白，不知道先写哪句&quot;。<br>这一步给<strong>三块模块的结构、写作预算与配图提示词</strong>，内容从你已经在上面填好的品牌 / 产品名 / 卖点派生。</p>
+<div class="tblwrap"><table><thead><tr><th>模块</th><th>它负责回答</th><th>结构</th></tr></thead><tbody><tr><td>品牌故事</td><td>你是谁、为什么做这个</td><td>标题 + 副标题 + 正文（三张卡片图）</td></tr><tr><td>对比表</td><td>我这款和别的型号差在哪</td><td>表头 + 6 个维度（本品 + 最多 5 个竞品）</td></tr><tr><td>模块网格</td><td>让不看字的人也能懂</td><td>三格，每格一个小标题 + 一句说明</td></tr></tbody></table></div>
+<p>三条边界，界面上也这么写：</p>
+<ol><li><strong>字数预算是本工具的建议值</strong>，用来防&quot;一句话写 400 字&quot;；各模块字段的硬限制以<strong>模块编辑页显示的计数</strong>为准。本工具不冒充官方值。</li><li><strong>只出骨架，不出可提交的模块代码、不生成图片</strong>。后台编辑器只认它自己的字段，任何&quot;导出即上传&quot;的说法都是假的。</li><li>A+ 里的文字同样受 Listing 的合规约束。自检<strong>直接复用</strong> <code>listing.js</code> 的促销词 / 声明词 / 特殊符号表，外加 A+ 特有的四类高风险表述：</li></ol>
+<p>   价格与促销（会过期）、贬低竞品、排名与畅销宣称、绝对化承诺。</p>
+<p>缺品牌名或卖点时，对应位置写 <code>【待填】</code> 并在顶部列出缺什么 —— 不替你编一个品牌故事。</p>
+<h3 id="sec-73">19.2 批量质检（文案与质检页 → 抽屉 ⑨）</h3>
+<p>单条质检回答&quot;这条行不行&quot;，批量回答<strong>&quot;我 20 条里先改哪条&quot;</strong>。</p>
+<p><strong>输入格式</strong>（两种都认，一次最多 30 条）：</p>
+<pre><code>B0ABC12345
+Premium Ceramic Mug 350ml Double Wall Insulated ...
+- 保温 6 小时
+- 304 不锈钢
+---
+标题：Montessori Busy Board for Toddlers 1-3
+五点：
+- 安全毛毡，无锐边
+- 可带上飞机</code></pre>
+<p><strong>排序规则是刻意的</strong>：先按&quot;有没有命中硬规则（P 级）&quot;，再按分数。<br>一条 92 分但标题超限（P1）的链接，比 78 分全是软规则的更急 —— 只按分数排会把最急的那条排到中间。</p>
+<p><strong>口径必须说清</strong>：批量模式只有标题 + 五点，缺 Item Highlights、Search Terms、Rufus 字段与覆盖度，<br>所以出的是<strong>同口径的部分维度分</strong>（权重 61/100，其余按归一）。行与行之间可比，<br>但<strong>不要</strong>拿它和单条页面上的健康分比大小。界面上这句话原样写着。</p>
+<p>解析不出来的块<strong>报错并跳过</strong>，不拿第一行五点冒充标题；条数超限直接报错，不静默截断。<br>汇总可导出 CSV（带 BOM，Excel 打开不乱码）。</p>
+<h3 id="sec-74">19.3 第三方关键词 CSV 导入（文案与质检页 → 取词区）</h3>
+<p>卖家精灵 / Helium 10 / Jungle Scout 都能导出&quot;关键词 + 搜索量&quot;。本工具<strong>不自己算、也不估</strong>搜索量，<br>但你导出的数据应当能直接用，否则只能手工敲几百个词。</p>
+<div class="tblwrap"><table><thead><tr><th>能识别的表头</th><th>例子</th></tr></thead><tbody><tr><td>关键词</td><td><code>Keyword Phrase</code> / <code>Search Term</code> / <code>Keyword</code> / <code>关键词</code> / <code>搜索词</code></td></tr><tr><td>搜索量</td><td><code>Search Volume</code> / <code>Est. Searches</code> / <code>月搜索量(精确)</code> / <code>搜索热度</code></td></tr><tr><td>ASIN</td><td>只认精确的 <code>ASIN</code> / <code>Child ASIN</code>（<strong>不认</strong> <code>Sponsored ASINs</code>）</td></tr></tbody></table></div>
+<p>处理细节：</p>
+<ul><li><strong>分隔符自动嗅探</strong>：逗号 / 分号 / 制表符都认（欧洲区 Excel 默认分号，从表格复制过来常是制表符）。</li><li><strong>搜索量解析</strong>：<code>1,200</code> / <code>12K</code> / <code>1.2万</code> 都能读；读不出来留空并记原因，<strong>不填 0</strong>（0 会被读成&quot;没人搜&quot;）。</li><li><strong>重复词</strong>保留搜索量更大的那条。</li><li><strong>千分位逗号没加引号</strong>（<code>保温杯,8,500</code>）会把搜索量读成 8 —— 这种行标成&quot;存疑&quot;、界面显示 <code>?</code>，并提示重导，不假装读对了。</li><li><strong>不猜列</strong>：找不到关键词列就报错并列出实际表头。猜错会把 ASIN 当关键词，然后整张覆盖表全红。</li></ul>
+<p>导入后点「把这批词填进自定义关键词」（按搜索量取前 200 个），再跑覆盖度分析，<br>表里会多一列<strong>搜索量</strong>。这一列只用于排序取舍，<strong>不参与覆盖判定</strong>；表下会标&quot;来自你导入的 xxx.csv，不是本工具估算的&quot;。</p>
+<h2 id="sec-75">二十、术语表</h2>
+<div class="tblwrap"><table><thead><tr><th>术语</th><th>意思</th></tr></thead><tbody><tr><td><strong>Listing</strong></td><td>商品详情页的整套内容：标题、五点、图片、后台词等</td></tr><tr><td><strong>Item Highlights</strong></td><td>2026 年 7 月新增字段（API 名 <code>title_differentiation</code>），125 字符，参与搜索</td></tr><tr><td><strong>五点 / Bullet Points</strong></td><td>详情页上五条卖点描述，每条上限 500 字符</td></tr><tr><td><strong>Search Terms</strong></td><td>后台搜索词，买家看不见，上限 250 字节</td></tr><tr><td><strong>A+ Content</strong></td><td>亚马逊品牌旗舰店版的图文详情页</td></tr><tr><td><strong>Rufus / Alexa for Shopping</strong></td><td>亚马逊的购物助手，会先做结构化比对再引用商品信息</td></tr><tr><td><strong>P 档 / C 档</strong></td><td>质检规则的两档：P = 必须改，C = 建议改</td></tr><tr><td><strong>Prompt</strong></td><td>给生图模型的指令文本</td></tr><tr><td><strong>图生图</strong></td><td>上传一张参考图，让模型按参考图生成新图</td></tr><tr><td><strong>Style Lock</strong></td><td>固定一套视觉参数（配色、光线、字体、质感），保证多张图风格一致</td></tr><tr><td><strong>Best Sellers</strong></td><td>亚马逊公开的类目销量榜页面</td></tr><tr><td><strong>IndexedDB</strong></td><td>浏览器自带的本地数据库，用来存历史记录</td></tr><tr><td><strong>原子写</strong></td><td>先写临时文件再整体替换，避免写到一半留下坏文件</td></tr></tbody></table></div>
+<hr>
+<h2 id="sec-76">附：版本与验证</h2>
+<ul><li>当前版本：<code>listing-studio/1.0.0</code></li><li>自检规模：580（规则与静态断言）+ 272（服务端接口）+ 199（浏览器端到端）= <strong>1051 条</strong>；另有两套单列：MCP 协议 248 条、词库与采集器 136 条。<code>npm run test:all</code> 五套全跑，合计 <strong>1435 条</strong></li><li>运行环境：Node.js ≥ 20.15，零第三方依赖</li><li>界面语言：简体中文；生成的 Prompt 为英文（生图模型对英文指令更稳定）</li></ul>
+<blockquote>这份文档描述的是当前版本的实际行为。如果某个按钮的位置或文案与文档不一致，以界面为准，并欢迎指出。</blockquote>
+<footer class="end">跨境 Listing 质检工作台 · 功能详细介绍 ｜ 生成于 2026-11-08</footer>
+</div>
+</body>
+</html>

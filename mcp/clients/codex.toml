@@ -1,0 +1,7 @@
+# 追加到 ~/.codex/config.toml 末尾。
+# <PROJECT_DIR> 换成项目绝对路径，用正斜杠（Windows 也一样：C:/xxx/跨境Listing优化工作台）。
+# 想彻底断网就在 args 里加 "--no-net"。
+
+[mcp_servers.listing-studio]
+command = "node"
+args = ["<PROJECT_DIR>/mcp/server.mjs"]

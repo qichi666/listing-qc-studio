@@ -1,0 +1,26 @@
+{
+  "_fixture": "示例数据。不是你账户里的数据，也不是卖家精灵的真实返回 —— 它只是用来让没账号的人先看清「导入之后长什么样」。界面必须标成示例。",
+  "provider": "sellersprite",
+  "label": "卖家精灵",
+  "tool": "traffic_keyword",
+  "demo": true,
+  "at": null,
+  "args": {},
+  "mapping": { "term": "keyword", "volume": "searches", "rank": "rank" },
+  "why": "",
+  "bytes": 4380,
+  "terms": [
+    { "term": "phone stand for desk", "volume": 74000, "rank": 2, "asins": [] },
+    { "term": "wireless earbuds case cover", "volume": 41200, "rank": 5, "asins": [] },
+    { "term": "silicone baking mat set", "volume": 33600, "rank": 3, "asins": [] },
+    { "term": "resistance bands with handles", "volume": 28900, "rank": 8, "asins": [] },
+    { "term": "dog leash for large dogs", "volume": 24100, "rank": 4, "asins": [] },
+    { "term": "travel coffee mug 16oz", "volume": 19800, "rank": 6, "asins": [] },
+    { "term": "laptop stand adjustable", "volume": 16400, "rank": 9, "asins": [] },
+    { "term": "cable organizer clips", "volume": 12100, "rank": 12, "asins": [] },
+    { "term": "kids water bottle stainless", "volume": 9800, "rank": 7, "asins": [] },
+    { "term": "yoga mat thick non slip", "volume": 8100, "rank": 15, "asins": [] },
+    { "term": "desk organizer with drawers", "volume": 6600, "rank": 11, "asins": [] },
+    { "term": "led strip lights bedroom", "volume": 5200, "rank": 18, "asins": [] }
+  ]
+}

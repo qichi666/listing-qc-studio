@@ -1,0 +1,28 @@
+{
+  "name": "cross-border-listing-studio",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "跨境 Listing 质检工作台 —— 复刻 ecom-details-image 的视觉创作体系，补充跨境 Listing 文案与合规质检",
+  "engines": { "node": ">=20.15.0" },
+  "scripts": {
+    "start": "node server.mjs",
+    "dev": "node server.mjs",
+    "mcp": "node mcp/server.mjs",
+    "mcp:http": "node mcp/http.mjs",
+    "mcp:no-net": "node mcp/server.mjs --no-net",
+    "mcp:demo": "node examples/mcp-demo.mjs",
+    "mcp:demo:offline": "node examples/mcp-demo.mjs --no-net",
+    "mcp:setup": "node tools/mcp-setup.mjs",
+    "build:templates": "node tools/build-templates.mjs",
+    "test": "node tools/selftest.mjs",
+    "test:server": "node tools/verify-server.mjs",
+    "test:browser": "node tools/browser-selftest.mjs",
+    "test:mcp": "node tools/mcp-selftest.mjs",
+    "test:keywords": "node tools/keywords-selftest.mjs",
+    "collect:keywords": "node tools/collect-keywords.mjs --site com --pages 2 --delay 1200 --deep 20",
+    "test:all": "node tools/selftest.mjs && node tools/verify-server.mjs && node tools/browser-selftest.mjs && node tools/mcp-selftest.mjs && node tools/keywords-selftest.mjs"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

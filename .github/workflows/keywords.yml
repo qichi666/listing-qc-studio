@@ -1,0 +1,55 @@
+name: keywords
+
+# 每周抓一次词库：词根 → 亚马逊真实搜索建议词，类目榜单 → ASIN。
+# 结果写进 data/keywords/，前端「载入本周词库」与 MCP 的 keyword_snapshot 都读它。
+#
+# 🔴 为什么是「每周」而不是「实时」：词根与长尾的变化以周计，高频轮询唯一确定的结果
+#    是被风控拦掉，然后你连"这周有没有变"都不知道了。
+#
+# 🔴 失败了会不会把好数据弄坏：不会。采集器在一句话都不通时**拒绝写盘**并以退出码 2 收场，
+#    所以 job 会红（你能收到通知），而 data/keywords/latest.json 保持上一次的内容。
+
+on:
+  schedule:
+    # 每周一 02:17 UTC = 北京 10:17。刻意避开整点：GitHub 的定时队列在整点最堵。
+    - cron: "17 2 * * 1"
+  workflow_dispatch:        # 也可以在 Actions 页面手动点一次
+
+permissions:
+  contents: write           # 需要提交快照
+
+concurrency:
+  group: keywords-collect
+  cancel-in-progress: false # 上一轮没跑完就等它，别并发打接口
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"   # 本项目零依赖，不需要 npm install
+
+      - name: 采集（美国站 / 2 页榜单 / 词根二轮扩词）
+        run: node tools/collect-keywords.mjs --site com --pages 2 --delay 1200 --deep 20
+        # 换成多站点：用 matrix 跑 --site de / --site co.uk 等，并把 --out 指到
+        # data/keywords/<site>/ —— 现在刻意只做美国站，因为多站点的快照格式与
+        # 前端筛选还没设计过，先别为了"看起来更全"而加一条没人验证过的路径。
+
+      - name: 自检（快照能被读回、陈旧判定正常、词面契约没漂）
+        run: node tools/keywords-selftest.mjs
+
+      - name: 提交快照
+        run: |
+          git config user.name  "keywords-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/keywords
+          if git diff --cached --quiet; then
+            echo "没有变化，不提交。"
+          else
+            git commit -m "chore(keywords): $(date -u +%F) 周更快照"
+            git push
+          fi

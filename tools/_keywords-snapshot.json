@@ -1,0 +1,4741 @@
+{
+ "sliceChars": {
+  "CAT_HINTS": 4765,
+  "SPECIES": 348,
+  "SUB_HINTS": 2644,
+  "STOP": 718,
+  "tokenize": 240,
+  "buildNgrams": 251,
+  "probeWordsSync": 357,
+  "hasWord": 131,
+  "analyzeKeywords": 3049,
+  "scoreCats": 406
+ },
+ "tokenize": {
+  "busyBoard": [
+   [
+    "montessori",
+    "busy",
+    "board",
+    "toddlers",
+    "1-3",
+    "sensory",
+    "activity",
+    "board",
+    "buckles",
+    "zippers",
+    "laces"
+   ],
+   [
+    "wooden",
+    "busy",
+    "board",
+    "toddlers",
+    "montessori",
+    "sensory",
+    "toy",
+    "pages",
+    "activities",
+    "travel"
+   ],
+   [
+    "toddler",
+    "busy",
+    "board",
+    "montessori",
+    "sensory",
+    "board",
+    "year",
+    "old",
+    "educational",
+    "learning",
+    "toy"
+   ],
+   [
+    "busy",
+    "board",
+    "montessori",
+    "toys",
+    "toddlers",
+    "sensory",
+    "board",
+    "numbers",
+    "shapes"
+   ],
+   [
+    "montessori",
+    "toys",
+    "busy",
+    "board",
+    "year",
+    "old",
+    "boys",
+    "girls",
+    "sensory",
+    "activity",
+    "board",
+    "fine",
+    "motor",
+    "skills"
+   ],
+   [
+    "wooden",
+    "montessori",
+    "busy",
+    "board",
+    "toddler",
+    "activity",
+    "board",
+    "latches",
+    "locks",
+    "preschool",
+    "learning"
+   ],
+   [
+    "busy",
+    "board",
+    "toddlers",
+    "3-4",
+    "montessori",
+    "sensory",
+    "board",
+    "dinosaur",
+    "theme",
+    "travel",
+    "toy",
+    "car"
+   ],
+   [
+    "sensory",
+    "busy",
+    "board",
+    "toddlers",
+    "montessori",
+    "preschool",
+    "learning",
+    "activities",
+    "fine",
+    "motor",
+    "skills"
+   ],
+   [
+    "montessori",
+    "busy",
+    "board",
+    "kids",
+    "portable",
+    "sensory",
+    "board",
+    "zipper",
+    "buttons",
+    "travel",
+    "toy"
+   ],
+   [
+    "toddler",
+    "montessori",
+    "busy",
+    "board",
+    "wooden",
+    "sensory",
+    "activity",
+    "board",
+    "boys",
+    "girls",
+    "age"
+   ],
+   [
+    "busy",
+    "board",
+    "sensory",
+    "toy",
+    "toddlers",
+    "montessori",
+    "educational",
+    "activity",
+    "board",
+    "music",
+    "lights"
+   ],
+   [
+    "montessori",
+    "sensory",
+    "board",
+    "toddlers",
+    "busy",
+    "board",
+    "fine",
+    "motor",
+    "skills",
+    "activities"
+   ]
+  ],
+  "catScratcher": [
+   [
+    "cat",
+    "scratching",
+    "post",
+    "indoor",
+    "cats",
+    "sisal",
+    "rope",
+    "scratching",
+    "post",
+    "hanging",
+    "ball"
+   ],
+   [
+    "cat",
+    "scratcher",
+    "cardboard",
+    "lounge",
+    "bed",
+    "reversible",
+    "double-sided",
+    "corrugated",
+    "cat",
+    "scratch",
+    "pad"
+   ],
+   [
+    "tall",
+    "cat",
+    "scratching",
+    "post",
+    "cats",
+    "sturdy",
+    "sisal",
+    "rope",
+    "cat",
+    "tree",
+    "dangling",
+    "toy"
+   ],
+   [
+    "cat",
+    "scratcher",
+    "pad",
+    "sisal",
+    "cat",
+    "scratching",
+    "post",
+    "natural",
+    "rope",
+    "indoor",
+    "cats",
+    "kittens"
+   ],
+   [
+    "wall",
+    "mounted",
+    "cat",
+    "scratcher",
+    "sisal",
+    "rope",
+    "cat",
+    "scratching",
+    "post",
+    "indoor",
+    "cats",
+    "space",
+    "saving"
+   ],
+   [
+    "cat",
+    "scratching",
+    "post",
+    "lounge",
+    "sisal",
+    "rope",
+    "covered",
+    "scratching",
+    "post",
+    "toy",
+    "ball",
+    "cats"
+   ],
+   [
+    "corrugated",
+    "cat",
+    "scratcher",
+    "bed",
+    "durable",
+    "cardboard",
+    "cat",
+    "scratch",
+    "pad",
+    "indoor",
+    "cats"
+   ],
+   [
+    "cat",
+    "tree",
+    "scratching",
+    "post",
+    "sisal",
+    "rope",
+    "cat",
+    "scratcher",
+    "indoor",
+    "cats"
+   ],
+   [
+    "sisal",
+    "cat",
+    "scratching",
+    "post",
+    "durable",
+    "scratch",
+    "post",
+    "indoor",
+    "cats",
+    "kittens"
+   ],
+   [
+    "cat",
+    "scratcher",
+    "cardboard",
+    "wide",
+    "corrugated",
+    "cat",
+    "scratch",
+    "pad",
+    "catnip",
+    "indoor",
+    "cats"
+   ]
+  ]
+ },
+ "ngrams": {
+  "busyBoard": [
+   [
+    [
+     {
+      "term": "montessori",
+      "pos": 0
+     },
+     {
+      "term": "busy",
+      "pos": 1
+     },
+     {
+      "term": "board",
+      "pos": 2
+     },
+     {
+      "term": "toddlers",
+      "pos": 3
+     },
+     {
+      "term": "1-3",
+      "pos": 4
+     },
+     {
+      "term": "sensory",
+      "pos": 5
+     },
+     {
+      "term": "activity",
+      "pos": 6
+     },
+     {
+      "term": "board",
+      "pos": 7
+     },
+     {
+      "term": "buckles",
+      "pos": 8
+     },
+     {
+      "term": "zippers",
+      "pos": 9
+     },
+     {
+      "term": "laces",
+      "pos": 10
+     }
+    ],
+    [
+     {
+      "term": "montessori busy",
+      "pos": 0
+     },
+     {
+      "term": "busy board",
+      "pos": 1
+     },
+     {
+      "term": "board toddlers",
+      "pos": 2
+     },
+     {
+      "term": "toddlers 1-3",
+      "pos": 3
+     },
+     {
+      "term": "1-3 sensory",
+      "pos": 4
+     },
+     {
+      "term": "sensory activity",
+      "pos": 5
+     },
+     {
+      "term": "activity board",
+      "pos": 6
+     },
+     {
+      "term": "board buckles",
+      "pos": 7
+     },
+     {
+      "term": "buckles zippers",
+      "pos": 8
+     },
+     {
+      "term": "zippers laces",
+      "pos": 9
+     }
+    ],
+    [
+     {
+      "term": "montessori busy board",
+      "pos": 0
+     },
+     {
+      "term": "busy board toddlers",
+      "pos": 1
+     },
+     {
+      "term": "board toddlers 1-3",
+      "pos": 2
+     },
+     {
+      "term": "toddlers 1-3 sensory",
+      "pos": 3
+     },
+     {
+      "term": "1-3 sensory activity",
+      "pos": 4
+     },
+     {
+      "term": "sensory activity board",
+      "pos": 5
+     },
+     {
+      "term": "activity board buckles",
+      "pos": 6
+     },
+     {
+      "term": "board buckles zippers",
+      "pos": 7
+     },
+     {
+      "term": "buckles zippers laces",
+      "pos": 8
+     }
+    ]
+   ],
+   [
+    [
+     {
+      "term": "wooden",
+      "pos": 0
+     },
+     {
+      "term": "busy",
+      "pos": 1
+     },
+     {
+      "term": "board",
+      "pos": 2
+     },
+     {
+      "term": "toddlers",
+      "pos": 3
+     },
+     {
+      "term": "montessori",
+      "pos": 4
+     },
+     {
+      "term": "sensory",
+      "pos": 5
+     },
+     {
+      "term": "toy",
+      "pos": 6
+     },
+     {
+      "term": "pages",
+      "pos": 7
+     },
+     {
+      "term": "activities",
+      "pos": 8
+     },
+     {
+      "term": "travel",
+      "pos": 9
+     }
+    ],
+    [
+     {
+      "term": "wooden busy",
+      "pos": 0
+     },
+     {
+      "term": "busy board",
+      "pos": 1
+     },
+     {
+      "term": "board toddlers",
+      "pos": 2
+     },
+     {
+      "term": "toddlers montessori",
+      "pos": 3
+     },
+     {
+      "term": "montessori sensory",
+      "pos": 4
+     },
+     {
+      "term": "sensory toy",
+      "pos": 5
+     },
+     {
+      "term": "toy pages",
+      "pos": 6
+     },
+     {
+      "term": "pages activities",
+      "pos": 7
+     },
+     {
+      "term": "activities travel",
+      "pos": 8
+     }
+    ],
+    [
+     {
+      "term": "wooden busy board",
+      "pos": 0
+     },
+     {
+      "term": "busy board toddlers",
+      "pos": 1
+     },
+     {
+      "term": "board toddlers montessori",
+      "pos": 2
+     },
+     {
+      "term": "toddlers montessori sensory",
+      "pos": 3
+     },
+     {
+      "term": "montessori sensory toy",
+      "pos": 4
+     },
+     {
+      "term": "sensory toy pages",
+      "pos": 5
+     },
+     {
+      "term": "toy pages activities",
+      "pos": 6
+     },
+     {
+      "term": "pages activities travel",
+      "pos": 7
+     }
+    ]
+   ],
+   [
+    [
+     {
+      "term": "toddler",
+      "pos": 0
+     },
+     {
+      "term": "busy",
+      "pos": 1
+     },
+     {
+      "term": "board",
+      "pos": 2
+     },
+     {
+      "term": "montessori",
+      "pos": 3
+     },
+     {
+      "term": "sensory",
+      "pos": 4
+     },
+     {
+      "term": "board",
+      "pos": 5
+     },
+     {
+      "term": "year",
+      "pos": 6
+     },
+     {
+      "term": "old",
+      "pos": 7
+     },
+     {
+      "term": "educational",
+      "pos": 8
+     },
+     {
+      "term": "learning",
+      "pos": 9
+     },
+     {
+      "term": "toy",
+      "pos": 10
+     }
+    ],
+    [
+     {
+      "term": "toddler busy",
+      "pos": 0
+     },
+     {
+      "term": "busy board",
+      "pos": 1
+     },
+     {
+      "term": "board montessori",
+      "pos": 2
+     },
+     {
+      "term": "montessori sensory",
+      "pos": 3
+     },
+     {
+      "term": "sensory board",
+      "pos": 4
+     },
+     {
+      "term": "board year",
+      "pos": 5
+     },
+     {
+      "term": "year old",
+      "pos": 6
+     },
+     {
+      "term": "old educational",
+      "pos": 7
+     },
+     {
+      "term": "educational learning",
+      "pos": 8
+     },
+     {
+      "term": "learning toy",
+      "pos": 9
+     }
+    ],
+    [
+     {
+      "term": "toddler busy board",
+      "pos": 0
+     },
+     {
+      "term": "busy board montessori",
+      "pos": 1
+     },
+     {
+      "term": "board montessori sensory",
+      "pos": 2
+     },
+     {
+      "term": "montessori sensory board",
+      "pos": 3
+     },
+     {
+      "term": "sensory board year",
+      "pos": 4
+     },
+     {
+      "term": "board year old",
+      "pos": 5
+     },
+     {
+      "term": "year old educational",
+      "pos": 6
+     },
+     {
+      "term": "old educational learning",
+      "pos": 7
+     },
+     {
+      "term": "educational learning toy",
+      "pos": 8
+     }
+    ]
+   ]
+  ],
+  "catScratcher": [
+   [
+    [
+     {
+      "term": "cat",
+      "pos": 0
+     },
+     {
+      "term": "scratching",
+      "pos": 1
+     },
+     {
+      "term": "post",
+      "pos": 2
+     },
+     {
+      "term": "indoor",
+      "pos": 3
+     },
+     {
+      "term": "cats",
+      "pos": 4
+     },
+     {
+      "term": "sisal",
+      "pos": 5
+     },
+     {
+      "term": "rope",
+      "pos": 6
+     },
+     {
+      "term": "scratching",
+      "pos": 7
+     },
+     {
+      "term": "post",
+      "pos": 8
+     },
+     {
+      "term": "hanging",
+      "pos": 9
+     },
+     {
+      "term": "ball",
+      "pos": 10
+     }
+    ],
+    [
+     {
+      "term": "cat scratching",
+      "pos": 0
+     },
+     {
+      "term": "scratching post",
+      "pos": 1
+     },
+     {
+      "term": "post indoor",
+      "pos": 2
+     },
+     {
+      "term": "indoor cats",
+      "pos": 3
+     },
+     {
+      "term": "cats sisal",
+      "pos": 4
+     },
+     {
+      "term": "sisal rope",
+      "pos": 5
+     },
+     {
+      "term": "rope scratching",
+      "pos": 6
+     },
+     {
+      "term": "scratching post",
+      "pos": 7
+     },
+     {
+      "term": "post hanging",
+      "pos": 8
+     },
+     {
+      "term": "hanging ball",
+      "pos": 9
+     }
+    ],
+    [
+     {
+      "term": "cat scratching post",
+      "pos": 0
+     },
+     {
+      "term": "scratching post indoor",
+      "pos": 1
+     },
+     {
+      "term": "post indoor cats",
+      "pos": 2
+     },
+     {
+      "term": "indoor cats sisal",
+      "pos": 3
+     },
+     {
+      "term": "cats sisal rope",
+      "pos": 4
+     },
+     {
+      "term": "sisal rope scratching",
+      "pos": 5
+     },
+     {
+      "term": "rope scratching post",
+      "pos": 6
+     },
+     {
+      "term": "scratching post hanging",
+      "pos": 7
+     },
+     {
+      "term": "post hanging ball",
+      "pos": 8
+     }
+    ]
+   ],
+   [
+    [
+     {
+      "term": "cat",
+      "pos": 0
+     },
+     {
+      "term": "scratcher",
+      "pos": 1
+     },
+     {
+      "term": "cardboard",
+      "pos": 2
+     },
+     {
+      "term": "lounge",
+      "pos": 3
+     },
+     {
+      "term": "bed",
+      "pos": 4
+     },
+     {
+      "term": "reversible",
+      "pos": 5
+     },
+     {
+      "term": "double-sided",
+      "pos": 6
+     },
+     {
+      "term": "corrugated",
+      "pos": 7
+     },
+     {
+      "term": "cat",
+      "pos": 8
+     },
+     {
+      "term": "scratch",
+      "pos": 9
+     },
+     {
+      "term": "pad",
+      "pos": 10
+     }
+    ],
+    [
+     {
+      "term": "cat scratcher",
+      "pos": 0
+     },
+     {
+      "term": "scratcher cardboard",
+      "pos": 1
+     },
+     {
+      "term": "cardboard lounge",
+      "pos": 2
+     },
+     {
+      "term": "lounge bed",
+      "pos": 3
+     },
+     {
+      "term": "bed reversible",
+      "pos": 4
+     },
+     {
+      "term": "reversible double-sided",
+      "pos": 5
+     },
+     {
+      "term": "double-sided corrugated",
+      "pos": 6
+     },
+     {
+      "term": "corrugated cat",
+      "pos": 7
+     },
+     {
+      "term": "cat scratch",
+      "pos": 8
+     },
+     {
+      "term": "scratch pad",
+      "pos": 9
+     }
+    ],
+    [
+     {
+      "term": "cat scratcher cardboard",
+      "pos": 0
+     },
+     {
+      "term": "scratcher cardboard lounge",
+      "pos": 1
+     },
+     {
+      "term": "cardboard lounge bed",
+      "pos": 2
+     },
+     {
+      "term": "lounge bed reversible",
+      "pos": 3
+     },
+     {
+      "term": "bed reversible double-sided",
+      "pos": 4
+     },
+     {
+      "term": "reversible double-sided corrugated",
+      "pos": 5
+     },
+     {
+      "term": "double-sided corrugated cat",
+      "pos": 6
+     },
+     {
+      "term": "corrugated cat scratch",
+      "pos": 7
+     },
+     {
+      "term": "cat scratch pad",
+      "pos": 8
+     }
+    ]
+   ],
+   [
+    [
+     {
+      "term": "tall",
+      "pos": 0
+     },
+     {
+      "term": "cat",
+      "pos": 1
+     },
+     {
+      "term": "scratching",
+      "pos": 2
+     },
+     {
+      "term": "post",
+      "pos": 3
+     },
+     {
+      "term": "cats",
+      "pos": 4
+     },
+     {
+      "term": "sturdy",
+      "pos": 5
+     },
+     {
+      "term": "sisal",
+      "pos": 6
+     },
+     {
+      "term": "rope",
+      "pos": 7
+     },
+     {
+      "term": "cat",
+      "pos": 8
+     },
+     {
+      "term": "tree",
+      "pos": 9
+     },
+     {
+      "term": "dangling",
+      "pos": 10
+     },
+     {
+      "term": "toy",
+      "pos": 11
+     }
+    ],
+    [
+     {
+      "term": "tall cat",
+      "pos": 0
+     },
+     {
+      "term": "cat scratching",
+      "pos": 1
+     },
+     {
+      "term": "scratching post",
+      "pos": 2
+     },
+     {
+      "term": "post cats",
+      "pos": 3
+     },
+     {
+      "term": "cats sturdy",
+      "pos": 4
+     },
+     {
+      "term": "sturdy sisal",
+      "pos": 5
+     },
+     {
+      "term": "sisal rope",
+      "pos": 6
+     },
+     {
+      "term": "rope cat",
+      "pos": 7
+     },
+     {
+      "term": "cat tree",
+      "pos": 8
+     },
+     {
+      "term": "tree dangling",
+      "pos": 9
+     },
+     {
+      "term": "dangling toy",
+      "pos": 10
+     }
+    ],
+    [
+     {
+      "term": "tall cat scratching",
+      "pos": 0
+     },
+     {
+      "term": "cat scratching post",
+      "pos": 1
+     },
+     {
+      "term": "scratching post cats",
+      "pos": 2
+     },
+     {
+      "term": "post cats sturdy",
+      "pos": 3
+     },
+     {
+      "term": "cats sturdy sisal",
+      "pos": 4
+     },
+     {
+      "term": "sturdy sisal rope",
+      "pos": 5
+     },
+     {
+      "term": "sisal rope cat",
+      "pos": 6
+     },
+     {
+      "term": "rope cat tree",
+      "pos": 7
+     },
+     {
+      "term": "cat tree dangling",
+      "pos": 8
+     },
+     {
+      "term": "tree dangling toy",
+      "pos": 9
+     }
+    ]
+   ]
+  ]
+ },
+ "analyze": [
+  {
+   "key": "busyBoard",
+   "name": "蒙氏忙碌板",
+   "result": {
+    "ok": true,
+    "total": 12,
+    "rows": [
+     {
+      "term": "busy board",
+      "n": 2,
+      "cov": 12,
+      "total": 12,
+      "useRate": 100,
+      "avgPos": 0.13,
+      "weight": 9.1,
+      "advice": "必埋标题前段"
+     },
+     {
+      "term": "busy",
+      "n": 1,
+      "cov": 12,
+      "total": 12,
+      "useRate": 100,
+      "avgPos": 0.13,
+      "weight": 7.2,
+      "advice": "必埋标题前段"
+     },
+     {
+      "term": "montessori",
+      "n": 1,
+      "cov": 12,
+      "total": 12,
+      "useRate": 100,
+      "avgPos": 0.2,
+      "weight": 7,
+      "advice": "必埋标题前段"
+     },
+     {
+      "term": "board",
+      "n": 1,
+      "cov": 12,
+      "total": 12,
+      "useRate": 100,
+      "avgPos": 0.2,
+      "weight": 7,
+      "advice": "必埋标题前段"
+     },
+     {
+      "term": "montessori busy board",
+      "n": 3,
+      "cov": 4,
+      "total": 12,
+      "useRate": 33.3,
+      "avgPos": 0.05,
+      "weight": 6.5,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "busy board toddlers",
+      "n": 3,
+      "cov": 4,
+      "total": 12,
+      "useRate": 33.3,
+      "avgPos": 0.08,
+      "weight": 6.4,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "sensory",
+      "n": 1,
+      "cov": 11,
+      "total": 12,
+      "useRate": 91.7,
+      "avgPos": 0.41,
+      "weight": 6,
+      "advice": "放标题中后段"
+     },
+     {
+      "term": "board toddlers",
+      "n": 2,
+      "cov": 5,
+      "total": 12,
+      "useRate": 41.7,
+      "avgPos": 0.19,
+      "weight": 6,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "montessori busy",
+      "n": 2,
+      "cov": 4,
+      "total": 12,
+      "useRate": 33.3,
+      "avgPos": 0.05,
+      "weight": 6,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "toddlers",
+      "n": 1,
+      "cov": 7,
+      "total": 12,
+      "useRate": 58.3,
+      "avgPos": 0.34,
+      "weight": 5.7,
+      "advice": "放标题中后段"
+     },
+     {
+      "term": "busy board montessori",
+      "n": 3,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.05,
+      "weight": 5.7,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "montessori sensory board",
+      "n": 3,
+      "cov": 3,
+      "total": 12,
+      "useRate": 25,
+      "avgPos": 0.22,
+      "weight": 5.6,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "sensory board",
+      "n": 2,
+      "cov": 5,
+      "total": 12,
+      "useRate": 41.7,
+      "avgPos": 0.42,
+      "weight": 5.3,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "montessori sensory",
+      "n": 2,
+      "cov": 4,
+      "total": 12,
+      "useRate": 33.3,
+      "avgPos": 0.28,
+      "weight": 5.3,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "board toddlers montessori",
+      "n": 3,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.21,
+      "weight": 5.2,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "montessori toys",
+      "n": 2,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.13,
+      "weight": 5,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "board montessori",
+      "n": 2,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.16,
+      "weight": 4.8,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "activity board",
+      "n": 2,
+      "cov": 5,
+      "total": 12,
+      "useRate": 41.7,
+      "avgPos": 0.62,
+      "weight": 4.7,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "wooden",
+      "n": 1,
+      "cov": 3,
+      "total": 12,
+      "useRate": 25,
+      "avgPos": 0.13,
+      "weight": 4.7,
+      "advice": "放五点/后台词"
+     },
+     {
+      "term": "toddlers montessori",
+      "n": 2,
+      "cov": 3,
+      "total": 12,
+      "useRate": 25,
+      "avgPos": 0.34,
+      "weight": 4.7,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "toddler",
+      "n": 1,
+      "cov": 3,
+      "total": 12,
+      "useRate": 25,
+      "avgPos": 0.13,
+      "weight": 4.7,
+      "advice": "放五点/后台词"
+     },
+     {
+      "term": "board year old",
+      "n": 3,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.37,
+      "weight": 4.7,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "sensory activity board",
+      "n": 3,
+      "cov": 3,
+      "total": 12,
+      "useRate": 25,
+      "avgPos": 0.54,
+      "weight": 4.6,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "sensory toy",
+      "n": 2,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.38,
+      "weight": 4.2,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "board year",
+      "n": 2,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.37,
+      "weight": 4.2,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "sensory activity",
+      "n": 2,
+      "cov": 3,
+      "total": 12,
+      "useRate": 25,
+      "avgPos": 0.54,
+      "weight": 4.1,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "activity",
+      "n": 1,
+      "cov": 5,
+      "total": 12,
+      "useRate": 41.7,
+      "avgPos": 0.62,
+      "weight": 4,
+      "advice": "放五点/后台词"
+     },
+     {
+      "term": "year old",
+      "n": 2,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.45,
+      "weight": 4,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "toys",
+      "n": 1,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.23,
+      "weight": 4,
+      "advice": "低优先，可不加"
+     },
+     {
+      "term": "fine motor skills",
+      "n": 3,
+      "cov": 3,
+      "total": 12,
+      "useRate": 25,
+      "avgPos": 0.77,
+      "weight": 3.9,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "board fine motor",
+      "n": 3,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.66,
+      "weight": 3.8,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "toy",
+      "n": 1,
+      "cov": 5,
+      "total": 12,
+      "useRate": 41.7,
+      "avgPos": 0.78,
+      "weight": 3.6,
+      "advice": "放五点/后台词"
+     },
+     {
+      "term": "fine motor",
+      "n": 2,
+      "cov": 3,
+      "total": 12,
+      "useRate": 25,
+      "avgPos": 0.77,
+      "weight": 3.4,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "boys girls",
+      "n": 2,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.63,
+      "weight": 3.4,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "year",
+      "n": 1,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.45,
+      "weight": 3.3,
+      "advice": "低优先，可不加"
+     },
+     {
+      "term": "board fine",
+      "n": 2,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.66,
+      "weight": 3.3,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "preschool learning",
+      "n": 2,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.7,
+      "weight": 3.2,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "motor skills",
+      "n": 2,
+      "cov": 3,
+      "total": 12,
+      "useRate": 25,
+      "avgPos": 0.87,
+      "weight": 3.1,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "old",
+      "n": 1,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.54,
+      "weight": 3,
+      "advice": "低优先，可不加"
+     },
+     {
+      "term": "travel toy",
+      "n": 2,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.86,
+      "weight": 2.8,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "fine",
+      "n": 1,
+      "cov": 3,
+      "total": 12,
+      "useRate": 25,
+      "avgPos": 0.77,
+      "weight": 2.7,
+      "advice": "放五点/后台词"
+     },
+     {
+      "term": "boys",
+      "n": 1,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.63,
+      "weight": 2.7,
+      "advice": "低优先，可不加"
+     },
+     {
+      "term": "learning",
+      "n": 1,
+      "cov": 3,
+      "total": 12,
+      "useRate": 25,
+      "avgPos": 0.83,
+      "weight": 2.6,
+      "advice": "放五点/后台词"
+     },
+     {
+      "term": "activities",
+      "n": 1,
+      "cov": 3,
+      "total": 12,
+      "useRate": 25,
+      "avgPos": 0.86,
+      "weight": 2.5,
+      "advice": "放五点/后台词"
+     },
+     {
+      "term": "educational",
+      "n": 1,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.7,
+      "weight": 2.5,
+      "advice": "低优先，可不加"
+     },
+     {
+      "term": "girls",
+      "n": 1,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.72,
+      "weight": 2.5,
+      "advice": "低优先，可不加"
+     },
+     {
+      "term": "preschool",
+      "n": 1,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.7,
+      "weight": 2.5,
+      "advice": "低优先，可不加"
+     },
+     {
+      "term": "motor",
+      "n": 1,
+      "cov": 3,
+      "total": 12,
+      "useRate": 25,
+      "avgPos": 0.87,
+      "weight": 2.4,
+      "advice": "放五点/后台词"
+     },
+     {
+      "term": "travel",
+      "n": 1,
+      "cov": 3,
+      "total": 12,
+      "useRate": 25,
+      "avgPos": 0.91,
+      "weight": 2.3,
+      "advice": "放五点/后台词"
+     },
+     {
+      "term": "skills",
+      "n": 1,
+      "cov": 3,
+      "total": 12,
+      "useRate": 25,
+      "avgPos": 0.96,
+      "weight": 2.2,
+      "advice": "放五点/后台词"
+     }
+    ],
+    "blank": [
+     {
+      "term": "busy board montessori",
+      "n": 3,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.05,
+      "weight": 5.7,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "montessori sensory board",
+      "n": 3,
+      "cov": 3,
+      "total": 12,
+      "useRate": 25,
+      "avgPos": 0.22,
+      "weight": 5.6,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "board toddlers montessori",
+      "n": 3,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.21,
+      "weight": 5.2,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "montessori toys",
+      "n": 2,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.13,
+      "weight": 5,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "board montessori",
+      "n": 2,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.16,
+      "weight": 4.8,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "toddlers montessori",
+      "n": 2,
+      "cov": 3,
+      "total": 12,
+      "useRate": 25,
+      "avgPos": 0.34,
+      "weight": 4.7,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "board year old",
+      "n": 3,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.37,
+      "weight": 4.7,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "sensory activity board",
+      "n": 3,
+      "cov": 3,
+      "total": 12,
+      "useRate": 25,
+      "avgPos": 0.54,
+      "weight": 4.6,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "sensory toy",
+      "n": 2,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.38,
+      "weight": 4.2,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "board year",
+      "n": 2,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.37,
+      "weight": 4.2,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "sensory activity",
+      "n": 2,
+      "cov": 3,
+      "total": 12,
+      "useRate": 25,
+      "avgPos": 0.54,
+      "weight": 4.1,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "year old",
+      "n": 2,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.45,
+      "weight": 4,
+      "advice": "差异化长尾，可放后台词"
+     }
+    ],
+    "consistency": {
+     "score": 100,
+     "sample": 12,
+     "hit": [
+      "busy",
+      "activity",
+      "montessori",
+      "educational",
+      "toddler"
+     ],
+     "miss": [],
+     "level": "good"
+    },
+    "top": [
+     {
+      "term": "busy board",
+      "n": 2,
+      "cov": 12,
+      "total": 12,
+      "useRate": 100,
+      "avgPos": 0.13,
+      "weight": 9.1,
+      "advice": "必埋标题前段"
+     },
+     {
+      "term": "busy",
+      "n": 1,
+      "cov": 12,
+      "total": 12,
+      "useRate": 100,
+      "avgPos": 0.13,
+      "weight": 7.2,
+      "advice": "必埋标题前段"
+     },
+     {
+      "term": "montessori",
+      "n": 1,
+      "cov": 12,
+      "total": 12,
+      "useRate": 100,
+      "avgPos": 0.2,
+      "weight": 7,
+      "advice": "必埋标题前段"
+     },
+     {
+      "term": "board",
+      "n": 1,
+      "cov": 12,
+      "total": 12,
+      "useRate": 100,
+      "avgPos": 0.2,
+      "weight": 7,
+      "advice": "必埋标题前段"
+     },
+     {
+      "term": "montessori busy board",
+      "n": 3,
+      "cov": 4,
+      "total": 12,
+      "useRate": 33.3,
+      "avgPos": 0.05,
+      "weight": 6.5,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "busy board toddlers",
+      "n": 3,
+      "cov": 4,
+      "total": 12,
+      "useRate": 33.3,
+      "avgPos": 0.08,
+      "weight": 6.4,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "sensory",
+      "n": 1,
+      "cov": 11,
+      "total": 12,
+      "useRate": 91.7,
+      "avgPos": 0.41,
+      "weight": 6,
+      "advice": "放标题中后段"
+     },
+     {
+      "term": "board toddlers",
+      "n": 2,
+      "cov": 5,
+      "total": 12,
+      "useRate": 41.7,
+      "avgPos": 0.19,
+      "weight": 6,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "montessori busy",
+      "n": 2,
+      "cov": 4,
+      "total": 12,
+      "useRate": 33.3,
+      "avgPos": 0.05,
+      "weight": 6,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "toddlers",
+      "n": 1,
+      "cov": 7,
+      "total": 12,
+      "useRate": 58.3,
+      "avgPos": 0.34,
+      "weight": 5.7,
+      "advice": "放标题中后段"
+     }
+    ]
+   }
+  },
+  {
+   "key": "busyBoard",
+   "name": "White Noise Machine",
+   "result": {
+    "ok": true,
+    "total": 12,
+    "rows": [
+     {
+      "term": "busy board",
+      "n": 2,
+      "cov": 12,
+      "total": 12,
+      "useRate": 100,
+      "avgPos": 0.13,
+      "weight": 9.1,
+      "advice": "必埋标题前段"
+     },
+     {
+      "term": "busy",
+      "n": 1,
+      "cov": 12,
+      "total": 12,
+      "useRate": 100,
+      "avgPos": 0.13,
+      "weight": 7.2,
+      "advice": "必埋标题前段"
+     },
+     {
+      "term": "montessori",
+      "n": 1,
+      "cov": 12,
+      "total": 12,
+      "useRate": 100,
+      "avgPos": 0.2,
+      "weight": 7,
+      "advice": "必埋标题前段"
+     },
+     {
+      "term": "board",
+      "n": 1,
+      "cov": 12,
+      "total": 12,
+      "useRate": 100,
+      "avgPos": 0.2,
+      "weight": 7,
+      "advice": "必埋标题前段"
+     },
+     {
+      "term": "montessori busy board",
+      "n": 3,
+      "cov": 4,
+      "total": 12,
+      "useRate": 33.3,
+      "avgPos": 0.05,
+      "weight": 6.5,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "busy board toddlers",
+      "n": 3,
+      "cov": 4,
+      "total": 12,
+      "useRate": 33.3,
+      "avgPos": 0.08,
+      "weight": 6.4,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "sensory",
+      "n": 1,
+      "cov": 11,
+      "total": 12,
+      "useRate": 91.7,
+      "avgPos": 0.41,
+      "weight": 6,
+      "advice": "放标题中后段"
+     },
+     {
+      "term": "board toddlers",
+      "n": 2,
+      "cov": 5,
+      "total": 12,
+      "useRate": 41.7,
+      "avgPos": 0.19,
+      "weight": 6,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "montessori busy",
+      "n": 2,
+      "cov": 4,
+      "total": 12,
+      "useRate": 33.3,
+      "avgPos": 0.05,
+      "weight": 6,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "toddlers",
+      "n": 1,
+      "cov": 7,
+      "total": 12,
+      "useRate": 58.3,
+      "avgPos": 0.34,
+      "weight": 5.7,
+      "advice": "放标题中后段"
+     },
+     {
+      "term": "busy board montessori",
+      "n": 3,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.05,
+      "weight": 5.7,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "montessori sensory board",
+      "n": 3,
+      "cov": 3,
+      "total": 12,
+      "useRate": 25,
+      "avgPos": 0.22,
+      "weight": 5.6,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "sensory board",
+      "n": 2,
+      "cov": 5,
+      "total": 12,
+      "useRate": 41.7,
+      "avgPos": 0.42,
+      "weight": 5.3,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "montessori sensory",
+      "n": 2,
+      "cov": 4,
+      "total": 12,
+      "useRate": 33.3,
+      "avgPos": 0.28,
+      "weight": 5.3,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "board toddlers montessori",
+      "n": 3,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.21,
+      "weight": 5.2,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "montessori toys",
+      "n": 2,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.13,
+      "weight": 5,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "board montessori",
+      "n": 2,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.16,
+      "weight": 4.8,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "activity board",
+      "n": 2,
+      "cov": 5,
+      "total": 12,
+      "useRate": 41.7,
+      "avgPos": 0.62,
+      "weight": 4.7,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "wooden",
+      "n": 1,
+      "cov": 3,
+      "total": 12,
+      "useRate": 25,
+      "avgPos": 0.13,
+      "weight": 4.7,
+      "advice": "放五点/后台词"
+     },
+     {
+      "term": "toddlers montessori",
+      "n": 2,
+      "cov": 3,
+      "total": 12,
+      "useRate": 25,
+      "avgPos": 0.34,
+      "weight": 4.7,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "toddler",
+      "n": 1,
+      "cov": 3,
+      "total": 12,
+      "useRate": 25,
+      "avgPos": 0.13,
+      "weight": 4.7,
+      "advice": "放五点/后台词"
+     },
+     {
+      "term": "board year old",
+      "n": 3,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.37,
+      "weight": 4.7,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "sensory activity board",
+      "n": 3,
+      "cov": 3,
+      "total": 12,
+      "useRate": 25,
+      "avgPos": 0.54,
+      "weight": 4.6,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "sensory toy",
+      "n": 2,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.38,
+      "weight": 4.2,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "board year",
+      "n": 2,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.37,
+      "weight": 4.2,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "sensory activity",
+      "n": 2,
+      "cov": 3,
+      "total": 12,
+      "useRate": 25,
+      "avgPos": 0.54,
+      "weight": 4.1,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "activity",
+      "n": 1,
+      "cov": 5,
+      "total": 12,
+      "useRate": 41.7,
+      "avgPos": 0.62,
+      "weight": 4,
+      "advice": "放五点/后台词"
+     },
+     {
+      "term": "year old",
+      "n": 2,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.45,
+      "weight": 4,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "toys",
+      "n": 1,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.23,
+      "weight": 4,
+      "advice": "低优先，可不加"
+     },
+     {
+      "term": "fine motor skills",
+      "n": 3,
+      "cov": 3,
+      "total": 12,
+      "useRate": 25,
+      "avgPos": 0.77,
+      "weight": 3.9,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "board fine motor",
+      "n": 3,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.66,
+      "weight": 3.8,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "toy",
+      "n": 1,
+      "cov": 5,
+      "total": 12,
+      "useRate": 41.7,
+      "avgPos": 0.78,
+      "weight": 3.6,
+      "advice": "放五点/后台词"
+     },
+     {
+      "term": "fine motor",
+      "n": 2,
+      "cov": 3,
+      "total": 12,
+      "useRate": 25,
+      "avgPos": 0.77,
+      "weight": 3.4,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "boys girls",
+      "n": 2,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.63,
+      "weight": 3.4,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "year",
+      "n": 1,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.45,
+      "weight": 3.3,
+      "advice": "低优先，可不加"
+     },
+     {
+      "term": "board fine",
+      "n": 2,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.66,
+      "weight": 3.3,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "preschool learning",
+      "n": 2,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.7,
+      "weight": 3.2,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "motor skills",
+      "n": 2,
+      "cov": 3,
+      "total": 12,
+      "useRate": 25,
+      "avgPos": 0.87,
+      "weight": 3.1,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "old",
+      "n": 1,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.54,
+      "weight": 3,
+      "advice": "低优先，可不加"
+     },
+     {
+      "term": "travel toy",
+      "n": 2,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.86,
+      "weight": 2.8,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "fine",
+      "n": 1,
+      "cov": 3,
+      "total": 12,
+      "useRate": 25,
+      "avgPos": 0.77,
+      "weight": 2.7,
+      "advice": "放五点/后台词"
+     },
+     {
+      "term": "boys",
+      "n": 1,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.63,
+      "weight": 2.7,
+      "advice": "低优先，可不加"
+     },
+     {
+      "term": "learning",
+      "n": 1,
+      "cov": 3,
+      "total": 12,
+      "useRate": 25,
+      "avgPos": 0.83,
+      "weight": 2.6,
+      "advice": "放五点/后台词"
+     },
+     {
+      "term": "activities",
+      "n": 1,
+      "cov": 3,
+      "total": 12,
+      "useRate": 25,
+      "avgPos": 0.86,
+      "weight": 2.5,
+      "advice": "放五点/后台词"
+     },
+     {
+      "term": "educational",
+      "n": 1,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.7,
+      "weight": 2.5,
+      "advice": "低优先，可不加"
+     },
+     {
+      "term": "girls",
+      "n": 1,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.72,
+      "weight": 2.5,
+      "advice": "低优先，可不加"
+     },
+     {
+      "term": "preschool",
+      "n": 1,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.7,
+      "weight": 2.5,
+      "advice": "低优先，可不加"
+     },
+     {
+      "term": "motor",
+      "n": 1,
+      "cov": 3,
+      "total": 12,
+      "useRate": 25,
+      "avgPos": 0.87,
+      "weight": 2.4,
+      "advice": "放五点/后台词"
+     },
+     {
+      "term": "travel",
+      "n": 1,
+      "cov": 3,
+      "total": 12,
+      "useRate": 25,
+      "avgPos": 0.91,
+      "weight": 2.3,
+      "advice": "放五点/后台词"
+     },
+     {
+      "term": "skills",
+      "n": 1,
+      "cov": 3,
+      "total": 12,
+      "useRate": 25,
+      "avgPos": 0.96,
+      "weight": 2.2,
+      "advice": "放五点/后台词"
+     }
+    ],
+    "blank": [
+     {
+      "term": "busy board montessori",
+      "n": 3,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.05,
+      "weight": 5.7,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "montessori sensory board",
+      "n": 3,
+      "cov": 3,
+      "total": 12,
+      "useRate": 25,
+      "avgPos": 0.22,
+      "weight": 5.6,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "board toddlers montessori",
+      "n": 3,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.21,
+      "weight": 5.2,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "montessori toys",
+      "n": 2,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.13,
+      "weight": 5,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "board montessori",
+      "n": 2,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.16,
+      "weight": 4.8,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "toddlers montessori",
+      "n": 2,
+      "cov": 3,
+      "total": 12,
+      "useRate": 25,
+      "avgPos": 0.34,
+      "weight": 4.7,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "board year old",
+      "n": 3,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.37,
+      "weight": 4.7,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "sensory activity board",
+      "n": 3,
+      "cov": 3,
+      "total": 12,
+      "useRate": 25,
+      "avgPos": 0.54,
+      "weight": 4.6,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "sensory toy",
+      "n": 2,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.38,
+      "weight": 4.2,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "board year",
+      "n": 2,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.37,
+      "weight": 4.2,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "sensory activity",
+      "n": 2,
+      "cov": 3,
+      "total": 12,
+      "useRate": 25,
+      "avgPos": 0.54,
+      "weight": 4.1,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "year old",
+      "n": 2,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.45,
+      "weight": 4,
+      "advice": "差异化长尾，可放后台词"
+     }
+    ],
+    "consistency": null,
+    "top": [
+     {
+      "term": "busy board",
+      "n": 2,
+      "cov": 12,
+      "total": 12,
+      "useRate": 100,
+      "avgPos": 0.13,
+      "weight": 9.1,
+      "advice": "必埋标题前段"
+     },
+     {
+      "term": "busy",
+      "n": 1,
+      "cov": 12,
+      "total": 12,
+      "useRate": 100,
+      "avgPos": 0.13,
+      "weight": 7.2,
+      "advice": "必埋标题前段"
+     },
+     {
+      "term": "montessori",
+      "n": 1,
+      "cov": 12,
+      "total": 12,
+      "useRate": 100,
+      "avgPos": 0.2,
+      "weight": 7,
+      "advice": "必埋标题前段"
+     },
+     {
+      "term": "board",
+      "n": 1,
+      "cov": 12,
+      "total": 12,
+      "useRate": 100,
+      "avgPos": 0.2,
+      "weight": 7,
+      "advice": "必埋标题前段"
+     },
+     {
+      "term": "montessori busy board",
+      "n": 3,
+      "cov": 4,
+      "total": 12,
+      "useRate": 33.3,
+      "avgPos": 0.05,
+      "weight": 6.5,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "busy board toddlers",
+      "n": 3,
+      "cov": 4,
+      "total": 12,
+      "useRate": 33.3,
+      "avgPos": 0.08,
+      "weight": 6.4,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "sensory",
+      "n": 1,
+      "cov": 11,
+      "total": 12,
+      "useRate": 91.7,
+      "avgPos": 0.41,
+      "weight": 6,
+      "advice": "放标题中后段"
+     },
+     {
+      "term": "board toddlers",
+      "n": 2,
+      "cov": 5,
+      "total": 12,
+      "useRate": 41.7,
+      "avgPos": 0.19,
+      "weight": 6,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "montessori busy",
+      "n": 2,
+      "cov": 4,
+      "total": 12,
+      "useRate": 33.3,
+      "avgPos": 0.05,
+      "weight": 6,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "toddlers",
+      "n": 1,
+      "cov": 7,
+      "total": 12,
+      "useRate": 58.3,
+      "avgPos": 0.34,
+      "weight": 5.7,
+      "advice": "放标题中后段"
+     }
+    ]
+   }
+  },
+  {
+   "key": "busyBoard",
+   "name": "Montessori Busy Board",
+   "result": {
+    "ok": true,
+    "total": 12,
+    "rows": [
+     {
+      "term": "busy board",
+      "n": 2,
+      "cov": 12,
+      "total": 12,
+      "useRate": 100,
+      "avgPos": 0.13,
+      "weight": 9.1,
+      "advice": "必埋标题前段"
+     },
+     {
+      "term": "busy",
+      "n": 1,
+      "cov": 12,
+      "total": 12,
+      "useRate": 100,
+      "avgPos": 0.13,
+      "weight": 7.2,
+      "advice": "必埋标题前段"
+     },
+     {
+      "term": "montessori",
+      "n": 1,
+      "cov": 12,
+      "total": 12,
+      "useRate": 100,
+      "avgPos": 0.2,
+      "weight": 7,
+      "advice": "必埋标题前段"
+     },
+     {
+      "term": "board",
+      "n": 1,
+      "cov": 12,
+      "total": 12,
+      "useRate": 100,
+      "avgPos": 0.2,
+      "weight": 7,
+      "advice": "必埋标题前段"
+     },
+     {
+      "term": "montessori busy board",
+      "n": 3,
+      "cov": 4,
+      "total": 12,
+      "useRate": 33.3,
+      "avgPos": 0.05,
+      "weight": 6.5,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "busy board toddlers",
+      "n": 3,
+      "cov": 4,
+      "total": 12,
+      "useRate": 33.3,
+      "avgPos": 0.08,
+      "weight": 6.4,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "sensory",
+      "n": 1,
+      "cov": 11,
+      "total": 12,
+      "useRate": 91.7,
+      "avgPos": 0.41,
+      "weight": 6,
+      "advice": "放标题中后段"
+     },
+     {
+      "term": "board toddlers",
+      "n": 2,
+      "cov": 5,
+      "total": 12,
+      "useRate": 41.7,
+      "avgPos": 0.19,
+      "weight": 6,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "montessori busy",
+      "n": 2,
+      "cov": 4,
+      "total": 12,
+      "useRate": 33.3,
+      "avgPos": 0.05,
+      "weight": 6,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "toddlers",
+      "n": 1,
+      "cov": 7,
+      "total": 12,
+      "useRate": 58.3,
+      "avgPos": 0.34,
+      "weight": 5.7,
+      "advice": "放标题中后段"
+     },
+     {
+      "term": "busy board montessori",
+      "n": 3,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.05,
+      "weight": 5.7,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "montessori sensory board",
+      "n": 3,
+      "cov": 3,
+      "total": 12,
+      "useRate": 25,
+      "avgPos": 0.22,
+      "weight": 5.6,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "sensory board",
+      "n": 2,
+      "cov": 5,
+      "total": 12,
+      "useRate": 41.7,
+      "avgPos": 0.42,
+      "weight": 5.3,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "montessori sensory",
+      "n": 2,
+      "cov": 4,
+      "total": 12,
+      "useRate": 33.3,
+      "avgPos": 0.28,
+      "weight": 5.3,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "board toddlers montessori",
+      "n": 3,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.21,
+      "weight": 5.2,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "montessori toys",
+      "n": 2,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.13,
+      "weight": 5,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "board montessori",
+      "n": 2,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.16,
+      "weight": 4.8,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "activity board",
+      "n": 2,
+      "cov": 5,
+      "total": 12,
+      "useRate": 41.7,
+      "avgPos": 0.62,
+      "weight": 4.7,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "wooden",
+      "n": 1,
+      "cov": 3,
+      "total": 12,
+      "useRate": 25,
+      "avgPos": 0.13,
+      "weight": 4.7,
+      "advice": "放五点/后台词"
+     },
+     {
+      "term": "toddlers montessori",
+      "n": 2,
+      "cov": 3,
+      "total": 12,
+      "useRate": 25,
+      "avgPos": 0.34,
+      "weight": 4.7,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "toddler",
+      "n": 1,
+      "cov": 3,
+      "total": 12,
+      "useRate": 25,
+      "avgPos": 0.13,
+      "weight": 4.7,
+      "advice": "放五点/后台词"
+     },
+     {
+      "term": "board year old",
+      "n": 3,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.37,
+      "weight": 4.7,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "sensory activity board",
+      "n": 3,
+      "cov": 3,
+      "total": 12,
+      "useRate": 25,
+      "avgPos": 0.54,
+      "weight": 4.6,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "sensory toy",
+      "n": 2,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.38,
+      "weight": 4.2,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "board year",
+      "n": 2,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.37,
+      "weight": 4.2,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "sensory activity",
+      "n": 2,
+      "cov": 3,
+      "total": 12,
+      "useRate": 25,
+      "avgPos": 0.54,
+      "weight": 4.1,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "activity",
+      "n": 1,
+      "cov": 5,
+      "total": 12,
+      "useRate": 41.7,
+      "avgPos": 0.62,
+      "weight": 4,
+      "advice": "放五点/后台词"
+     },
+     {
+      "term": "year old",
+      "n": 2,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.45,
+      "weight": 4,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "toys",
+      "n": 1,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.23,
+      "weight": 4,
+      "advice": "低优先，可不加"
+     },
+     {
+      "term": "fine motor skills",
+      "n": 3,
+      "cov": 3,
+      "total": 12,
+      "useRate": 25,
+      "avgPos": 0.77,
+      "weight": 3.9,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "board fine motor",
+      "n": 3,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.66,
+      "weight": 3.8,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "toy",
+      "n": 1,
+      "cov": 5,
+      "total": 12,
+      "useRate": 41.7,
+      "avgPos": 0.78,
+      "weight": 3.6,
+      "advice": "放五点/后台词"
+     },
+     {
+      "term": "fine motor",
+      "n": 2,
+      "cov": 3,
+      "total": 12,
+      "useRate": 25,
+      "avgPos": 0.77,
+      "weight": 3.4,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "boys girls",
+      "n": 2,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.63,
+      "weight": 3.4,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "year",
+      "n": 1,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.45,
+      "weight": 3.3,
+      "advice": "低优先，可不加"
+     },
+     {
+      "term": "board fine",
+      "n": 2,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.66,
+      "weight": 3.3,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "preschool learning",
+      "n": 2,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.7,
+      "weight": 3.2,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "motor skills",
+      "n": 2,
+      "cov": 3,
+      "total": 12,
+      "useRate": 25,
+      "avgPos": 0.87,
+      "weight": 3.1,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "old",
+      "n": 1,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.54,
+      "weight": 3,
+      "advice": "低优先，可不加"
+     },
+     {
+      "term": "travel toy",
+      "n": 2,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.86,
+      "weight": 2.8,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "fine",
+      "n": 1,
+      "cov": 3,
+      "total": 12,
+      "useRate": 25,
+      "avgPos": 0.77,
+      "weight": 2.7,
+      "advice": "放五点/后台词"
+     },
+     {
+      "term": "boys",
+      "n": 1,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.63,
+      "weight": 2.7,
+      "advice": "低优先，可不加"
+     },
+     {
+      "term": "learning",
+      "n": 1,
+      "cov": 3,
+      "total": 12,
+      "useRate": 25,
+      "avgPos": 0.83,
+      "weight": 2.6,
+      "advice": "放五点/后台词"
+     },
+     {
+      "term": "activities",
+      "n": 1,
+      "cov": 3,
+      "total": 12,
+      "useRate": 25,
+      "avgPos": 0.86,
+      "weight": 2.5,
+      "advice": "放五点/后台词"
+     },
+     {
+      "term": "educational",
+      "n": 1,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.7,
+      "weight": 2.5,
+      "advice": "低优先，可不加"
+     },
+     {
+      "term": "girls",
+      "n": 1,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.72,
+      "weight": 2.5,
+      "advice": "低优先，可不加"
+     },
+     {
+      "term": "preschool",
+      "n": 1,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.7,
+      "weight": 2.5,
+      "advice": "低优先，可不加"
+     },
+     {
+      "term": "motor",
+      "n": 1,
+      "cov": 3,
+      "total": 12,
+      "useRate": 25,
+      "avgPos": 0.87,
+      "weight": 2.4,
+      "advice": "放五点/后台词"
+     },
+     {
+      "term": "travel",
+      "n": 1,
+      "cov": 3,
+      "total": 12,
+      "useRate": 25,
+      "avgPos": 0.91,
+      "weight": 2.3,
+      "advice": "放五点/后台词"
+     },
+     {
+      "term": "skills",
+      "n": 1,
+      "cov": 3,
+      "total": 12,
+      "useRate": 25,
+      "avgPos": 0.96,
+      "weight": 2.2,
+      "advice": "放五点/后台词"
+     }
+    ],
+    "blank": [
+     {
+      "term": "busy board montessori",
+      "n": 3,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.05,
+      "weight": 5.7,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "montessori sensory board",
+      "n": 3,
+      "cov": 3,
+      "total": 12,
+      "useRate": 25,
+      "avgPos": 0.22,
+      "weight": 5.6,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "board toddlers montessori",
+      "n": 3,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.21,
+      "weight": 5.2,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "montessori toys",
+      "n": 2,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.13,
+      "weight": 5,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "board montessori",
+      "n": 2,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.16,
+      "weight": 4.8,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "toddlers montessori",
+      "n": 2,
+      "cov": 3,
+      "total": 12,
+      "useRate": 25,
+      "avgPos": 0.34,
+      "weight": 4.7,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "board year old",
+      "n": 3,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.37,
+      "weight": 4.7,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "sensory activity board",
+      "n": 3,
+      "cov": 3,
+      "total": 12,
+      "useRate": 25,
+      "avgPos": 0.54,
+      "weight": 4.6,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "sensory toy",
+      "n": 2,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.38,
+      "weight": 4.2,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "board year",
+      "n": 2,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.37,
+      "weight": 4.2,
+      "advice": "差异化长尾，可放后台词"
+     },
+     {
+      "term": "sensory activity",
+      "n": 2,
+      "cov": 3,
+      "total": 12,
+      "useRate": 25,
+      "avgPos": 0.54,
+      "weight": 4.1,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "year old",
+      "n": 2,
+      "cov": 2,
+      "total": 12,
+      "useRate": 16.7,
+      "avgPos": 0.45,
+      "weight": 4,
+      "advice": "差异化长尾，可放后台词"
+     }
+    ],
+    "consistency": null,
+    "top": [
+     {
+      "term": "busy board",
+      "n": 2,
+      "cov": 12,
+      "total": 12,
+      "useRate": 100,
+      "avgPos": 0.13,
+      "weight": 9.1,
+      "advice": "必埋标题前段"
+     },
+     {
+      "term": "busy",
+      "n": 1,
+      "cov": 12,
+      "total": 12,
+      "useRate": 100,
+      "avgPos": 0.13,
+      "weight": 7.2,
+      "advice": "必埋标题前段"
+     },
+     {
+      "term": "montessori",
+      "n": 1,
+      "cov": 12,
+      "total": 12,
+      "useRate": 100,
+      "avgPos": 0.2,
+      "weight": 7,
+      "advice": "必埋标题前段"
+     },
+     {
+      "term": "board",
+      "n": 1,
+      "cov": 12,
+      "total": 12,
+      "useRate": 100,
+      "avgPos": 0.2,
+      "weight": 7,
+      "advice": "必埋标题前段"
+     },
+     {
+      "term": "montessori busy board",
+      "n": 3,
+      "cov": 4,
+      "total": 12,
+      "useRate": 33.3,
+      "avgPos": 0.05,
+      "weight": 6.5,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "busy board toddlers",
+      "n": 3,
+      "cov": 4,
+      "total": 12,
+      "useRate": 33.3,
+      "avgPos": 0.08,
+      "weight": 6.4,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "sensory",
+      "n": 1,
+      "cov": 11,
+      "total": 12,
+      "useRate": 91.7,
+      "avgPos": 0.41,
+      "weight": 6,
+      "advice": "放标题中后段"
+     },
+     {
+      "term": "board toddlers",
+      "n": 2,
+      "cov": 5,
+      "total": 12,
+      "useRate": 41.7,
+      "avgPos": 0.19,
+      "weight": 6,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "montessori busy",
+      "n": 2,
+      "cov": 4,
+      "total": 12,
+      "useRate": 33.3,
+      "avgPos": 0.05,
+      "weight": 6,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "toddlers",
+      "n": 1,
+      "cov": 7,
+      "total": 12,
+      "useRate": 58.3,
+      "avgPos": 0.34,
+      "weight": 5.7,
+      "advice": "放标题中后段"
+     }
+    ]
+   }
+  },
+  {
+   "key": "catScratcher",
+   "name": "猫抓板",
+   "result": {
+    "ok": true,
+    "total": 10,
+    "rows": [
+     {
+      "term": "cat",
+      "n": 1,
+      "cov": 10,
+      "total": 10,
+      "useRate": 100,
+      "avgPos": 0.05,
+      "weight": 7.5,
+      "advice": "必埋标题前段"
+     },
+     {
+      "term": "cat scratching post",
+      "n": 3,
+      "cov": 6,
+      "total": 10,
+      "useRate": 60,
+      "avgPos": 0.18,
+      "weight": 7.5,
+      "advice": "放标题中后段"
+     },
+     {
+      "term": "scratching post",
+      "n": 2,
+      "cov": 7,
+      "total": 10,
+      "useRate": 70,
+      "avgPos": 0.27,
+      "weight": 7.2,
+      "advice": "放标题中后段"
+     },
+     {
+      "term": "cat scratching",
+      "n": 2,
+      "cov": 6,
+      "total": 10,
+      "useRate": 60,
+      "avgPos": 0.18,
+      "weight": 7,
+      "advice": "放标题中后段"
+     },
+     {
+      "term": "cat scratcher",
+      "n": 2,
+      "cov": 6,
+      "total": 10,
+      "useRate": 60,
+      "avgPos": 0.16,
+      "weight": 7,
+      "advice": "放标题中后段"
+     },
+     {
+      "term": "scratching",
+      "n": 1,
+      "cov": 7,
+      "total": 10,
+      "useRate": 70,
+      "avgPos": 0.27,
+      "weight": 6.5,
+      "advice": "放标题中后段"
+     },
+     {
+      "term": "post",
+      "n": 1,
+      "cov": 7,
+      "total": 10,
+      "useRate": 70,
+      "avgPos": 0.36,
+      "weight": 6.2,
+      "advice": "放标题中后段"
+     },
+     {
+      "term": "sisal",
+      "n": 1,
+      "cov": 7,
+      "total": 10,
+      "useRate": 70,
+      "avgPos": 0.35,
+      "weight": 6.2,
+      "advice": "放标题中后段"
+     },
+     {
+      "term": "scratcher",
+      "n": 1,
+      "cov": 6,
+      "total": 10,
+      "useRate": 60,
+      "avgPos": 0.25,
+      "weight": 6,
+      "advice": "放标题中后段"
+     },
+     {
+      "term": "cat scratcher cardboard",
+      "n": 3,
+      "cov": 2,
+      "total": 10,
+      "useRate": 20,
+      "avgPos": 0,
+      "weight": 6,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "indoor cats",
+      "n": 2,
+      "cov": 7,
+      "total": 10,
+      "useRate": 70,
+      "avgPos": 0.76,
+      "weight": 5.7,
+      "advice": "放标题中后段"
+     },
+     {
+      "term": "sisal rope",
+      "n": 2,
+      "cov": 5,
+      "total": 10,
+      "useRate": 50,
+      "avgPos": 0.44,
+      "weight": 5.7,
+      "advice": "放标题中后段"
+     },
+     {
+      "term": "sisal cat scratching",
+      "n": 3,
+      "cov": 2,
+      "total": 10,
+      "useRate": 20,
+      "avgPos": 0.14,
+      "weight": 5.6,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "sisal rope cat",
+      "n": 3,
+      "cov": 3,
+      "total": 10,
+      "useRate": 30,
+      "avgPos": 0.44,
+      "weight": 5.2,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "scratcher cardboard",
+      "n": 2,
+      "cov": 2,
+      "total": 10,
+      "useRate": 20,
+      "avgPos": 0.1,
+      "weight": 5.2,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "rope",
+      "n": 1,
+      "cov": 6,
+      "total": 10,
+      "useRate": 60,
+      "avgPos": 0.57,
+      "weight": 5.1,
+      "advice": "放标题中后段"
+     },
+     {
+      "term": "sisal cat",
+      "n": 2,
+      "cov": 2,
+      "total": 10,
+      "useRate": 20,
+      "avgPos": 0.14,
+      "weight": 5.1,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "indoor",
+      "n": 1,
+      "cov": 7,
+      "total": 10,
+      "useRate": 70,
+      "avgPos": 0.76,
+      "weight": 5,
+      "advice": "放标题中后段"
+     },
+     {
+      "term": "post indoor cats",
+      "n": 3,
+      "cov": 3,
+      "total": 10,
+      "useRate": 30,
+      "avgPos": 0.51,
+      "weight": 5,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "scratching post indoor",
+      "n": 3,
+      "cov": 2,
+      "total": 10,
+      "useRate": 20,
+      "avgPos": 0.34,
+      "weight": 5,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "corrugated cat",
+      "n": 2,
+      "cov": 3,
+      "total": 10,
+      "useRate": 30,
+      "avgPos": 0.37,
+      "weight": 4.9,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "cats",
+      "n": 1,
+      "cov": 9,
+      "total": 10,
+      "useRate": 90,
+      "avgPos": 0.82,
+      "weight": 4.6,
+      "advice": "放标题中后段"
+     },
+     {
+      "term": "cat scratch pad",
+      "n": 3,
+      "cov": 3,
+      "total": 10,
+      "useRate": 30,
+      "avgPos": 0.63,
+      "weight": 4.6,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "post indoor",
+      "n": 2,
+      "cov": 3,
+      "total": 10,
+      "useRate": 30,
+      "avgPos": 0.51,
+      "weight": 4.5,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "cardboard",
+      "n": 1,
+      "cov": 3,
+      "total": 10,
+      "useRate": 30,
+      "avgPos": 0.3,
+      "weight": 4.4,
+      "advice": "放五点/后台词"
+     },
+     {
+      "term": "rope cat",
+      "n": 2,
+      "cov": 3,
+      "total": 10,
+      "useRate": 30,
+      "avgPos": 0.54,
+      "weight": 4.4,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "corrugated cat scratch",
+      "n": 3,
+      "cov": 2,
+      "total": 10,
+      "useRate": 20,
+      "avgPos": 0.55,
+      "weight": 4.4,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "cat tree",
+      "n": 2,
+      "cov": 2,
+      "total": 10,
+      "useRate": 20,
+      "avgPos": 0.36,
+      "weight": 4.4,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "corrugated",
+      "n": 1,
+      "cov": 3,
+      "total": 10,
+      "useRate": 30,
+      "avgPos": 0.37,
+      "weight": 4.2,
+      "advice": "放五点/后台词"
+     },
+     {
+      "term": "cat scratch",
+      "n": 2,
+      "cov": 3,
+      "total": 10,
+      "useRate": 30,
+      "avgPos": 0.63,
+      "weight": 4.1,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "lounge",
+      "n": 1,
+      "cov": 2,
+      "total": 10,
+      "useRate": 20,
+      "avgPos": 0.29,
+      "weight": 3.9,
+      "advice": "放五点/后台词"
+     },
+     {
+      "term": "pad",
+      "n": 1,
+      "cov": 4,
+      "total": 10,
+      "useRate": 40,
+      "avgPos": 0.67,
+      "weight": 3.8,
+      "advice": "放五点/后台词"
+     },
+     {
+      "term": "scratch pad",
+      "n": 2,
+      "cov": 3,
+      "total": 10,
+      "useRate": 30,
+      "avgPos": 0.73,
+      "weight": 3.8,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "bed",
+      "n": 1,
+      "cov": 2,
+      "total": 10,
+      "useRate": 20,
+      "avgPos": 0.35,
+      "weight": 3.8,
+      "advice": "放五点/后台词"
+     },
+     {
+      "term": "scratch",
+      "n": 1,
+      "cov": 4,
+      "total": 10,
+      "useRate": 40,
+      "avgPos": 0.69,
+      "weight": 3.7,
+      "advice": "放五点/后台词"
+     },
+     {
+      "term": "indoor cats kittens",
+      "n": 3,
+      "cov": 2,
+      "total": 10,
+      "useRate": 20,
+      "avgPos": 0.8,
+      "weight": 3.6,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "durable",
+      "n": 1,
+      "cov": 2,
+      "total": 10,
+      "useRate": 20,
+      "avgPos": 0.42,
+      "weight": 3.5,
+      "advice": "放五点/后台词"
+     },
+     {
+      "term": "tree",
+      "n": 1,
+      "cov": 2,
+      "total": 10,
+      "useRate": 20,
+      "avgPos": 0.46,
+      "weight": 3.4,
+      "advice": "放五点/后台词"
+     },
+     {
+      "term": "cats kittens",
+      "n": 2,
+      "cov": 2,
+      "total": 10,
+      "useRate": 20,
+      "avgPos": 0.9,
+      "weight": 2.8,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "toy",
+      "n": 1,
+      "cov": 2,
+      "total": 10,
+      "useRate": 20,
+      "avgPos": 0.91,
+      "weight": 2.1,
+      "advice": "放五点/后台词"
+     },
+     {
+      "term": "ball",
+      "n": 1,
+      "cov": 2,
+      "total": 10,
+      "useRate": 20,
+      "avgPos": 0.95,
+      "weight": 1.9,
+      "advice": "放五点/后台词"
+     },
+     {
+      "term": "kittens",
+      "n": 1,
+      "cov": 2,
+      "total": 10,
+      "useRate": 20,
+      "avgPos": 1,
+      "weight": 1.8,
+      "advice": "放五点/后台词"
+     }
+    ],
+    "blank": [
+     {
+      "term": "cat scratcher cardboard",
+      "n": 3,
+      "cov": 2,
+      "total": 10,
+      "useRate": 20,
+      "avgPos": 0,
+      "weight": 6,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "sisal cat scratching",
+      "n": 3,
+      "cov": 2,
+      "total": 10,
+      "useRate": 20,
+      "avgPos": 0.14,
+      "weight": 5.6,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "scratcher cardboard",
+      "n": 2,
+      "cov": 2,
+      "total": 10,
+      "useRate": 20,
+      "avgPos": 0.1,
+      "weight": 5.2,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "sisal cat",
+      "n": 2,
+      "cov": 2,
+      "total": 10,
+      "useRate": 20,
+      "avgPos": 0.14,
+      "weight": 5.1,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "scratching post indoor",
+      "n": 3,
+      "cov": 2,
+      "total": 10,
+      "useRate": 20,
+      "avgPos": 0.34,
+      "weight": 5,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "corrugated cat scratch",
+      "n": 3,
+      "cov": 2,
+      "total": 10,
+      "useRate": 20,
+      "avgPos": 0.55,
+      "weight": 4.4,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "cat tree",
+      "n": 2,
+      "cov": 2,
+      "total": 10,
+      "useRate": 20,
+      "avgPos": 0.36,
+      "weight": 4.4,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "indoor cats kittens",
+      "n": 3,
+      "cov": 2,
+      "total": 10,
+      "useRate": 20,
+      "avgPos": 0.8,
+      "weight": 3.6,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "cats kittens",
+      "n": 2,
+      "cov": 2,
+      "total": 10,
+      "useRate": 20,
+      "avgPos": 0.9,
+      "weight": 2.8,
+      "advice": "标题或五点，作补充"
+     }
+    ],
+    "consistency": {
+     "score": 100,
+     "sample": 10,
+     "hit": [
+      "scratching",
+      "scratcher",
+      "scratchers"
+     ],
+     "miss": [],
+     "level": "good"
+    },
+    "top": [
+     {
+      "term": "cat",
+      "n": 1,
+      "cov": 10,
+      "total": 10,
+      "useRate": 100,
+      "avgPos": 0.05,
+      "weight": 7.5,
+      "advice": "必埋标题前段"
+     },
+     {
+      "term": "cat scratching post",
+      "n": 3,
+      "cov": 6,
+      "total": 10,
+      "useRate": 60,
+      "avgPos": 0.18,
+      "weight": 7.5,
+      "advice": "放标题中后段"
+     },
+     {
+      "term": "scratching post",
+      "n": 2,
+      "cov": 7,
+      "total": 10,
+      "useRate": 70,
+      "avgPos": 0.27,
+      "weight": 7.2,
+      "advice": "放标题中后段"
+     },
+     {
+      "term": "cat scratching",
+      "n": 2,
+      "cov": 6,
+      "total": 10,
+      "useRate": 60,
+      "avgPos": 0.18,
+      "weight": 7,
+      "advice": "放标题中后段"
+     },
+     {
+      "term": "cat scratcher",
+      "n": 2,
+      "cov": 6,
+      "total": 10,
+      "useRate": 60,
+      "avgPos": 0.16,
+      "weight": 7,
+      "advice": "放标题中后段"
+     },
+     {
+      "term": "scratching",
+      "n": 1,
+      "cov": 7,
+      "total": 10,
+      "useRate": 70,
+      "avgPos": 0.27,
+      "weight": 6.5,
+      "advice": "放标题中后段"
+     },
+     {
+      "term": "post",
+      "n": 1,
+      "cov": 7,
+      "total": 10,
+      "useRate": 70,
+      "avgPos": 0.36,
+      "weight": 6.2,
+      "advice": "放标题中后段"
+     },
+     {
+      "term": "sisal",
+      "n": 1,
+      "cov": 7,
+      "total": 10,
+      "useRate": 70,
+      "avgPos": 0.35,
+      "weight": 6.2,
+      "advice": "放标题中后段"
+     },
+     {
+      "term": "scratcher",
+      "n": 1,
+      "cov": 6,
+      "total": 10,
+      "useRate": 60,
+      "avgPos": 0.25,
+      "weight": 6,
+      "advice": "放标题中后段"
+     },
+     {
+      "term": "cat scratcher cardboard",
+      "n": 3,
+      "cov": 2,
+      "total": 10,
+      "useRate": 20,
+      "avgPos": 0,
+      "weight": 6,
+      "advice": "标题或五点，作补充"
+     }
+    ]
+   }
+  },
+  {
+   "key": "catScratcher",
+   "name": "dog chew toy",
+   "result": {
+    "ok": true,
+    "total": 10,
+    "rows": [
+     {
+      "term": "cat",
+      "n": 1,
+      "cov": 10,
+      "total": 10,
+      "useRate": 100,
+      "avgPos": 0.05,
+      "weight": 7.5,
+      "advice": "必埋标题前段"
+     },
+     {
+      "term": "cat scratching post",
+      "n": 3,
+      "cov": 6,
+      "total": 10,
+      "useRate": 60,
+      "avgPos": 0.18,
+      "weight": 7.5,
+      "advice": "放标题中后段"
+     },
+     {
+      "term": "scratching post",
+      "n": 2,
+      "cov": 7,
+      "total": 10,
+      "useRate": 70,
+      "avgPos": 0.27,
+      "weight": 7.2,
+      "advice": "放标题中后段"
+     },
+     {
+      "term": "cat scratching",
+      "n": 2,
+      "cov": 6,
+      "total": 10,
+      "useRate": 60,
+      "avgPos": 0.18,
+      "weight": 7,
+      "advice": "放标题中后段"
+     },
+     {
+      "term": "cat scratcher",
+      "n": 2,
+      "cov": 6,
+      "total": 10,
+      "useRate": 60,
+      "avgPos": 0.16,
+      "weight": 7,
+      "advice": "放标题中后段"
+     },
+     {
+      "term": "scratching",
+      "n": 1,
+      "cov": 7,
+      "total": 10,
+      "useRate": 70,
+      "avgPos": 0.27,
+      "weight": 6.5,
+      "advice": "放标题中后段"
+     },
+     {
+      "term": "post",
+      "n": 1,
+      "cov": 7,
+      "total": 10,
+      "useRate": 70,
+      "avgPos": 0.36,
+      "weight": 6.2,
+      "advice": "放标题中后段"
+     },
+     {
+      "term": "sisal",
+      "n": 1,
+      "cov": 7,
+      "total": 10,
+      "useRate": 70,
+      "avgPos": 0.35,
+      "weight": 6.2,
+      "advice": "放标题中后段"
+     },
+     {
+      "term": "scratcher",
+      "n": 1,
+      "cov": 6,
+      "total": 10,
+      "useRate": 60,
+      "avgPos": 0.25,
+      "weight": 6,
+      "advice": "放标题中后段"
+     },
+     {
+      "term": "cat scratcher cardboard",
+      "n": 3,
+      "cov": 2,
+      "total": 10,
+      "useRate": 20,
+      "avgPos": 0,
+      "weight": 6,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "indoor cats",
+      "n": 2,
+      "cov": 7,
+      "total": 10,
+      "useRate": 70,
+      "avgPos": 0.76,
+      "weight": 5.7,
+      "advice": "放标题中后段"
+     },
+     {
+      "term": "sisal rope",
+      "n": 2,
+      "cov": 5,
+      "total": 10,
+      "useRate": 50,
+      "avgPos": 0.44,
+      "weight": 5.7,
+      "advice": "放标题中后段"
+     },
+     {
+      "term": "sisal cat scratching",
+      "n": 3,
+      "cov": 2,
+      "total": 10,
+      "useRate": 20,
+      "avgPos": 0.14,
+      "weight": 5.6,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "sisal rope cat",
+      "n": 3,
+      "cov": 3,
+      "total": 10,
+      "useRate": 30,
+      "avgPos": 0.44,
+      "weight": 5.2,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "scratcher cardboard",
+      "n": 2,
+      "cov": 2,
+      "total": 10,
+      "useRate": 20,
+      "avgPos": 0.1,
+      "weight": 5.2,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "rope",
+      "n": 1,
+      "cov": 6,
+      "total": 10,
+      "useRate": 60,
+      "avgPos": 0.57,
+      "weight": 5.1,
+      "advice": "放标题中后段"
+     },
+     {
+      "term": "sisal cat",
+      "n": 2,
+      "cov": 2,
+      "total": 10,
+      "useRate": 20,
+      "avgPos": 0.14,
+      "weight": 5.1,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "indoor",
+      "n": 1,
+      "cov": 7,
+      "total": 10,
+      "useRate": 70,
+      "avgPos": 0.76,
+      "weight": 5,
+      "advice": "放标题中后段"
+     },
+     {
+      "term": "post indoor cats",
+      "n": 3,
+      "cov": 3,
+      "total": 10,
+      "useRate": 30,
+      "avgPos": 0.51,
+      "weight": 5,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "scratching post indoor",
+      "n": 3,
+      "cov": 2,
+      "total": 10,
+      "useRate": 20,
+      "avgPos": 0.34,
+      "weight": 5,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "corrugated cat",
+      "n": 2,
+      "cov": 3,
+      "total": 10,
+      "useRate": 30,
+      "avgPos": 0.37,
+      "weight": 4.9,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "cats",
+      "n": 1,
+      "cov": 9,
+      "total": 10,
+      "useRate": 90,
+      "avgPos": 0.82,
+      "weight": 4.6,
+      "advice": "放标题中后段"
+     },
+     {
+      "term": "cat scratch pad",
+      "n": 3,
+      "cov": 3,
+      "total": 10,
+      "useRate": 30,
+      "avgPos": 0.63,
+      "weight": 4.6,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "post indoor",
+      "n": 2,
+      "cov": 3,
+      "total": 10,
+      "useRate": 30,
+      "avgPos": 0.51,
+      "weight": 4.5,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "cardboard",
+      "n": 1,
+      "cov": 3,
+      "total": 10,
+      "useRate": 30,
+      "avgPos": 0.3,
+      "weight": 4.4,
+      "advice": "放五点/后台词"
+     },
+     {
+      "term": "rope cat",
+      "n": 2,
+      "cov": 3,
+      "total": 10,
+      "useRate": 30,
+      "avgPos": 0.54,
+      "weight": 4.4,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "corrugated cat scratch",
+      "n": 3,
+      "cov": 2,
+      "total": 10,
+      "useRate": 20,
+      "avgPos": 0.55,
+      "weight": 4.4,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "cat tree",
+      "n": 2,
+      "cov": 2,
+      "total": 10,
+      "useRate": 20,
+      "avgPos": 0.36,
+      "weight": 4.4,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "corrugated",
+      "n": 1,
+      "cov": 3,
+      "total": 10,
+      "useRate": 30,
+      "avgPos": 0.37,
+      "weight": 4.2,
+      "advice": "放五点/后台词"
+     },
+     {
+      "term": "cat scratch",
+      "n": 2,
+      "cov": 3,
+      "total": 10,
+      "useRate": 30,
+      "avgPos": 0.63,
+      "weight": 4.1,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "lounge",
+      "n": 1,
+      "cov": 2,
+      "total": 10,
+      "useRate": 20,
+      "avgPos": 0.29,
+      "weight": 3.9,
+      "advice": "放五点/后台词"
+     },
+     {
+      "term": "pad",
+      "n": 1,
+      "cov": 4,
+      "total": 10,
+      "useRate": 40,
+      "avgPos": 0.67,
+      "weight": 3.8,
+      "advice": "放五点/后台词"
+     },
+     {
+      "term": "scratch pad",
+      "n": 2,
+      "cov": 3,
+      "total": 10,
+      "useRate": 30,
+      "avgPos": 0.73,
+      "weight": 3.8,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "bed",
+      "n": 1,
+      "cov": 2,
+      "total": 10,
+      "useRate": 20,
+      "avgPos": 0.35,
+      "weight": 3.8,
+      "advice": "放五点/后台词"
+     },
+     {
+      "term": "scratch",
+      "n": 1,
+      "cov": 4,
+      "total": 10,
+      "useRate": 40,
+      "avgPos": 0.69,
+      "weight": 3.7,
+      "advice": "放五点/后台词"
+     },
+     {
+      "term": "indoor cats kittens",
+      "n": 3,
+      "cov": 2,
+      "total": 10,
+      "useRate": 20,
+      "avgPos": 0.8,
+      "weight": 3.6,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "durable",
+      "n": 1,
+      "cov": 2,
+      "total": 10,
+      "useRate": 20,
+      "avgPos": 0.42,
+      "weight": 3.5,
+      "advice": "放五点/后台词"
+     },
+     {
+      "term": "tree",
+      "n": 1,
+      "cov": 2,
+      "total": 10,
+      "useRate": 20,
+      "avgPos": 0.46,
+      "weight": 3.4,
+      "advice": "放五点/后台词"
+     },
+     {
+      "term": "cats kittens",
+      "n": 2,
+      "cov": 2,
+      "total": 10,
+      "useRate": 20,
+      "avgPos": 0.9,
+      "weight": 2.8,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "toy",
+      "n": 1,
+      "cov": 2,
+      "total": 10,
+      "useRate": 20,
+      "avgPos": 0.91,
+      "weight": 2.1,
+      "advice": "放五点/后台词"
+     },
+     {
+      "term": "ball",
+      "n": 1,
+      "cov": 2,
+      "total": 10,
+      "useRate": 20,
+      "avgPos": 0.95,
+      "weight": 1.9,
+      "advice": "放五点/后台词"
+     },
+     {
+      "term": "kittens",
+      "n": 1,
+      "cov": 2,
+      "total": 10,
+      "useRate": 20,
+      "avgPos": 1,
+      "weight": 1.8,
+      "advice": "放五点/后台词"
+     }
+    ],
+    "blank": [
+     {
+      "term": "cat scratcher cardboard",
+      "n": 3,
+      "cov": 2,
+      "total": 10,
+      "useRate": 20,
+      "avgPos": 0,
+      "weight": 6,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "sisal cat scratching",
+      "n": 3,
+      "cov": 2,
+      "total": 10,
+      "useRate": 20,
+      "avgPos": 0.14,
+      "weight": 5.6,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "scratcher cardboard",
+      "n": 2,
+      "cov": 2,
+      "total": 10,
+      "useRate": 20,
+      "avgPos": 0.1,
+      "weight": 5.2,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "sisal cat",
+      "n": 2,
+      "cov": 2,
+      "total": 10,
+      "useRate": 20,
+      "avgPos": 0.14,
+      "weight": 5.1,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "scratching post indoor",
+      "n": 3,
+      "cov": 2,
+      "total": 10,
+      "useRate": 20,
+      "avgPos": 0.34,
+      "weight": 5,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "corrugated cat scratch",
+      "n": 3,
+      "cov": 2,
+      "total": 10,
+      "useRate": 20,
+      "avgPos": 0.55,
+      "weight": 4.4,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "cat tree",
+      "n": 2,
+      "cov": 2,
+      "total": 10,
+      "useRate": 20,
+      "avgPos": 0.36,
+      "weight": 4.4,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "indoor cats kittens",
+      "n": 3,
+      "cov": 2,
+      "total": 10,
+      "useRate": 20,
+      "avgPos": 0.8,
+      "weight": 3.6,
+      "advice": "标题或五点，作补充"
+     },
+     {
+      "term": "cats kittens",
+      "n": 2,
+      "cov": 2,
+      "total": 10,
+      "useRate": 20,
+      "avgPos": 0.9,
+      "weight": 2.8,
+      "advice": "标题或五点，作补充"
+     }
+    ],
+    "consistency": null,
+    "top": [
+     {
+      "term": "cat",
+      "n": 1,
+      "cov": 10,
+      "total": 10,
+      "useRate": 100,
+      "avgPos": 0.05,
+      "weight": 7.5,
+      "advice": "必埋标题前段"
+     },
+     {
+      "term": "cat scratching post",
+      "n": 3,
+      "cov": 6,
+      "total": 10,
+      "useRate": 60,
+      "avgPos": 0.18,
+      "weight": 7.5,
+      "advice": "放标题中后段"
+     },
+     {
+      "term": "scratching post",
+      "n": 2,
+      "cov": 7,
+      "total": 10,
+      "useRate": 70,
+      "avgPos": 0.27,
+      "weight": 7.2,
+      "advice": "放标题中后段"
+     },
+     {
+      "term": "cat scratching",
+      "n": 2,
+      "cov": 6,
+      "total": 10,
+      "useRate": 60,
+      "avgPos": 0.18,
+      "weight": 7,
+      "advice": "放标题中后段"
+     },
+     {
+      "term": "cat scratcher",
+      "n": 2,
+      "cov": 6,
+      "total": 10,
+      "useRate": 60,
+      "avgPos": 0.16,
+      "weight": 7,
+      "advice": "放标题中后段"
+     },
+     {
+      "term": "scratching",
+      "n": 1,
+      "cov": 7,
+      "total": 10,
+      "useRate": 70,
+      "avgPos": 0.27,
+      "weight": 6.5,
+      "advice": "放标题中后段"
+     },
+     {
+      "term": "post",
+      "n": 1,
+      "cov": 7,
+      "total": 10,
+      "useRate": 70,
+      "avgPos": 0.36,
+      "weight": 6.2,
+      "advice": "放标题中后段"
+     },
+     {
+      "term": "sisal",
+      "n": 1,
+      "cov": 7,
+      "total": 10,
+      "useRate": 70,
+      "avgPos": 0.35,
+      "weight": 6.2,
+      "advice": "放标题中后段"
+     },
+     {
+      "term": "scratcher",
+      "n": 1,
+      "cov": 6,
+      "total": 10,
+      "useRate": 60,
+      "avgPos": 0.25,
+      "weight": 6,
+      "advice": "放标题中后段"
+     },
+     {
+      "term": "cat scratcher cardboard",
+      "n": 3,
+      "cov": 2,
+      "total": 10,
+      "useRate": 20,
+      "avgPos": 0,
+      "weight": 6,
+      "advice": "标题或五点，作补充"
+     }
+    ]
+   }
+  }
+ ],
+ "scoreCats": {
+  "蒙氏忙碌板": [
+   {
+    "cat": "toys-and-games",
+    "score": 23,
+    "hits": [
+     "忙碌板",
+     "蒙氏"
+    ]
+   }
+  ],
+  "猫抓板": [
+   {
+    "cat": "pet-supplies",
+    "score": 9,
+    "hits": [
+     "猫"
+    ]
+   }
+  ],
+  "白色入耳耳机": [
+   {
+    "cat": "electronics",
+    "score": 10,
+    "hits": [
+     "耳机"
+    ]
+   }
+  ],
+  "white noise earbuds": [
+   {
+    "cat": "electronics",
+    "score": 10,
+    "hits": [
+     "earbud"
+    ]
+   }
+  ],
+  "dog chew toy": [
+   {
+    "cat": "pet-supplies",
+    "score": 17,
+    "hits": [
+     "dog",
+     "chew"
+    ]
+   },
+   {
+    "cat": "toys-and-games",
+    "score": 6,
+    "hits": [
+     "toy"
+    ]
+   }
+  ],
+  "保温杯": [
+   {
+    "cat": "kitchen",
+    "score": 10,
+    "hits": [
+     "保温杯"
+    ]
+   }
+  ],
+  "婴儿推车": [
+   {
+    "cat": "baby-products",
+    "score": 20,
+    "hits": [
+     "婴儿",
+     "推车"
+    ]
+   }
+  ],
+  "瑜伽垫": [
+   {
+    "cat": "sporting-goods",
+    "score": 10,
+    "hits": [
+     "瑜伽"
+    ]
+   }
+  ],
+  "电动工具": [
+   {
+    "cat": "tools",
+    "score": 10,
+    "hits": [
+     "电动工具"
+    ]
+   }
+  ],
+  "手工具": [
+   {
+    "cat": "tools",
+    "score": 10,
+    "hits": [
+     "手工具"
+    ]
+   },
+   {
+    "cat": "arts-crafts",
+    "score": 8,
+    "hits": [
+     "手工"
+    ]
+   }
+  ],
+  "toddler busy board": [
+   {
+    "cat": "toys-and-games",
+    "score": 12,
+    "hits": [
+     "busy board"
+    ]
+   },
+   {
+    "cat": "baby-products",
+    "score": 8,
+    "hits": [
+     "toddler"
+    ]
+   }
+  ],
+  "montessori": [
+   {
+    "cat": "toys-and-games",
+    "score": 11,
+    "hits": [
+     "montessori"
+    ]
+   }
+  ],
+  "猫爬架": [
+   {
+    "cat": "pet-supplies",
+    "score": 9,
+    "hits": [
+     "猫"
+    ]
+   }
+  ],
+  "3d printer": [
+   {
+    "cat": "industrial",
+    "score": 10,
+    "hits": [
+     "3d printer"
+    ]
+   }
+  ],
+  "游戏手柄": [
+   {
+    "cat": "videogames",
+    "score": 19,
+    "hits": [
+     "游戏手柄",
+     "手柄"
+    ]
+   }
+  ],
+  "绘本": [
+   {
+    "cat": "books",
+    "score": 10,
+    "hits": [
+     "绘本"
+    ]
+   }
+  ]
+ },
+ "hasWord": {
+  "ropes|rope": true,
+  "cats|cat": true,
+  "box|boxes": true,
+  "toy|toy": true,
+  "zippers|zipper": true,
+  "busy|busy": true
+ }
+}

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>浏览器侧自检 · 跨境 Listing 质检工作台</title>
+<style>
+  body { font: 13px/1.7 ui-monospace, Consolas, monospace; background:#0f172a; color:#e2e8f0; margin:0; padding:22px; }
+  h1 { font-size: 15px; font-family: system-ui, sans-serif; margin: 0 0 4px; }
+  p.h { font-family: system-ui, sans-serif; color:#94a3b8; margin: 0 0 16px; font-size: 12.5px; }
+  pre#out { white-space: pre-wrap; margin: 0 0 18px; }
+  .ok { color:#4ade80; } .bad { color:#f87171; }
+  a { color:#93c5fd; }
+</style>
+</head>
+<body>
+<h1>浏览器侧自检</h1>
+<p class="h">
+  打开方式：<code>node server.mjs</code> 之后访问 <code>/assets/selftest-browser.html</code>。<br>
+  为什么需要它：Node 里没有 IndexedDB，本地产物那一层在 <code>tools/selftest.mjs</code> 里只能测到"降级路径"，
+  <b>真正写入读出的能力只有在这里能测</b>。
+</p>
+<pre id="out">running…</pre>
+<pre id="detail"></pre>
+
+<script type="module">
+import * as STORE from "./store.js";
+import * as A from "./amazon.js";
+import * as L from "./listing.js";
+
+const lines = [];
+const detail = [];
+let pass = 0, fail = 0;
+
+function eq(a, b, msg) {
+  if (a !== b) throw new Error(`${msg || ""} 期望 ${JSON.stringify(b)}，实际 ${JSON.stringify(a)}`);
+}
+function ok(v, msg) { if (!v) throw new Error(msg || "断言为假"); }
+
+async function t(name, fn) {
+  try { await fn(); pass++; lines.push("✓ " + name); }
+  catch (e) { fail++; lines.push("✗ " + name + " — " + (e && e.message)); }
+  document.getElementById("out").innerHTML = lines
+    .map((l) => `<span class="${l.startsWith("✓") ? "ok" : "bad"}">${l.replace(/[<>&]/g, "")}</span>`)
+    .join("\n") + `\n\n共 ${pass + fail} 条：通过 ${pass}，失败 ${fail}`;
+}
+
+/* ── ① 本地产物：真实 IndexedDB 往返（Node 里测不到的那一半）── */
+await t("IndexedDB 可用（真实浏览器环境）", async () => {
+  eq(STORE.isAvailable(), true, "isAvailable()");
+  // 先清干净，避免上次运行残留影响计数断言
+  await STORE.clear();
+});
+
+await t("save → list → get → stats → remove 全链路真的落了盘", async () => {
+  const r = await STORE.save("plan", "冒烟测试方案", { n: 14 }, { subject: "pet feeder", count: 14 });
+  eq(r.ok, true, "save().ok");
+  const rows = await STORE.list("plan");
+  eq(rows.length, 1, "list('plan').length");
+  eq(rows[0].title, "冒烟测试方案", "标题回读");
+  eq(rows[0].meta.count, 14, "meta 回读");
+  const one = await STORE.get(r.id);
+  ok(one && one.payload && one.payload.n === 14, "按 id 取回载荷");
+  const st = await STORE.stats();
+  eq(st.total, 1, "stats().total");
+  eq(st.available, true, "stats().available");
+  const rm = await STORE.remove(r.id);
+  eq(rm.ok, true, "remove().ok");
+  eq((await STORE.list()).length, 0, "删掉后列表应为空");
+});
+
+await t("多类产物的过滤与倒序（历史面板要靠这个排序）", async () => {
+  await STORE.clear();
+  await STORE.save("plan", "旧", { v: 1 }, {}, 1000);
+  await STORE.save("plan", "新", { v: 2 }, {}, 3000);
+  await STORE.save("capture", "采集", { v: 3 }, {}, 2000);
+  const plans = await STORE.list("plan");
+  eq(plans.length, 2, "plan 条数");
+  eq(plans[0].title, "新", "新的在前");
+  const all = await STORE.list();
+  eq(all.length, 3, "全量条数");
+  // 按 createdAt 倒序：plan(3000) → capture(2000) → plan(1000)
+  eq(all.map((x) => x.kind).join(","), "plan,capture,plan", "全量也按时间倒序（与 kind 无关）");
+  eq(all[0].title, "新", "时间最大的排第一");
+  const limited = await STORE.list(null, 2);
+  eq(limited.length, 2, "limit 生效");
+});
+
+await t("导出 → 清空 → 导入，能原样回来", async () => {
+  const before = await STORE.list();
+  const text = STORE.toExport(before);
+  await STORE.clear();
+  eq((await STORE.list()).length, 0, "清空后应为 0");
+  const r = await STORE.importFrom(text);
+  eq(r.ok, true, "importFrom().ok");
+  eq(r.added, before.length, "导入条数");
+  const after = await STORE.list();
+  eq(after.length, before.length, "回读条数");
+  eq(after.map((x) => x.title).sort().join(","), before.map((x) => x.title).sort().join(","), "标题集合一致");
+});
+
+await t("按类清空只清这一类（不能把别的类一起带走）", async () => {
+  await STORE.clear();
+  await STORE.save("plan", "p", {}, {});
+  await STORE.save("capture", "c", {}, {});
+  const r = await STORE.clear("plan");
+  eq(r.ok, true, "clear('plan')");
+  const left = await STORE.list();
+  eq(left.length, 1, "应该只剩 1 条");
+  eq(left[0].kind, "capture", "剩下的是 capture");
+  await STORE.clear();
+  eq((await STORE.list()).length, 0, "clear() 全清");
+});
+
+await t("超限载荷被裁剪后，从库里读回来仍带裁剪标记", async () => {
+  await STORE.clear();
+  const big = { text: "x".repeat(STORE.MAX_PAYLOAD_CHARS + 500) };
+  const r = await STORE.save("listing", "超大", big, {});
+  eq(r.ok, true, "超大载荷仍应保存成功（裁剪而不是拒绝）");
+  const one = await STORE.get(r.id);
+  eq(one.truncated, true, "truncated 标记");
+  eq(one.payload.__truncated, true, "载荷里的 __truncated");
+  ok(one.payload.preview.length === STORE.MAX_PAYLOAD_CHARS, "preview 长度等于上限");
+  await STORE.clear();
+});
+
+/* ── ② 采集解析：搜索页/详情页两条通道（Node 里已测，这里确认浏览器里同源可用）── */
+await t("extractAny 认得搜索页 JSON 载荷（不会被当成缺字段的详情页）", async () => {
+  const payload = {
+    kind: "search",
+    url: "https://www.amazon.de/s?k=kissen",
+    site: "amazon.de",
+    keyword: "kissen",
+    items: [{ asin: "B0AAAAAAAA", title: "Kissen für Sofa", text: "Kissen für Sofa", sponsored: false }],
+    stats: { blocks: 1, parsed: 1, sponsored: 0, withAsin: 1 },
+  };
+  const p = A.extractAny(JSON.stringify(payload));
+  eq(p.kind, "search", "kind");
+  eq(p.items.length, 1, "items 条数");
+  eq(A.siteLang(p.site), "de", "站点语种");
+});
+
+await t("extractAny 遇到搜索页 HTML 会走整页解析（不会退化成纯文本）", async () => {
+  const html = `<div data-component-type="s-search-result" data-asin="B0AAAAAAAA">
+    <h2 aria-label="Bamboo Travel Mug 16oz with Lid"><a href="/dp/B0AAAAAAAA/ref=x"><span>Bamboo Travel Mug</span></a></h2>
+    <span class="a-price"><span class="a-offscreen">$30.00</span></span>
+    <span aria-label="4.8 out of 5 stars"></span>
+  </div>`;
+  const r = A.extractAny(html);
+  eq(r.kind, "search", "应识别为搜索结果页");
+  eq(r.items.length, 1, "解析出 1 个商品");
+  eq(r.items[0].price, "$30.00", "价格");
+  eq(r._source, "pasted-html-search", "_source");
+});
+
+await t("书签脚本模板串没有语法错误（能 new Function 出来）", async () => {
+  const src = A.bookmarkletSource();
+  new Function(src);              // 语法错误会在这里抛
+  ok(A.bookmarkletHref().startsWith("javascript:"), "href 前缀");
+});
+
+/* ── ③ 采集 → 多竞品对比的闭环（纯函数，但确认浏览器里同源可用）── */
+await t("搜索结果 → 多竞品对比 → 共识词", async () => {
+  const items = [
+    { asin: "A1", title: "Kissen für Sofa Kissenbezug" },
+    { asin: "A2", title: "Kissen für Bett Kissenbezug" },
+  ];
+  const comps = A.searchItemsToCompetitors(items);
+  eq(comps.length, 2, "竞品条数");
+  const r = L.compareCompetitors(comps, { lang: "de" });
+  eq(r.size, 2, "对比 size");
+  ok(r.consensus.includes("kissen"), "kissen 应是共识词");
+  ok(!r.consensus.includes("für"), "德语虚词 für 不该进共识词");
+});
+
+await t("采集 → 词频：带变音符的词不被拆成残词", async () => {
+  const r = L.mineKeywords("Edelstahl Kühlschrank Thermoskanne für Kaffee", { lang: "de" });
+  const terms = r.terms.map((x) => x.term);
+  ok(terms.includes("kühlschrank"), "kühlschrank 应完整保留");
+  ok(!terms.includes("fr"), "不该出现被剥掉变音符的 fr");
+});
+
+/* ── ④ 2026-07-27 标题新规：同一份模块在浏览器里也必须判对 ── */
+await t("标题新规在浏览器里也生效（75 命中 / media 例外 200）", async () => {
+  const p1 = (title, ctx) => L.lintListing({ title }, ctx).results.find((x) => x.id === "P1").status;
+  eq(L.LIMITS.title, 75, "标题硬上限");
+  eq(L.LIMITS.itemHighlights, 125, "Item Highlights 上限");
+  eq(p1("A".repeat(80)), "命中", "80 字符在新规下必须超限");
+  eq(p1("A".repeat(75)), "通过", "75 是边界内");
+  eq(p1("A".repeat(150), { isMedia: true }), "通过", "media 是唯一例外");
+});
+
+await t("Item Highlights 的规则在浏览器里也跑得通（含 emptyOk 与 copy 收口）", async () => {
+  const hl = (highlights, extra) =>
+    L.lintListing({ title: "Cotton Socks", bullets: ["SOFT: cotton"], highlights, ...extra }).results;
+  eq(hl("m".repeat(126)).find((x) => x.id === "P13").status, "命中", "126 超 125");
+  eq(hl("").find((x) => x.id === "C10").status, "命中", "空 Highlights 要提示");
+  // 疗效写在 Highlights 里也必须被抓（copy scope 已收口）
+  eq(hl("Helps cure athlete foot").find((x) => x.id === "P6").status, "命中", "Highlights 里的疗效声明漏了");
+});
+
+await t("Flat File CSV 在浏览器里产出的内容与 Node 端一致（含 RFC 4180 转义）", async () => {
+  const out = L.exportFlatFileCsv({ title: "Mug", bullets: ['He said "hi", then left'], highlights: "Ceramic, 350ml" });
+  ok(out.csv.startsWith("item_name,title_differentiation,bullet1,"), "表头用官方属性名");
+  ok(out.csv.includes('"Ceramic, 350ml"'), "含逗号字段要加引号");
+  ok(out.csv.includes('""hi""'), "内部双引号要翻倍");
+});
+
+document.getElementById("out").innerHTML = lines
+  .map((l) => `<span class="${l.startsWith("✓") ? "ok" : "bad"}">${l.replace(/[<>&]/g, "")}</span>`)
+  .join("\n") + `\n\n共 ${pass + fail} 条：通过 ${pass}，失败 ${fail}`;
+document.title = fail ? `自检失败 ${fail} 条` : `自检通过 ${pass} 条`;
+window.__SMOKE_DONE__ = true;
+</script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "listing-studio": {
+      "command": "node",
+      "args": ["<PROJECT_DIR>/mcp/server.mjs"]
+    }
+  }
+}

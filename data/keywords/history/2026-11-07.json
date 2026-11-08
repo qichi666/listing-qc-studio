@@ -1,0 +1,67 @@
+{
+  "schema": 1,
+  "site": "US",
+  "generatedAt": "2026-11-07T03:14:19.188Z",
+  "keywordCount": 2135,
+  "asinCount": 769,
+  "newKeywordCount": 0,
+  "newKeywords": [],
+  "topCategories": [
+    {
+      "group": "appliance",
+      "count": 60
+    },
+    {
+      "group": "auto",
+      "count": 60
+    },
+    {
+      "group": "baby",
+      "count": 60
+    },
+    {
+      "group": "beauty",
+      "count": 60
+    },
+    {
+      "group": "craft",
+      "count": 60
+    },
+    {
+      "group": "electronics",
+      "count": 60
+    },
+    {
+      "group": "health",
+      "count": 60
+    },
+    {
+      "group": "kitchen",
+      "count": 60
+    },
+    {
+      "group": "office",
+      "count": 60
+    },
+    {
+      "group": "sports",
+      "count": 60
+    },
+    {
+      "group": "toys",
+      "count": 60
+    },
+    {
+      "group": "pet",
+      "count": 59
+    },
+    {
+      "group": "decor",
+      "count": 50
+    }
+  ],
+  "sourceStatus": {
+    "suggest": "ok",
+    "bestsellers": "ok"
+  }
+}

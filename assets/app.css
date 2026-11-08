@@ -1,0 +1,848 @@
+/*
+ * 视觉规范：对齐参考项目 ecom-details-image-ui 的 Tailwind 配色。
+ * 不引 Tailwind CDN —— 断网也要能看，且避免 CDN 版本漂移导致样式不一致。
+ * 色值直接取自 Tailwind 默认调色板（slate / purple / amber / red / green）。
+ */
+
+:root {
+  --slate-50: #f8fafc;
+  --slate-100: #f1f5f9;
+  --slate-200: #e2e8f0;
+  --slate-300: #cbd5e1;
+  --slate-400: #94a3b8;
+  --slate-500: #64748b;
+  --slate-600: #475569;
+  --slate-700: #334155;
+  --slate-900: #0f172a;
+  --purple-50: #faf5ff;
+  --purple-100: #f3e8ff;
+  --purple-200: #e9d5ff;
+  --purple-500: #a855f7;
+  --purple-600: #9333ea;
+  --purple-700: #7e22ce;
+  --purple-900: #581c87;
+  --amber-50: #fffbeb;
+  --amber-200: #fde68a;
+  --amber-500: #f59e0b;
+  --amber-700: #b45309;
+  --amber-800: #92400e;
+  --amber-900: #78350f;
+  --red-50: #fef2f2;
+  --red-200: #fecaca;
+  --red-500: #ef4444;
+  --red-600: #dc2626;
+  --red-700: #b91c1c;
+  --green-50: #f0fdf4;
+  --green-200: #bbf7d0;
+  --green-500: #22c55e;
+  --green-700: #15803d;
+  --radius: 12px;
+  /* 排版与节奏：全站只用这一套，避免每个视图各自调 px */
+  --fs-xs: 11px;
+  --fs-sm: 12.5px;
+  --fs-md: 12.5px;
+  --fs-base: 13.5px;
+  --fs-lg: 15px;
+  --fs-xl: 18px;
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+  --font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+}
+
+* { box-sizing: border-box; }
+
+html, body { height: 100%; margin: 0; }
+
+body {
+  font-family: var(--font);
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--slate-900);
+  background: var(--slate-50);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─────────────────────── 骨架 ─────────────────────── */
+
+.app { display: flex; height: 100vh; overflow: hidden; }
+
+.sidebar {
+  width: 216px;
+  flex: 0 0 216px;
+  background: #fff;
+  border-right: 1px solid var(--slate-200);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.brand { padding: 16px 16px 12px; border-bottom: 1px solid var(--slate-200); }
+.brand h1 { margin: 0; font-size: 14px; font-weight: 600; color: var(--purple-700); letter-spacing: -0.01em; line-height: 1.35; }
+.brand h1 span { color: var(--slate-600); font-weight: 500; }
+.brand p { margin: 3px 0 0; font-size: 11px; color: var(--slate-500); line-height: 1.5; }
+
+.nav { padding: 8px 8px 10px; flex: 1; }
+.nav button {
+  display: flex; align-items: flex-start; gap: 9px;
+  width: 100%; padding: 7px 10px; margin-bottom: 1px;
+  border: 0; border-radius: 8px; background: transparent;
+  font: inherit; font-size: 13px; color: var(--slate-700);
+  line-height: 1.35; cursor: pointer; text-align: left;
+}
+.nav button:hover { background: var(--slate-100); }
+.nav button.on { background: var(--purple-50); color: var(--purple-700); font-weight: 600; }
+.nav button .ico { flex: 0 0 18px; width: 18px; font-size: 15px; line-height: 20px; margin-top: 1px; text-align: center; color: var(--slate-500); }
+.nav button.on .ico { color: var(--purple-600); }
+
+/*
+ * 导航副标注（<em>）：一句话回答「这一页是干什么的」。
+ * 为什么必须有：七个名字里「创作台」「本地产物」「数据采集」都不是能望文生义的词，
+ * 第一次用的人只能逐个点进去试。副标注让选择发生在点击之前。
+ */
+.nav .lbl { display: block; min-width: 0; }
+.nav .lbl em {
+  display: block; margin-top: 1px;
+  font-style: normal; font-weight: 400;
+  font-size: 10.5px; line-height: 1.4; letter-spacing: 0;
+  color: var(--slate-400);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.nav button:hover .lbl em { color: var(--slate-500); }
+.nav button.on .lbl em { color: var(--purple-600); opacity: 0.8; }
+
+.nav .group { font-size: 10.5px; font-weight: 600; color: var(--slate-400); padding: 10px 10px 4px; text-transform: uppercase; letter-spacing: 0.08em; }
+.nav .group:first-child { padding-top: 4px; }
+.nav .group:not(:first-child) { margin-top: 6px; border-top: 1px solid var(--slate-100); padding-top: 12px; }
+
+.status { padding: 12px 14px; border-top: 1px solid var(--slate-200); font-size: 11px; color: var(--slate-500); }
+.status .dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
+.dot.on { background: var(--green-500); }
+.dot.off { background: var(--slate-300); }
+
+.main { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+.view { display: none; flex: 1; overflow: hidden; min-height: 0; }
+.view.on { display: flex; flex-direction: column; }
+
+.pane-scroll { flex: 1; overflow-y: auto; padding: 22px 26px; min-height: 0; }
+.pane-narrow { max-width: 1060px; width: 100%; margin: 0 auto; }
+
+h2.sec { margin: 0 0 4px; font-size: var(--fs-xl); font-weight: 600; letter-spacing: -0.01em; }
+p.sub { margin: 0 0 18px; font-size: var(--fs-md); color: var(--slate-500); line-height: 1.65; max-width: 78ch; }
+
+/* ─────────────────────── 聊天（对齐参考项目） ─────────────────────── */
+
+.chat-head {
+  padding: 13px 24px; background: #fff; border-bottom: 1px solid var(--slate-200);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.chat-head h1 { margin: 0; font-size: 15px; font-weight: 600; color: var(--purple-700); }
+.chat-head p { margin: 2px 0 0; font-size: 11px; color: var(--slate-500); }
+.chat-head .tag { font-size: 11px; color: var(--slate-400); font-family: var(--mono); }
+
+.chat-scroll { flex: 1; overflow-y: auto; padding: 22px 24px; }
+.chat-inner { max-width: 860px; margin: 0 auto; display: flex; flex-direction: column; gap: 18px; }
+
+.row { display: flex; }
+.row.u { justify-content: flex-end; }
+.row.a, .row.s { justify-content: flex-start; }
+
+.bubble-user {
+  max-width: 85%; padding: 10px 15px; border-radius: 16px;
+  background: var(--purple-600); color: #fff; white-space: pre-wrap;
+  overflow-wrap: anywhere; font-size: 13.5px; line-height: 1.6;
+}
+.bubble-user img { max-width: 200px; max-height: 200px; object-fit: cover; border-radius: 12px; border: 2px solid var(--purple-300, #d8b4fe); display: block; }
+
+.bubble-ai {
+  max-width: 92%; padding: 15px 18px; border-radius: 16px;
+  background: #fff; border: 1px solid var(--slate-200); overflow-wrap: anywhere;
+}
+.bubble-tool {
+  max-width: 92%; padding: 8px 12px; border-radius: 8px;
+  background: var(--amber-50); border: 1px solid var(--amber-200);
+  font-family: var(--mono); font-size: 11.5px; color: var(--amber-900); white-space: pre-wrap;
+}
+.bubble-tool .h { display: flex; align-items: center; gap: 7px; font-weight: 600; }
+.bubble-tool .h .cost { margin-left: auto; color: var(--amber-700); font-weight: 400; }
+/* 降级事件（如「识图失败 → 退回纯文本生图」）。
+   🔴 不能用普通琥珀色糊过去：普通工具气泡"跑完了就是对的"，
+      而这一条的意思是"这次的结果不可信"，必须一眼能区分开。 */
+.bubble-tool.warn { background: var(--red-50); border-color: var(--red-200); color: var(--red-700); }
+.bubble-tool.warn .h { color: var(--red-700); }
+.tdot.warn { background: var(--red-500); }
+.bubble-err {
+  max-width: 92%; padding: 9px 13px; border-radius: 8px;
+  background: var(--red-50); border: 1px solid var(--red-200);
+  font-size: 12.5px; color: var(--red-700); white-space: pre-wrap;
+}
+.tdot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; }
+.tdot.run { background: var(--amber-500); animation: pulse 1.3s infinite; }
+.tdot.ok { background: var(--green-500); }
+.tdot.fail { background: var(--red-500); }
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .3; } }
+
+.thinking { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--slate-500); }
+.thinking .d { width: 8px; height: 8px; border-radius: 50%; background: var(--purple-500); animation: pulse 1.3s infinite; }
+
+.imgcard { max-width: 92%; border-radius: 16px; background: #fff; border: 1px solid var(--slate-200); overflow: hidden; }
+.imgcard img { width: 100%; max-width: 460px; display: block; margin: 0 auto; background: var(--slate-100); }
+.imgcard .cap {
+  padding: 8px 14px; font-size: 11px; color: var(--slate-500);
+  border-top: 1px solid var(--slate-100); font-family: var(--mono);
+  display: flex; align-items: center; gap: 10px;
+}
+.imgcard .cap a { color: var(--purple-600); }
+
+.composer { padding: 14px 24px; background: #fff; border-top: 1px solid var(--slate-200); }
+.composer-inner { max-width: 860px; margin: 0 auto; }
+
+.attach {
+  display: flex; align-items: center; gap: 12px; padding: 8px 12px; margin-bottom: 9px;
+  border-radius: 10px; background: var(--purple-50); border: 1px solid var(--purple-200);
+}
+.attach img { width: 46px; height: 46px; object-fit: cover; border-radius: 7px; border: 1px solid var(--slate-200); }
+.attach .meta { flex: 1; min-width: 0; }
+.attach .meta b { display: block; font-size: 12px; color: var(--purple-900); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.attach .meta span { font-size: 11px; color: var(--purple-600); }
+
+.crow { display: flex; gap: 8px; align-items: flex-end; }
+/*
+ * 🔴 必须显式 `width: 100%`。
+ * 只写 flex:1 时，一旦 textarea 不在 flex 容器里（比如 `label.f` 里），flex 完全不起作用，
+ * 于是它退回浏览器默认的 ~20 列宽 ≈ 200px —— 数据采集页那个「粘贴框」在 600px 宽的卡里
+ * 只占三分之一，粘进去的 JSON 一行都看不全。这不是审美问题，是主要输入框不能用。
+ */
+textarea.field {
+  width: 100%; flex: 1; resize: vertical; padding: 10px 14px; border-radius: 10px;
+  border: 1px solid var(--slate-300); font: inherit; font-size: 13.5px;
+  line-height: 1.55; outline: none; background: #fff; color: var(--slate-900);
+}
+textarea.field:focus { border-color: var(--purple-500); box-shadow: 0 0 0 3px var(--purple-100); }
+textarea.field:disabled { background: var(--slate-50); color: var(--slate-400); }
+
+/* ─────────────────────── 按钮 ─────────────────────── */
+
+button.btn {
+  padding: 9px 16px; border-radius: 9px; border: 1px solid transparent;
+  font: inherit; font-size: 13px; font-weight: 500; cursor: pointer;
+  background: var(--slate-100); color: var(--slate-700); white-space: nowrap;
+}
+button.btn:hover { background: var(--slate-200); }
+button.btn.primary { background: var(--purple-600); color: #fff; }
+button.btn.primary:hover { background: var(--purple-500); }
+button.btn.danger { background: var(--red-500); color: #fff; }
+button.btn.danger:hover { background: var(--red-600); }
+button.btn.ghost { background: #fff; border-color: var(--slate-200); }
+button.btn.ghost:hover { background: var(--slate-100); }
+button.btn:disabled { opacity: .5; cursor: not-allowed; }
+button.btn.sm { padding: 5px 10px; font-size: 12px; border-radius: 7px; }
+
+/* ─────────────────────── 卡片 / 表格 / 代码 ─────────────────────── */
+
+.card {
+  background: #fff; border: 1px solid var(--slate-200); border-radius: var(--radius);
+  padding: 16px 18px; margin-bottom: 14px;
+}
+.card h3 { margin: 0 0 10px; font-size: 14px; font-weight: 600; }
+.card .hint { margin: 0 0 12px; font-size: 12px; color: var(--slate-500); }
+/* 草稿已保存这一行：左边状态、右边清空，不要挤成一坨 */
+#formSavedRow { justify-content: space-between; margin-top: 12px; gap: 8px; }
+#formSaved { flex: 1 1 200px; }
+.hint.ok { color: var(--green-700); }
+/* 三档语义：绿=已验证 · 黄=够不着结论 · 红=确认失败。黄不能写成绿。 */
+.hint.warn { color: var(--amber-800); }
+.hint.bad { color: var(--red-700); }
+
+/*
+ * ───────── 视图页头 ─────────
+ * 每个视图都用同一个壳：左边「这是什么」，右边「现在能做的动作」。
+ * 统一之后，切换 8 个视图时眼睛不用重新找位置。
+ */
+.vhead { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
+.vhead-main { min-width: 0; }
+.vhead-main .sub { margin-bottom: 0; }
+.vhead-act { display: flex; gap: 8px; flex-shrink: 0; padding-top: 2px; }
+
+/*
+ * ───────── 双栏工作台 ─────────
+ * 左「输入」右「产出」，而不是把两组卡各自并排。
+ * 之前 ①② 并排、④⑤ 并排，同一层里混着两种性质的东西，视线要来回横跳。
+ */
+.workbench { display: grid; grid-template-columns: minmax(300px, 380px) minmax(340px, 1fr); gap: 16px; align-items: start; }
+.wb-col { min-width: 0; display: flex; flex-direction: column; gap: 16px; }
+
+/*
+ * 右栏吸顶。
+ * 为什么需要：左栏「产品与语料」有 10 个输入，实测 1440×900 下内容约 1000px 高；
+ * 右栏在没跑质检时只有 400px 左右，下面半屏是空的，而且滚到「竞品语料」时
+ * 标题编辑框早已滚出屏幕 —— 一边改文案一边看语料这件事就没法做。
+ * 独立滚动 + overscroll-behavior: contain：右栏滚到底不会把左栏一起带走。
+ * 窄屏（≤780）是单栏堆叠，吸顶会把内容压死，所以整段只在两栏形态下生效。
+ */
+@media (min-width: 781px) {
+  .workbench > .wb-col:last-child {
+    position: sticky;
+    top: 0;
+    max-height: calc(100vh - 28px);
+    overflow: auto;
+    overscroll-behavior: contain;
+    padding-right: 2px;
+  }
+}
+
+.card-h { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+.card-h h3 { margin: 0; }
+
+.seg + .seg { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--slate-100); }
+.seg-h { font-size: 11.5px; font-weight: 600; color: var(--slate-400); letter-spacing: 0.06em; margin-bottom: 10px; }
+.split { height: 1px; background: var(--slate-200); margin: 18px 0 14px; }
+.grow { flex: 1; min-width: 0; }
+.rowline.act { margin-top: 6px; }
+
+/*
+ * ───────── 字段 tab ─────────
+ * 五个字段一次只展开一个。句长限制挂在卡片头部的 chip 上，所以「藏起来」不等于「看不见」。
+ */
+.ftabs { display: flex; gap: 2px; padding: 3px; background: var(--slate-100); border-radius: 9px; flex-wrap: wrap; }
+.ftabs button {
+  flex: 0 0 auto; padding: 6px 12px; border: 0; border-radius: 7px; background: transparent;
+  font: inherit; font-size: 12.5px; color: var(--slate-600); cursor: pointer; white-space: nowrap;
+}
+.ftabs button:hover { color: var(--slate-900); }
+.ftabs button.on { background: #fff; color: var(--purple-700); font-weight: 600; box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08); }
+.fpanels { margin-top: 12px; }
+.fpanels [data-panel][hidden] { display: none; }
+
+/*
+ * ───────── 页脚抽屉 ─────────
+ * 低频但必须有：Rufus 准入检查 / 竞品榜单抓取 / 平台规则表。
+ * 用 <details> 而不是自绘折叠：键盘可达、屏幕阅读器原生支持、不需要 JS。
+ */
+.drawers { margin-top: 20px; display: flex; flex-direction: column; gap: 8px; }
+.drawer { border: 1px solid var(--slate-200); border-radius: 10px; background: #fff; }
+.drawer > summary { display: flex; align-items: baseline; gap: 10px; padding: 12px 16px; cursor: pointer; list-style: none; user-select: none; }
+.drawer > summary::-webkit-details-marker { display: none; }
+.drawer > summary::before { content: "▸"; color: var(--slate-400); font-size: 11px; }
+.drawer[open] > summary::before { content: "▾"; }
+.drawer > summary b { font-size: 13.5px; font-weight: 600; }
+.drawer > summary span { font-size: 12px; color: var(--slate-500); }
+.drawer > summary:hover b { color: var(--purple-700); }
+.drawer[open] > summary { border-bottom: 1px solid var(--slate-100); }
+.drawer-body { padding: 14px 16px 16px; }
+.drawer-body > .hint:first-child { margin-top: 0; }
+
+@media (max-width: 980px) {
+  .vhead { flex-direction: column; gap: 10px; }
+  .workbench { grid-template-columns: minmax(260px, 300px) minmax(0, 1fr); gap: 12px; }
+}
+@media (max-width: 780px) {
+  .workbench { grid-template-columns: 1fr; }
+}
+
+/*
+ * 本周词库（独立页）。
+ * 首屏只有三块：四格数据体检 / 一行筛选 / 一张表。
+ * 低频能力（覆盖度体检 / 版本对比 / ASIN 变动 / 站点验证 / 词根管理 / CSV 导出）
+ * 一律收在表格下面默认收起的 <details> 里 —— 一屏只多出几行小标题，
+ * 不把"看清楚"变成"读完才知道"。
+ */
+.wstat { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin: 0 0 14px; }
+.wcell { background: #fff; border: 1px solid var(--slate-200); border-radius: 10px; padding: 10px 12px; min-width: 0; }
+.wcell b { display: block; font-size: var(--fs-xl); font-weight: 650; line-height: 1.25; color: var(--slate-900); font-variant-numeric: tabular-nums; }
+.wcell span { display: block; margin-top: 2px; font-size: var(--fs-xs); color: var(--slate-500); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.wbar { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
+.wbar .in { flex: 1 1 240px; min-width: 160px; }
+.wbar .btn { flex: 0 0 auto; }
+.wmeta { font-size: var(--fs-sm); color: var(--slate-500); margin: 0 0 6px; }
+.wt { width: 100%; border-collapse: collapse; font-size: var(--fs-md); }
+.wt th { text-align: left; font-size: var(--fs-xs); font-weight: 600; color: var(--slate-500); padding: 6px 8px; border-bottom: 1px solid var(--slate-200); white-space: nowrap; }
+/*
+ * 表头吸顶：词库表可能有上千行，往下翻之后「这列是词面还是词根」就看不见了。
+ * 🔴 两处细节是必须的：
+ *   ① 必须给不透明背景 —— th 默认透明，滚动时下面的行会从表头文字里穿过去。
+ *   ② border-collapse: collapse 下元素边框**不跟着 sticky 元素走**（会留在原地滚走），
+ *      所以下边线改用 inset box-shadow 画。
+ *   粘性定位相对最近的滚动祖先 .pane-scroll，不需要给表格套新容器。
+ */
+.wt thead th {
+  position: sticky; top: 0; z-index: 2;
+  background: #fff;
+  box-shadow: inset 0 -1px 0 var(--slate-200);
+}
+.wt td { padding: 6px 8px; border-bottom: 1px solid var(--slate-100); vertical-align: top; }
+.wt tr:last-child td { border-bottom: 0; }
+.wt tbody tr:hover { background: var(--slate-50); }
+.wt .t { font-weight: 550; color: var(--slate-900); }
+.wt .n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--slate-600); }
+.wt .r { color: var(--slate-500); font-size: var(--fs-sm); word-break: break-word; }
+@media (max-width: 720px) {
+  .wstat { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .wt .hide-sm { display: none; }
+}
+
+/*
+ * <details class="why">：把「为什么这么定」收起来。
+ * 这些段落是给评审者和未来的自己看的，不是给第一次用的人看的 ——
+ * 它们留在页面上会把输入框挤到 800px 以下，第一屏全是说明书。
+ * 🔴 收起来的只是「解释」，判据、跳过原因、口径一律仍然可见。
+ */
+details.why { margin: 0 0 12px; padding-left: 10px; border-left: 2px solid var(--slate-200); }
+details.why > summary {
+  cursor: pointer; font-size: 12px; color: var(--slate-500);
+  list-style: none; user-select: none;
+}
+details.why > summary::-webkit-details-marker { display: none; }
+details.why > summary::before { content: "▸ "; color: var(--slate-400); }
+details.why[open] > summary::before { content: "▾ "; }
+details.why > summary:hover { color: var(--slate-700); }
+details.why > div { margin-top: 8px; font-size: 12px; color: var(--slate-500); line-height: 1.7; }
+details.why > div > p { margin: 0 0 7px; }
+details.why > div > p:last-child { margin-bottom: 0; }
+details.why b { color: var(--slate-700); font-weight: 600; }
+
+.sec-mini {
+  margin: 26px 0 10px; padding-top: 14px; border-top: 1px solid var(--slate-200);
+  font-size: 11.5px; font-weight: 600; color: var(--slate-400);
+  text-transform: uppercase; letter-spacing: 0.08em;
+}
+
+.grid { display: grid; gap: 12px; }
+.grid.c2 { grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); }
+.grid.c3 { grid-template-columns: repeat(auto-fill, minmax(232px, 1fr)); }
+.grid.c4 { grid-template-columns: repeat(auto-fill, minmax(178px, 1fr)); }
+
+table.tbl { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+table.tbl th, table.tbl td { padding: 7px 9px; border-bottom: 1px solid var(--slate-200); text-align: left; vertical-align: top; }
+table.tbl th { font-weight: 600; color: var(--slate-600); background: var(--slate-50); font-size: 11.5px; }
+table.tbl tr:last-child td { border-bottom: 0; }
+table.tbl td.num { font-family: var(--mono); white-space: nowrap; }
+
+code, .mono { font-family: var(--mono); font-size: 12px; }
+pre.code {
+  margin: 0; padding: 12px 14px; background: #f8fafc; border: 1px solid var(--slate-200);
+  border-radius: 9px; overflow-x: auto; white-space: pre-wrap; overflow-wrap: anywhere;
+  font-family: var(--mono); font-size: 11.5px; line-height: 1.65; color: var(--slate-700);
+}
+
+label.f { display: block; margin-bottom: 11px; }
+/*
+ * 🔴 必须是 `>`（只在直接子级生效）。
+ * 写成后代选择器时，`label.f span`（0,1,2）会盖掉 `.chip` 的 inline-block（0,1,0)，
+ * 结果每个带 chip 的字段标题都变成「标题一行 / chip 独占一行 / 输入框一行」——
+ * 一屏少放三四个字段，整页凭空长出一大截。这不是设计，是选择器算错了权重。
+ */
+label.f > span { display: block; font-size: 12px; font-weight: 500; color: var(--slate-600); margin-bottom: 4px; }
+label.f > span .chip { margin-left: 4px; vertical-align: 1px; }
+label.f small { display: block; font-size: 11px; color: var(--slate-400); margin-top: 3px; line-height: 1.5; }
+/* 一行里放多个短字段（规格 / 数量 / 人群）。用 div 而不是 label，
+   因为一个 label 只能绑一个控件；这三个各自独立，且都由 id 取值。
+   🔴 这里强制三等分：`.grid.c3` 的 minmax(232px) 在窄卡片里会退成一列，
+   等于又变回三行 —— 那正是要消掉的东西。 */
+.fgroup { margin-bottom: 11px; }
+.fgroup .flabel { display: block; font-size: 12px; font-weight: 500; color: var(--slate-600); margin-bottom: 4px; }
+.fgroup .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+input.in, select.in {
+  width: 100%; padding: 8px 11px; border: 1px solid var(--slate-300); border-radius: 8px;
+  font: inherit; font-size: 13px; outline: none; background: #fff; color: var(--slate-900);
+}
+input.in:focus, select.in:focus { border-color: var(--purple-500); box-shadow: 0 0 0 3px var(--purple-100); }
+input.in[type="checkbox"] { width: auto; }
+
+/* ─────────────────────── 自绘下拉（select-ui.js）───────────────────────
+ * 原生 <select> 的下拉是操作系统窗口，位置由浏览器算，页面改不了；
+ * 本页的 select 都在多层 overflow 裁切 + 滚动容器里，150% 缩放下会画到别处。
+ * 这里把原生控件透明盖住（它仍决定高度），点击交给自绘按钮 + body 上的 fixed 弹层。
+ * 详细证据见 assets/select-ui.js 文件头。 */
+.selui { position: relative; display: block; }
+/* 盖掉 `label.f span {...}` 的通用标题样式：这个 span 是布局壳，不是标题文字 */
+label.f span.selui { display: block; margin: 0; font-size: inherit; font-weight: inherit; color: inherit; }
+.selui select.in {
+  pointer-events: none; opacity: 0;
+  -webkit-appearance: none; appearance: none;
+  display: block; margin: 0;
+}
+.selui-btn {
+  position: absolute; inset: 0; width: 100%;
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  padding: 8px 11px; border: 1px solid var(--slate-300); border-radius: 8px;
+  font: inherit; font-size: 13px; text-align: left; background: #fff; color: var(--slate-900);
+  cursor: pointer; outline: none;
+}
+.selui-btn:hover { border-color: var(--slate-400); }
+.selui-btn:focus-visible { border-color: var(--purple-500); box-shadow: 0 0 0 3px var(--purple-100); }
+.selui-btn .selui-txt { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.selui-btn svg { flex: 0 0 auto; color: var(--slate-400); }
+.selui-btn.empty .selui-txt { color: var(--slate-400); }
+.selui-btn:disabled { background: var(--slate-50); color: var(--slate-400); cursor: not-allowed; }
+
+.selpop {
+  position: fixed; z-index: 9999;
+  overflow-y: auto; overflow-x: hidden; padding: 4px;
+  background: #fff; border: 1px solid var(--slate-200); border-radius: 10px;
+  box-shadow: 0 12px 32px rgba(15, 23, 42, .16), 0 2px 6px rgba(15, 23, 42, .08);
+}
+.selpop .opt {
+  padding: 7px 9px; border-radius: 7px; font-size: 13px; line-height: 1.35;
+  color: var(--slate-900); cursor: pointer;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.selpop .opt.hover, .selpop .opt:hover { background: var(--slate-100); }
+.selpop .opt.on { background: var(--purple-50); color: var(--purple-900); font-weight: 600; }
+.selpop .opt.dis { color: var(--slate-300); cursor: not-allowed; }
+
+/* ─────────────────────── 模板库 ─────────────────────── */
+
+.tpl {
+  background: #fff; border: 1px solid var(--slate-200); border-radius: 10px;
+  padding: 12px 13px; cursor: pointer; text-align: left; font: inherit;
+}
+.tpl:hover { border-color: var(--purple-200); background: var(--purple-50); }
+.tpl.on { border-color: var(--purple-500); background: var(--purple-50); }
+.tpl .no { font-family: var(--mono); font-size: 10.5px; color: var(--slate-400); }
+.tpl .nm { font-size: 13px; font-weight: 600; margin: 3px 0 5px; }
+.tpl .kw { font-size: 11px; color: var(--slate-500); line-height: 1.5; }
+.tpl .vs { margin-top: 7px; display: flex; flex-wrap: wrap; gap: 4px; }
+.chip {
+  display: inline-block; padding: 2px 7px; border-radius: 999px;
+  background: var(--slate-100); color: var(--slate-600); font-size: 10.5px;
+}
+.chip.p { background: var(--purple-100); color: var(--purple-700); }
+.chip.g { background: var(--green-50); color: var(--green-700); }
+.chip.r { background: var(--red-50); color: var(--red-700); }
+.chip.a { background: var(--amber-50); color: var(--amber-800); }
+
+/* ─────────────────────── 质检结果 ─────────────────────── */
+
+.rule { display: flex; gap: 10px; padding: 9px 11px; border-radius: 8px; margin-bottom: 6px; font-size: 12.5px; }
+.rule.pass { background: var(--green-50); border: 1px solid var(--green-200); }
+.rule.hit { background: var(--red-50); border: 1px solid var(--red-200); }
+.rule.skip { background: var(--slate-50); border: 1px solid var(--slate-200); }
+/* ⑥ Rufus 专用：C 级命中与「通过（部分）」是琥珀，不是红 —— 只有 P 级命中才配红色（错误量级）。
+   把"证据强度不足以报必须改"渲染成红色，就是界面在替引擎升级严重程度。 */
+.rule.soft { background: var(--amber-50); border: 1px solid var(--amber-200); }
+.rule .id { font-family: var(--mono); font-weight: 700; font-size: 11.5px; flex: 0 0 34px; }
+.rule .body { flex: 1; min-width: 0; }
+.rule .body b { display: block; }
+.rule .body .why { color: var(--slate-600); margin-top: 3px; font-size: 11.5px; }
+.rule .body .fix { color: var(--slate-700); margin-top: 3px; font-size: 11.5px; }
+.rule .body .src { color: var(--slate-400); font-size: 11px; margin-top: 2px; }
+.rule .st { font-size: 11px; font-weight: 600; flex: 0 0 auto; }
+
+/* ⑥ Rufus 分组头（R1–R5）：组名来自 RUFUS_GROUPS，计数来自 summary.byGroup。 */
+.rgroup { margin-bottom: 14px; }
+.rgroup-h { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin: 0 0 7px; }
+.rgroup-h b { font-size: 12.5px; }
+
+.kpi { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
+.kpi .k {
+  flex: 1 1 130px; background: #fff; border: 1px solid var(--slate-200);
+  border-radius: 10px; padding: 11px 13px;
+}
+.kpi .k b { display: block; font-size: 20px; font-weight: 700; font-family: var(--mono); line-height: 1.2; }
+.kpi .k span { font-size: 11px; color: var(--slate-500); }
+.kpi .k.bad b { color: var(--red-600); }
+.kpi .k.good b { color: var(--green-700); }
+.kpi .k.warn b { color: var(--amber-700); }
+
+/* Markdown 渲染（替代 @tailwindcss/typography） */
+.md { font-size: 13.5px; line-height: 1.72; color: var(--slate-900); overflow-wrap: anywhere; }
+.md > :first-child { margin-top: 0; }
+.md > :last-child { margin-bottom: 0; }
+.md p { margin: .6em 0; }
+.md h1, .md h2, .md h3, .md h4 { color: var(--slate-900); font-weight: 600; line-height: 1.35; margin: 1.2em 0 .45em; }
+.md h1 { font-size: 1.35em; }
+.md h2 { font-size: 1.2em; }
+.md h3 { font-size: 1.04em; }
+.md ul, .md ol { margin: .55em 0; padding-left: 1.4em; }
+.md ul { list-style: disc; }
+.md ol { list-style: decimal; }
+.md li { margin: .2em 0; }
+.md a { color: var(--purple-600); }
+.md blockquote {
+  margin: .7em 0; padding: .5em .9em; border-left: 3px solid var(--purple-200);
+  background: var(--purple-50); color: var(--slate-700); border-radius: 0 6px 6px 0; font-size: 12.5px;
+}
+.md code { background: var(--slate-100); padding: 1px 5px; border-radius: 4px; font-size: 11.5px; }
+.md pre {
+  margin: .7em 0; padding: 11px 13px; background: var(--slate-50);
+  border: 1px solid var(--slate-200); border-radius: 9px; overflow-x: auto;
+  white-space: pre-wrap; overflow-wrap: anywhere; font-size: 11.5px; line-height: 1.65;
+}
+.md pre code { background: none; padding: 0; font-size: inherit; }
+.md table { width: 100%; border-collapse: collapse; margin: .7em 0; font-size: 12px; display: block; overflow-x: auto; }
+.md th, .md td { border: 1px solid var(--slate-200); padding: 6px 9px; text-align: left; white-space: nowrap; }
+.md th { background: var(--slate-50); font-weight: 600; }
+.md hr { border: 0; border-top: 1px solid var(--slate-200); margin: 1.1em 0; }
+
+.md .tblwrap { overflow-x: auto; }
+
+/* 提示条 */
+.note { padding: 10px 13px; border-radius: 9px; font-size: 12.5px; margin-bottom: 12px; }
+.note.info { background: var(--purple-50); border: 1px solid var(--purple-200); color: var(--purple-900); }
+.note.warn { background: var(--amber-50); border: 1px solid var(--amber-200); color: var(--amber-900); }
+.note.bad { background: var(--red-50); border: 1px solid var(--red-200); color: var(--red-700); }
+
+.rowline { display: flex; gap: 9px; align-items: center; flex-wrap: wrap; }
+.spacer { flex: 1; }
+
+/* ── 图片库（缩略图墙）──
+   要"看得见才能管得住"：只给文件名列表，用户就得逐个点开确认哪张是废图。 */
+.pane-wide { max-width: 1400px; width: 100%; margin: 0 auto; }
+.lib-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(186px, 1fr)); gap: 12px; margin-top: 14px; }
+.lib-card { border: 1px solid var(--slate-200); border-radius: 10px; overflow: hidden; background: #fff; display: flex; flex-direction: column; }
+.lib-card img { width: 100%; aspect-ratio: 1 / 1; object-fit: contain; background: var(--slate-50); display: block; border-bottom: 1px solid var(--slate-200); }
+.lib-card .m { padding: 8px 9px; font-size: 11px; color: var(--slate-600); display: flex; flex-direction: column; gap: 3px; }
+.lib-card .m code { font-family: var(--mono); color: var(--slate-700); overflow-wrap: anywhere; }
+.lib-card .b { margin-top: auto; padding: 0 9px 9px; display: flex; gap: 6px; }
+/*
+ * 🔴 空态必须跨满整行。
+ *    .lib-grid 是 repeat(auto-fill, minmax(186px,1fr))，.lib-empty 作为它的**子项**
+ *    只会占 186px 一列 —— 于是「还没有图片，去创作台生成一张试试」被折成三行，
+ *    看起来像样式没写完（截图实测见审查记录）。grid-column 一行修掉。
+ */
+.lib-empty { padding: 26px 14px; text-align: center; color: var(--slate-500); font-size: 13px; grid-column: 1 / -1; }
+
+/* ── 交互原语：轻提示 / 确认框（只有一份实现，见 app.js 顶部） ──
+ * 不用原生 alert/confirm 的三个理由写在 decl 的注释里；这里只负责长相。
+ * z-index 取 60：要盖住侧栏（30）与抽屉，但不必到 9999 —— 免得以后加浮层时无从下手。
+ */
+.ui-toast {
+  position: fixed; right: 20px; bottom: 20px; z-index: 60;
+  max-width: min(420px, calc(100vw - 40px));
+  padding: 10px 14px; border-radius: 10px;
+  background: var(--slate-900); color: #fff; font-size: var(--fs-md); line-height: 1.5;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, .22);
+  opacity: 0; transform: translateY(8px); pointer-events: none;
+  transition: opacity .18s ease, transform .18s ease;
+  white-space: pre-line;
+}
+.ui-toast.on { opacity: 1; transform: none; }
+.ui-toast.bad { background: var(--red-700); }
+.ui-toast.warn { background: var(--amber-800); }
+@media (prefers-reduced-motion: reduce) {
+  .ui-toast { transition: none; }
+}
+
+.ui-dlg-back {
+  position: fixed; inset: 0; z-index: 61;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(15, 23, 42, .38);
+  padding: 20px;
+}
+.ui-dlg {
+  width: min(440px, 100%);
+  background: #fff; border-radius: var(--radius);
+  box-shadow: 0 18px 48px rgba(15, 23, 42, .28);
+  padding: 18px 20px 16px;
+}
+.ui-dlg h3 { margin: 0 0 8px; font-size: 15px; font-weight: 600; }
+/* pre-line：正文里的 \n\n 分段是真的要生效（文件名单独一行，风险说明另起一段） */
+.ui-dlg-body {
+  margin: 0 0 16px; font-size: var(--fs-base); line-height: 1.7;
+  color: var(--slate-600); white-space: pre-line; overflow-wrap: anywhere;
+}
+.ui-dlg-act { justify-content: flex-end; gap: 8px; margin: 0; }
+
+/* ── 本地产物列表 ── */
+.vault-row { display: flex; align-items: flex-start; gap: 10px; padding: 9px 2px; border-bottom: 1px solid var(--slate-200); }
+.vault-row:last-child { border-bottom: 0; }
+.vault-row .ico { font-size: 15px; line-height: 1.4; }
+.vault-row .body { flex: 1; min-width: 0; }
+.vault-row .title { font-size: 13px; font-weight: 600; overflow-wrap: anywhere; }
+.vault-row .meta { font-size: 11px; color: var(--slate-500); margin-top: 2px; }
+
+/*
+ * ── 断点 ──────────────────────────────────────────────────────────
+ * 🔴 这里曾经是 `max-width: 880px`：用户 1920 宽的屏 @125% 缩放 = 1536 逻辑像素没问题，
+ *    但 1080 宽 @125% = **864 逻辑像素**，正好掉进断点 —— 侧栏被压成 62px 图标条、
+ *    标签全隐、标题竖着排。用户看到的就是「这页面怎么坏了」。
+ *
+ * 口径改成三级：
+ *   > 980px  标准（216px 侧栏 + 两行标签）
+ *   ≤ 980px  收窄留白到 200px，**标签与副标注一律保留** —— 864/900/1024 都落在这里
+ *   ≤ 720px  真的放不下文字了，才退化成图标条（title 气泡仍在）
+ */
+
+/* 窄屏一：只收窄，不减信息 */
+@media (max-width: 980px) {
+  .sidebar { width: 200px; flex-basis: 200px; }
+  .pane-scroll { padding: 18px 18px; }
+  .brand { padding: 14px 14px 11px; }
+  /* 320px 是给 1060 宽内容定的；864 屏扣掉侧栏与留白只剩 628，正好卡在一个 320 上都放不下两张，
+     于是所有两栏卡片被迫堆成一列 —— 页面凭空长出两屏。降到 296 就能并排。 */
+  .grid.c2 { grid-template-columns: repeat(auto-fill, minmax(296px, 1fr)); }
+}
+
+/* 窄屏二：图标条（手机 / 窄窗口）。信息靠 title 气泡兜底 */
+@media (max-width: 720px) {
+  .sidebar { width: 64px; flex-basis: 64px; }
+  .brand { padding: 12px 4px 10px; text-align: center; border-bottom: 0; }
+  .brand h1 { font-size: 0; line-height: 1; }
+  .brand h1 span, .brand p { display: none; }
+  .brand h1::before { content: "LS"; font-size: 13px; font-weight: 700; color: var(--purple-700); letter-spacing: 0.06em; }
+  .nav { padding: 6px 8px; }
+  .nav .lbl, .nav .group { display: none; }
+  .nav button { justify-content: center; padding: 9px 0; margin-bottom: 2px; }
+  .nav button .ico { margin-top: 0; }
+  .status { display: none; }
+  .pane-scroll { padding: 16px 14px; }
+  .fgroup .grid { grid-template-columns: 1fr; }
+}
+
+/* tab 上的超限红点（renderFieldCounters 同步） */
+.ftabs button.r::after { content: "●"; color: var(--red-500); font-size: 8px; margin-left: 4px; vertical-align: 2px; }
+
+/*
+ * 空态：没跑过质检时，「体检结果」下面不该是一片白。
+ * 用 :empty 伪类而不是 JS 渲染 —— 空态是纯呈现问题，塞一段 DOM 反而会和"真的没结果"混淆。
+ */
+#lintOut:empty::before {
+  content: "还没有结果。填好右边字段，点「跑质检」。";
+  display: block; padding: 18px 0; font-size: 12.5px; color: var(--slate-400);
+}
+#rufusOut:empty::before {
+  content: "还没有结果。选好产品类型后点「跑 Rufus 检查」。";
+  display: block; padding: 12px 0; font-size: 12.5px; color: var(--slate-400);
+}
+
+/* ───────────── 外部数据源（第三方 MCP）─────────────
+ * 这一块只出现在「设置」与「本周词库」两页，所以样式写在一起、用前缀隔开。
+ * 唯一的取舍：工具列表用**行**而不是卡片 —— 一家服务动辄二十个工具，
+ * 卡片铺开会把"配密钥"这件首要动作挤到首屏之外。
+ */
+.note.ok { background: var(--green-50); border: 1px solid #bbf7d0; color: #15803d; }
+
+.extool { border-top: 1px solid var(--slate-200); padding: 9px 0; }
+.extool:first-of-type { border-top: 0; }
+.extool-h { display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; }
+.extool-h code { font-size: 12.5px; font-weight: 650; color: var(--slate-900); }
+.extool-h span { font-size: 12px; color: var(--slate-500); min-width: 0; }
+.extool .rowline { margin-top: 6px; }
+
+.extrun {
+  margin-top: 10px; padding: 12px 13px;
+  background: var(--slate-50); border: 1px solid var(--slate-200); border-radius: 10px;
+}
+.extrun textarea.field { width: 100%; font-family: var(--mono, ui-monospace, monospace); font-size: 12px; }
+.extrun .rowline { margin-top: 8px; align-items: center; }
+#extOut pre.code { max-height: 320px; overflow: auto; }
+
+/* 盲区词用 chip 平铺：是一条条可扫的词，不是段落 */
+#wordsExt .chip { margin: 0 4px 4px 0; }
+#extStatus .bad { color: var(--red-700); font-weight: 650; }
+#extStatus .okdot { color: var(--green-500); margin-right: 3px; }
+
+/* ── 本周词库 · 折叠扩展区（6 组，默认收起）─────────────────
+ * 结构与配色全部复用 .drawer / .drawer-body / .card / .note / .chip / .wbar / table.tbl，
+ * 只补四处会让内容挤在一起的间距；不新增组件、不硬编码颜色。 */
+#wordsExtras { margin-top: 2px; }
+#wordsExtras .drawer-body > .note:last-child { margin-bottom: 0; }
+#wCoverOut .chip, #wCompareOut .chip, #wAsinOut .chip, #wRootsOut .chip { margin: 0 4px 4px 0; }
+#wRootsOut table.tbl { margin-top: 8px; }
+
+/* ── 健康分（P0-2）────────────────────────────────────────────
+ * 结构只有四块：大分数 / 8 条维度条 / Top3 扣分 / 边界说明。
+ * 🔴 维度条只表达"这个维度扣了多少"，不做圆环/仪表盘 —— 那种图看起来专业，
+ *    但读不出一分是从哪丢的，正好和"每分都要有据可查"相反。 */
+.score-card .score-top { display: flex; gap: 14px; align-items: center; }
+.score-num {
+  display: flex; align-items: baseline; gap: 2px;
+  font-family: var(--mono); line-height: 1;
+}
+.score-num b { font-size: 34px; font-weight: 750; letter-spacing: -1px; }
+.score-num span { font-size: 12px; color: var(--slate-400); }
+.score-num.good b { color: var(--green-700); }
+.score-num.ok b { color: var(--slate-900); }
+.score-num.warn b { color: var(--amber-700); }
+.score-num.bad b { color: var(--red-600); }
+.score-num.skip b { color: var(--slate-300); }
+.score-meta { font-size: 12.5px; color: var(--slate-700); min-width: 0; }
+
+.sdims { margin-top: 12px; display: flex; flex-direction: column; gap: 5px; }
+.srow {
+  display: grid; grid-template-columns: 92px 1fr 58px; align-items: center; gap: 8px;
+  font-size: var(--fs-xs); color: var(--slate-600);
+}
+.srow .sname { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.srow .sval { text-align: right; font-family: var(--mono); color: var(--slate-500); }
+.srow.skip { opacity: .55; }
+.sbar { height: 6px; border-radius: 3px; background: var(--slate-100); overflow: hidden; }
+.sbar i { display: block; height: 100%; border-radius: 3px; background: var(--slate-400); }
+.sbar i.g { background: var(--green-500); }
+.sbar i.o { background: var(--amber-500); }
+.sbar i.b { background: var(--red-500); }
+.snote { font-size: 10.5px; color: var(--slate-400); margin: -2px 0 1px 100px; line-height: 1.4; }
+
+.stop3 { margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--slate-100); }
+.stop3 .sth { font-size: var(--fs-sm); font-weight: 650; color: var(--slate-700); margin-bottom: 6px; }
+.stop3 ol { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 7px; }
+.stop3 li { font-size: var(--fs-xs); color: var(--slate-600); line-height: 1.55; }
+.stop3 li b { color: var(--slate-900); font-family: var(--mono); }
+.stop3 .sdelta { color: var(--red-600); font-family: var(--mono); margin-left: 5px; }
+.stop3 .swhy { color: var(--slate-700); }
+.stop3 .sfix { color: var(--slate-500); }
+.stop3 .ssrc { color: var(--slate-400); font-size: 10.5px; }
+
+/* ── 评论分析 / 历史快照（P0-1 / P1-1）──────────────────────── */
+.qc { font-size: 11px; color: var(--slate-500); line-height: 1.5; margin: 1px 0; }
+.qlist { margin: 4px 0 0 18px; padding: 0; font-size: 12px; color: var(--slate-700); line-height: 1.7; }
+.snap-box { display: flex; flex-direction: column; gap: 7px; margin-top: 2px; }
+.snap-row { display: grid; grid-template-columns: 62px 150px 1fr; align-items: center; gap: 8px; font-size: var(--fs-xs); color: var(--slate-600); }
+.snap-row .snap-val { font-family: var(--mono); color: var(--slate-500); }
+.snap-row .snap-val b { color: var(--slate-900); font-weight: 650; }
+.spark { color: var(--slate-500); display: block; }
+
+/* ── 成图体检（P0-3）──────────────────────────────────────── */
+.audit { margin-top: 12px; padding: 12px 13px; border: 1px solid var(--slate-200); border-radius: 10px; background: var(--slate-50); }
+.arow {
+  display: grid; grid-template-columns: 14px 112px 108px 1fr; gap: 6px;
+  align-items: start; font-size: var(--fs-xs); padding: 5px 0;
+  border-bottom: 1px dashed var(--slate-200);
+}
+.arow:last-of-type { border-bottom: 0; }
+.arow .amark { font-weight: 700; }
+.arow .alabel { color: var(--slate-700); }
+.arow .aval { font-family: var(--mono); color: var(--slate-900); }
+.arow .anote { color: var(--slate-500); line-height: 1.45; }
+.arow.ok .amark { color: var(--green-700); }
+.arow.warn .amark { color: var(--amber-700); }
+.arow.bad .amark { color: var(--red-600); }
+.arow.bad .aval { color: var(--red-700); }
+
+/* 图片库一行最多 4 个动作，窄屏会挤 —— 允许换行，不把按钮压成两个字 */
+.lib-card .b { flex-wrap: wrap; }
+
+/* ── A+ 模块骨架（P2-1）──────────────────────────────────────
+   一块模块一张小卡：字段表 + 配图提示词。刻意不用大色块 ——
+   抽屉里已经有 3 块内容，再加视觉重量只会让人不想打开。 */
+.aplus-mod {
+  margin: 12px 0; padding: 12px 14px;
+  border: 1px solid var(--slate-200); border-radius: 10px; background: var(--slate-50);
+}
+.aplus-mod .am-h { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.aplus-mod .am-h b { font-size: var(--fs-sm); color: var(--slate-900); }
+.aplus-mod table { margin-top: 8px; background: #fff; }
+.aplus-mod code {
+  display: block; margin-top: 4px; padding: 6px 8px;
+  background: var(--slate-100); border-radius: 6px;
+  /* 提示词里有长单词与逗号串，必须允许断行，否则抽屉被撑出横向滚动 */
+  word-break: break-word; font-size: var(--fs-xs); line-height: 1.5;
+}
+
+/* 多一列搜索量后，8 列的覆盖表在窄容器里会被压扁（表头挤成一条、勾选列看不出宽窄）。
+   给表格一个下限宽度 + 横向滚动，比压缩字号更可读 —— 数据表横向滚动是可接受代价。 */
+.tbl-scroll { overflow-x: auto; margin-top: 10px; }
+.tbl-scroll table { width: 100%; }
+/* 8 列要挤进右栏（约 500px）：勾选列只需要放一个 ✓ / —，所以收窄它们，
+   把宽度让给「建议动作」——那一列是句子，窄了就变成一行一个字。 */
+#coverOut table th { white-space: nowrap; }
+#coverOut table td, #coverOut table th { padding-left: 5px; padding-right: 5px; }
+#coverOut table td:last-child { min-width: 118px; }
+
+/* 批量表：标题列与数字列之间留出气口，数字列不折行（"41" 被折成两行读起来像 4 和 1） */
+#batchOut table th, #batchOut table td { padding-right: 10px; }
+#batchOut table td.num { white-space: nowrap; }

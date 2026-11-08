@@ -1,0 +1,70 @@
+{
+  "_fixture": "自检与 --dry-run 专用的**假数据**，不是真实抓取结果。真实数据由 GitHub Actions 每周写入 data/keywords/latest.json。术语是照亚马逊常见的建议词写法编的，只为验证管线，不代表任何真实搜索量或排名。",
+  "suggest": {
+    "ceramic mug": [
+      "ceramic mug with lid",
+      "ceramic mug set of 4",
+      "ceramic mug 16 oz",
+      "ceramic mug with handle",
+      "ceramic mug dishwasher safe",
+      "large ceramic mug",
+      "ceramic mug for coffee",
+      "ceramic mug gift box"
+    ],
+    "coffee cup": [
+      "coffee cup with lid",
+      "coffee cup warmer",
+      "coffee cup set",
+      "insulated coffee cup",
+      "coffee cup 12 oz",
+      "coffee cup travel",
+      "coffee cup ceramic"
+    ],
+    "yoga mat": [
+      "yoga mat thick",
+      "yoga mat non slip",
+      "yoga mat with strap",
+      "yoga mat 6mm",
+      "extra thick yoga mat",
+      "yoga mat for beginners",
+      "yoga mat carrier"
+    ],
+    "dog leash": [
+      "dog leash retractable",
+      "dog leash for large dogs",
+      "dog leash hands free",
+      "dog leash with poop bag holder",
+      "dog leash bungee",
+      "dog leash reflective"
+    ],
+    "face serum": [
+      "face serum with hyaluronic acid",
+      "face serum vitamin c",
+      "face serum for glowing skin",
+      "face serum niacinamide",
+      "face serum travel size"
+    ],
+    "desk organizer": [
+      "desk organizer with drawers",
+      "desk organizer for office",
+      "desk organizer bamboo",
+      "desk organizer and pen holder",
+      "desk organizer small"
+    ]
+  },
+  "bestsellers": {
+    "kitchen": [
+      { "asin": "B0FIX00001", "title": "Ceramic Mug with Lid 16 oz", "price": "$18.99", "rating": "4.6", "reviewCount": "2,341", "rank": 1, "url": "https://www.amazon.com/dp/B0FIX00001" },
+      { "asin": "B0FIX00002", "title": "Insulated Travel Tumbler 20 oz", "price": "$24.99", "rating": "4.7", "reviewCount": "9,120", "rank": 2, "url": "https://www.amazon.com/dp/B0FIX00002" },
+      { "asin": "B0FIX00003", "title": "Nonstick Frying Pan 10 inch", "price": "$29.50", "rating": "4.4", "reviewCount": "1,004", "rank": 3, "url": "https://www.amazon.com/dp/B0FIX00003" }
+    ],
+    "pet-supplies": [
+      { "asin": "B0FIX00004", "title": "Reflective Dog Leash 6 ft", "price": "$12.99", "rating": "4.8", "reviewCount": "3,410", "rank": 1, "url": "https://www.amazon.com/dp/B0FIX00004" },
+      { "asin": "B0FIX00005", "title": "Slow Feeder Dog Bowl", "price": "$15.99", "rating": "4.5", "reviewCount": "812", "rank": 2, "url": "https://www.amazon.com/dp/B0FIX00005" }
+    ],
+    "beauty": [
+      { "asin": "B0FIX00006", "title": "Vitamin C Face Serum 30ml", "price": "$21.00", "rating": "4.3", "reviewCount": "5,772", "rank": 1, "url": "https://www.amazon.com/dp/B0FIX00006" },
+      { "asin": "B0FIX00007", "title": "Hyaluronic Acid Moisturizer", "price": "$16.49", "rating": "4.6", "reviewCount": "2,003", "rank": 2, "url": "https://www.amazon.com/dp/B0FIX00007" }
+    ]
+  }
+}

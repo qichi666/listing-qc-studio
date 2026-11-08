@@ -1,0 +1,43 @@
+# ── 密钥（🔴 最重要的一条：绝不能提交）──────────────────────────
+.env
+.env.local
+.env.local.tmp
+.env.*.local
+
+# ── 运行期数据（用户上传的参考图、生成的图片）────────────────────
+# 🔴 必须写成 `data/*` + 白名单，不能写 `data/`：
+#    GitHub Actions 的「提交快照」步骤要 `git add data/keywords`，
+#    而 git 无法把「已被排除的目录」里的文件重新纳入（`data/` + `!data/keywords/` 无效）。
+#    → 用 `data/*` 排除一层子项，再显式放行 keywords/。
+data/*
+!data/keywords/
+data/keywords/*.tmp
+
+# ── 本机平台状态（WorkBuddy 的应用注册信息，换机器就失效）──────────
+.workbuddy/
+
+# ── 依赖与构建产物（本项目零依赖，留着以防万一）──────────────────
+node_modules/
+dist/
+.tmp/
+*.log
+
+# ── 编辑器 / 系统 ──────────────────────────────────────────────
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── 临时脚本（开发时随手写的探针/补丁，不属于交付物）──────────────
+# 🔴 必须带 `/` 前缀，否则匹配**任意目录**：`_*.mjs` 会把
+#    tools/_export-details.mjs / _export-sources.mjs / _sync-details-doc.mjs
+#    这些**文档工具链**也一起忽略掉（导致 clone 下来无法重新生成文档）。
+#    `/` 前缀＝只匹配仓库根目录。
+/_*.py
+/_*.mjs
+/_*.txt
+/_sse.txt
+
+# ── 文档同步的中间产物（可随时由 _export-details.mjs 重新生成）──────
+tools/_details.out

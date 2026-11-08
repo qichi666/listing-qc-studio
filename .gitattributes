@@ -1,0 +1,15 @@
+# 统一按 LF 存储与检出。
+# 原因：本项目大量断言是「源码文本包含某段代码」，Windows 默认 core.autocrlf=true
+# 会让 clone 下来的文件变成 CRLF，轻则断言漂移，重则 CI 与本地结果不一致。
+* text=auto eol=lf
+
+# 二进制，别让 git 尝试转换
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.webp binary
+*.zip  binary
+*.docx binary
+*.pdf  binary
+*.woff binary
+*.woff2 binary
