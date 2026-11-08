@@ -81,7 +81,7 @@
 | 技术栈 | 原生 ESM JavaScript + 原生 CSS；服务端 Node 原生 `http` |
 | 依赖 | **零**（`dependencies: {}`、`devDependencies: {}`） |
 | 构建 | **无**（无打包器、无转译） |
-| 规模 | **51 个源码 / 工具文件**，约 1889 KB（口径 = 下节 §1.3 全表；其中生成物 `assets/templates.js` 占 78.6 KB） |
+| 规模 | **51 个源码 / 工具文件**，约 1887 KB（口径 = 下节 §1.3 全表；其中生成物 `assets/templates.js` 占 78.6 KB） |
 | 运行 | `node server.mjs` → `http://127.0.0.1:8787/` |
 | 离线能力 | 除"真出图/识图"外，全部功能可离线使用 |
 
