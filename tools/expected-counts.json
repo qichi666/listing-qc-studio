@@ -1,6 +1,6 @@
 {
   "_comment": "断言数期望值。减少 = 有断言被删掉了（视为失败）；增加 = 新增断言（提示更新本文件，不算失败）。由 tools/assert-count.mjs 读取。",
-  "selftest": 642,
+  "selftest": 643,
   "verify-server": 290,
   "browser-selftest": 199,
   "mcp-selftest": 248,

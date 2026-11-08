@@ -5507,6 +5507,17 @@ t("批量质检能带上当前这条（读右栏标题，不是左栏产品名�
   assert.match(fn, /\\n---\\n/, "块之间没加分隔符，批量和单条会串成一条");
 });
 
+t("规则卡的「依据与来源」默认收起，但没被删掉", () => {
+  // 判据层的硬要求是「每条都要有 why + source」，不是「每条都要一直占三行」。
+  // 这条锁的是「收起」而不是「删除」：DOM 里必须还在，只是 details 默认不展开。
+  const fn = APP.slice(APP.indexOf("function renderRufus()"), APP.indexOf("function renderRufus()") + 4000);
+  assert.match(fn, /<details class="rule-ref">/, "没有用 details 收起");
+  assert.match(fn, /<summary>依据与来源<\/summary>/, "没有可点开的入口");
+  assert.match(fn, /class="why"/, "把 why 删了 —— 那是「为什么有这条规则」的唯一解释");
+  assert.match(fn, /class="src">来源：/, "把来源删了 —— 判据必须能追到出处");
+  assert.ok(!/<details class="rule-ref"\s+open/.test(fn), "默认展开等于没收起");
+});
+
 /* ─────────────── 汇总 ─────────────── */
 process.stdout.write(`\n${"─".repeat(60)}\n`);
 process.stdout.write(`共 ${pass + fail} 条断言：通过 ${pass}，失败 ${fail}\n`);

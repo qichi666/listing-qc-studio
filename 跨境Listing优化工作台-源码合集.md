@@ -1,6 +1,6 @@
 # 跨境 Listing 质检工作台 · 源码合集
 
-> 按**真实目录结构**整理的全量源码（2026-11-08 生成）。共 **73 个文件 / 38,524 行 / 2.07 MB**。
+> 按**真实目录结构**整理的全量源码（2026-11-08 生成）。共 **73 个文件 / 38,557 行 / 2.07 MB**。
 > 每个文件都标注了职责与对外接口；正文按目录顺序排列，可对照解压后的 zip 逐条核对。
 
 **这份文件适合谁**
@@ -135,7 +135,7 @@
 
 | 文件 | 行数 | 体积 | 指纹 | 职责 | 对外接口 |
 |---|---:|---:|---|---|---|
-| `app.js` | 4894 | 246.5 KB | `395f82a30b` | 前端外壳：视图路由、SSE 事件分发、消息渲染、各视图绑定、图片库与产物面板、Rufus / 竞品两张卡的渲染 | `ICONS` / `iconSvg` |
+| `app.js` | 4902 | 247.0 KB | `341989c3c4` | 前端外壳：视图路由、SSE 事件分发、消息渲染、各视图绑定、图片库与产物面板、Rufus / 竞品两张卡的渲染 | `ICONS` / `iconSvg` |
 | `api.js` | 234 | 9.0 KB | `2a9fd8c1dc` | 传输层：配置读写、探活（成功 60s / 失败 5s 双档 TTL）、SSE 解析、上传 / 生图 / 识图 / LLM 请求 | `probeServer` `streamSSE` `generateImage` `callVision` 等 |
 | `orchestrator.js` | 712 | 41.0 KB | `fa98766a25` | 编排层：意图判定（含否定）、画幅解析、主体抽取、`runLocalTurn` 七步流程；浏览器与服务端共用同一份 | `runLocalTurn` `runTurn` `isNegative` `parseRatio` `extractSubject` |
 | `prompt-engine.js` | 1375 | 70.9 KB | `bb0f32ef42` | 规则引擎：色板 / 占比 / 信息架构 / 否定清单 / 角度景别 / Style Lock / 模板匹配 / Prompt 组装 / 机械自检 / 画幅映射表 | `composePrompt` `planImagePack` `auditPlan` `matchTemplate` `RATIO_PIXELS` |
@@ -152,13 +152,13 @@
 | `rufus-facts.js` | 396 | 17.9 KB | `a8928c0fbe` | 事实层（无规则、无文案）：字段抽取、单位归一、材质冲突、图内文字未文本化、覆盖事实 | `materialConflicts` `judgeCoverage` `uncoveredImageText` |
 | `rufus-data.js` | 786 | 54.7 KB | `021f3079c9` | 纯数据层：8 个类目的属性表、买家高频问题、单位组、材质冲突词表 | `CATEGORY_ATTRIBUTES` `CATEGORY_QUESTIONS` `MATERIAL_CONFLICTS` |
 | `amazon-suggest.js` | 126 | 5.5 KB | `e2613ba345` | 亚马逊搜索建议接口的**唯一实现**（mid/lop 表 + URL 拼装 + 解析 + 不静默降级的返回契约）。MCP 与每周采集器共用这一份 | `suggest` `suggestUrl` `parseSuggestions` `normalizeSite` |
-| `keyword-seeds.js` | 168 | 6.8 KB | `ef6705e0e8` | 词根种子表（纯数据）：14 组 194 条人工挑过的英文词根。**词根是人的判断，长尾是机器的活** | `ROOTS` `ROOT_GROUPS` `ROOT_TO_GROUP` |
+| `keyword-seeds.js` | 168 | 6.7 KB | `a060749494` | 词根种子表（纯数据）：14 组 194 条人工挑过的英文词根。**词根是人的判断，长尾是机器的活** | `ROOTS` `ROOT_GROUPS` `ROOT_TO_GROUP` |
 | `keyword-roots.js` | 228 | 11.1 KB | `51b09c847f` | G-4 词根覆盖层（纯函数）：基线 194 条 + 运营在 `data/keywords/roots.json` 里的 added / removed / renamed。非法项单独进 `rejected` 并给理由，读坏了退回基线并说明，绝不中断采集 | `resolveRoots` `OVERLAY_SCHEMA` |
 | `keyword-vault.js` | 526 | 23.9 KB | `497bd009c6` | 快照合并的**唯一口径**：firstSeen 继承、新增/消失、ASIN 去重保最小名次、上限截断、陈旧判定；历史紧凑投影与两期对比（词 / ASIN 榜单变动）。纯函数 | `buildSnapshot` `staleness` `digestOf` `compareSnapshots` `diffAsins` `lookup` `isEmpty` |
 | `keywords-store.js` | 200 | 9.4 KB | `7d1638cc77` | 词库快照的**只读**落盘层（Node 专用）：没有写函数 —— MCP 与服务拿不到写入口，靠的是一个不存在的函数，不是自觉。另管站点文件路径与同日重跑不覆盖的历史序号 | `readLatest` `latestPath` `nextHistoryPath` `keywordsDir` |
 | `mcp-http.js` | 217 | 8.6 KB | `ca6c363a0f` | **Streamable HTTP 版 MCP 客户端**（我们当客户端去连第三方数据源）：一个 POST 一条 JSON-RPC、SSE 与 JSON 两种响应都认、回带 `Mcp-Session-Id`、通知不等回包。**只做传输**，不认厂商、不做白名单 | `HttpMcp` `HttpMcpError` |
 | `term-normalize.js` | 169 | 6.7 KB | `8902a0a03f` | 外部词表归一（纯函数）：把各家的 `keyword/searchTerm/…` + `searches/volume/…` 猜成 `{term, volume, rank}`，猜不出就返回 0 条并说明原因 —— **不编数据** | `normalizeTerms` `TERM_FIELDS` |
-| `competitor-keywords.js` | 359 | 20.4 KB | `2ce240ea49` | 竞品关键词内核（零网络）：词表 + 1–3 gram 切词 + 权重模型 + 类目识别 | `analyzeKeywords` `detectCatSlug` `buildNgrams` |
+| `competitor-keywords.js` | 359 | 20.0 KB | `596c61bb8f` | 竞品关键词内核（零网络）：词表 + 1–3 gram 切词 + 权重模型 + 类目识别 | `analyzeKeywords` `detectCatSlug` `buildNgrams` |
 | `copy-prompts.js` | 221 | 13.2 KB | `3b183be3db` | 5 类文案提示词拼装；字符上限全部取自 `listing.js`，一行不手写 | `buildCopyPrompt` `PROMPT_KINDS` |
 | `bestsellers.js` | 445 | 20.4 KB | `ab43968d32` | 亚马逊 Best Sellers 实时抓取：主机与地址形状双白名单、重定向复检、10 分钟缓存、强制美元 | `fetchBestsellers` `fetchSubs` `isAllowedAmazonUrl` |
 | `amazon.js` | 678 | 33.4 KB | `5e82f2d4e9` | 亚马逊页面解析与书签脚本（详情页 / 搜索结果页双模式） | `extractAny` `bookmarkletHref` `SITES` |
@@ -168,7 +168,7 @@
 | `md.js` | 135 | 4.5 KB | `6402499f66` | 极简 Markdown 渲染：先整体转义再白名单放行标签，防 XSS | `renderMarkdown` `escapeHtml` |
 | `select-ui.js` | 279 | 11.5 KB | `963efd9255` | 原生 `<select>` 的自绘替身（渐进增强），原生控件保留为取值仓库 | `enhanceSelects` |
 | `templates.js` | 1994 | 78.6 KB | `a758beeab9` | **生成物**：25 个模板的结构化数据 + 关键词索引（305 个词条）。不手改，改参考数据后重跑 `build-templates` | `TEMPLATES` `TEMPLATE_LIST` `KEYWORD_INDEX` |
-| `app.css` | 873 | 46.8 KB | `1dcf17e038` | 全站样式：颜色变量、布局、卡片、聊天流、图片墙与响应式 | — |
+| `app.css` | 887 | 46.8 KB | `24ce9da698` | 全站样式：颜色变量、布局、卡片、聊天流、图片墙与响应式 | — |
 | `selftest-browser.html` | 216 | 10.0 KB | `a5c7fa2f46` | 浏览器内自检页：IndexedDB 真往返等 Node 测不到的部分 | — |
 
 ### tools/
@@ -177,16 +177,16 @@
 
 | 文件 | 行数 | 体积 | 指纹 | 职责 | 对外接口 |
 |---|---:|---:|---|---|---|
-| `selftest.mjs` | 5535 | 323.5 KB | `7408c0c816` | 642 条断言：纯函数行为 + 源码级静态断言（28 条规则逐条的 fix、hits[].why/fix、覆盖度扩展向后兼容、CSV 往返、零 process.cwd()），不联网、不写盘 | 由 `node tools/selftest.mjs` 运行 |
+| `selftest.mjs` | 5546 | 324.3 KB | `40400b21e2` | 643 条断言：纯函数行为 + 源码级静态断言（28 条规则逐条的 fix、hits[].why/fix、覆盖度扩展向后兼容、CSV 往返、零 process.cwd()），不联网、不写盘 | 由 `node tools/selftest.mjs` 运行 |
 | `verify-server.mjs` | 1119 | 66.2 KB | `1164c8c260` | 290 条断言：真起服务打接口（SSRF / 目录穿越 / Host / 同源 / 配置原子写 / 打包下载 / 外部数据源门禁 / 无账号时的示例数据 / 词根覆盖层 / CSV 导出 / 历史对比） | 由 `node tools/verify-server.mjs` 运行 |
 | `browser-selftest.mjs` | 1032 | 68.2 KB | `bf0bf8738f` | 199 条断言：CDP 驱动无头浏览器，点遍 8 个视图并跑采集→对比闭环、外部数据源的示例入口、词库页默认收起的 6 个折叠区与双覆盖率渲染 | 由 `node tools/browser-selftest.mjs` 运行 |
 | `collect-keywords.mjs` | 674 | 35.8 KB | `4953018b32` | 每周词库采集器：词根覆盖层 → 搜索建议（194 条基线）→ 类目榜单 → ASIN；合并上一份保 firstSeen，同日重跑写 `-2` 不覆盖，落一份 <40KB 的历史投影。一句话都不通时**拒绝写盘**（exit 2）；非 US 站点未实测则默认拒绝（exit 4，须显式 `--allow-unverified`） | 由 `node tools/collect-keywords.mjs` 运行，`--dry-run` 用 fixture 跑完整管线 |
 | `keywords-selftest.mjs` | 519 | 35.5 KB | `418f683901` | 136 条断言：种子表口径、ASIN 字段对齐、合并唯一性、陈旧四态边界、采集器实跑（dry-run 到临时目录）、失败不覆盖、状态文件与文件锁、词面契约、词根覆盖层冲突语义、站点文件路径、历史投影体积、两期词 / ASIN 对比 | 由 `node tools/keywords-selftest.mjs` 运行 |
-| `dry-run.json` | 70 | 3.0 KB | `28284c36d1` | **自检专用假数据**（不是真实抓取结果）：6 个词根 × 若干建议词 + 3 个类目的 ASIN。只为验证管线 | 被 --dry-run 与 keywords-selftest 读取 |
+| `dry-run.json` | 70 | 3.0 KB | `4ee0c41a06` | **自检专用假数据**（不是真实抓取结果）：6 个词根 × 若干建议词 + 3 个类目的 ASIN。只为验证管线 | 被 --dry-run 与 keywords-selftest 读取 |
 | `sellersprite-demo.json` | 26 | 1.5 KB | `ea30784d24` | **示例数据**（`demo: true`，12 个词）：给没有卖家精灵账号的人先看清「导入之后长什么样」。只读仓库里的这一份，不写 `data/external/` | 被 `/api/external/terms?demo=1` 读取（设置页「没有账号？看示例对比」） |
 | `mcp-selftest.mjs` | 1290 | 78.4 KB | `8f53384922` | 248 条断言：真起 MCP 进程、真灌 JSON-RPC，验 stdout 纯度 / 工具契约 / 「未判定 ≠ 通过」口径 / 客户端配置可用性；另用本地 mock 服务验 Streamable HTTP 客户端（SSE/JSON 双格式、会话 id、超时、401）与外部词表归一；结尾硬断言 `data/` 一字节未变 | 由 `node tools/mcp-selftest.mjs` 运行 |
 | `assert-count.mjs` | 42 | 1.9 KB | `18cac9cc75` | 断言数守卫：实际少于期望就算失败（删断言/循环集合变小都会红），多于期望只提示去更新期望值 | 被三套自检 import |
-| `expected-counts.json` | 8 | 316 B | `15d3952fe2` | 断言数期望值（唯一事实源）。只许上调，下调必须有理由 | 被 tools/assert-count.mjs 读取 |
+| `expected-counts.json` | 8 | 316 B | `4e2ccc3b7a` | 断言数期望值（唯一事实源）。只许上调，下调必须有理由 | 被 tools/assert-count.mjs 读取 |
 | `build-templates.mjs` | 119 | 4.9 KB | `9bd8fcde8b` | 从参考仓的模板 JSON 生成 `assets/templates.js`，含必填字段校验与回读校验 | 由 `node tools/build-templates.mjs` 运行 |
 | `check-doc-numbers.py` | 303 | 14.4 KB | `9ca1517d11` | 核对文档里的行数 / 断言数 / 文件数是否与磁盘一致（文档会安静地说出过期数字，所以需要机器核对） | 由 `python tools/check-doc-numbers.py` 运行 |
 | `mcp-setup.mjs` | 158 | 8.3 KB | `6e76f1ad5d` | 一键生成 6 份客户端配置到 `data/mcp-setup/`（claude-code / claude-desktop / cursor / vscode / codex / workbuddy）；**绝不覆盖**客户端已有配置 | 由 `node tools/mcp-setup.mjs` 运行，`--list` 只看不写 |
@@ -203,7 +203,7 @@
 | `server.mjs` | 887 | 47.1 KB | `08305cee2a` | stdio JSON-RPC 实现：8 个工具（质检 / 预校验 / 覆盖度 / 词频 / Prompt / 快照对比 / 搜索建议 / 本周词库），工具定义与 run() 同处一处；`annotations` / `outputSchema` / `structuredContent` 全工具覆盖，参数校验走表驱动 `VALIDATORS`，`analyze_coverage.useVault` 是显式 opt-in。日志一律走 stderr，stdout 只放协议消息 | 由 `node mcp/server.mjs` 启动，`--no-net` 关掉唯一联网工具 |
 | `handler.mjs` | 174 | 8.5 KB | `e9391922fb` | P0-B2 回环 HTTP 的**纯请求处理层**：Host / Origin / Bearer / `?token=` 降级四道门、method 与 path 路由。不监听端口、不写文件、不碰真实 req/res 对象 | `createRequestHandler` |
 | `http.mjs` | 134 | 6.1 KB | `28d9858681` | P0-B2 回环 HTTP 进程入口：只绑 `127.0.0.1:8790`，复用 `mcp/server.mjs` 的同一个 `handle()`（动态 import 前先设 `MCP_HTTP_NO_STDIO=1`）。让客户端填一个 URL 就能接上 | 由 `node mcp/http.mjs` 或 `npm run mcp:http` 启动 |
-| `README.md` | 459 | 28.4 KB | `af7ff96479` | 接入说明：stdio 与回环 HTTP 两种接法、是什么 / 不是什么、八个工具的参数与返回、一次可粘贴的完整调用、传输与协议、排错表、边界清单与明确不做清单、第三方数据为什么必须各自 Token | — |
+| `README.md` | 459 | 27.9 KB | `f1f3bb5d37` | 接入说明：stdio 与回环 HTTP 两种接法、是什么 / 不是什么、八个工具的参数与返回、一次可粘贴的完整调用、传输与协议、排错表、边界清单与明确不做清单、第三方数据为什么必须各自 Token | — |
 | `claude-desktop.json` | 8 | 128 B | `6930ad96ea` | Claude Desktop 配置样例（`%APPDATA%\Claude\claude_desktop_config.json`） | 路径为 `<PROJECT_DIR>` 占位符 |
 | `claude-code.json` | 8 | 128 B | `6930ad96ea` | Claude Code 配置样例（项目根 `.mcp.json`） | 同上 |
 | `cursor.json` | 8 | 128 B | `6930ad96ea` | Cursor 配置样例（`.cursor/mcp.json`） | 同上 |
@@ -235,10 +235,10 @@
 |---|---:|---:|---|---|---|
 | `SPEC-P0-1-rufus.md` | 200 | 26.0 KB | `88daf76f59` | Rufus 检查模块的规格即契约：15 条 EARS 验收标准 + 15 条主动登记的已知边界 | — |
 | `ADR-001-rufus-module.md` | 501 | 73.1 KB | `6e0f324a6f` | 架构决策记录（MADR）：把每条验收标准落成可机械验证的 fixture | — |
-| `整合方案-竞品关键词进工作台.md` | 272 | 16.7 KB | `cf4a47933f` | 竞品关键词整合的可执行方案：能力盘点、形态决策、五阶段步骤、删除清单、风险登记 | — |
+| `整合方案-竞品关键词进工作台.md` | 272 | 16.4 KB | `98c784c007` | 竞品关键词整合的可执行方案：能力盘点、形态决策、五阶段步骤、删除清单、风险登记 | — |
 | `测试盲区清单.md` | 149 | 10.7 KB | `b39c32479a` | **全绿不等于对**：按「坏了会怎样」排序的盲区清单（外部站点改版、真实 API 漂移、IndexedDB 边界、规则本身、视觉/可达性、浏览器矩阵），含明确「不做」的清单与加断言的口径 | — |
 
-合计：**73 个文件 / 38,524 行 / 2.07 MB**。
+合计：**73 个文件 / 38,557 行 / 2.07 MB**。
 
 ---
 
@@ -251,12 +251,12 @@
 node server.mjs
 
 # 2. 三套自检必须**顺序**跑（并行会互相把对方生成的报告当成变动）
-node tools/selftest.mjs            # 642 条：纯函数 + 源码静态断言
+node tools/selftest.mjs            # 643 条：纯函数 + 源码静态断言
 node tools/verify-server.mjs       # 290 条：真起服务打接口
 node tools/browser-selftest.mjs    # 199 条：真浏览器端到端
 ```
 
-三套合计 **1131 条断言**（另有两套单列：MCP 248 条、词库 136 条）。自检脚本只读业务代码，且把数据目录重定向到临时目录，跑完不会改动你的真实数据。
+三套合计 **1132 条断言**（另有两套单列：MCP 248 条、词库 136 条）。自检脚本只读业务代码，且把数据目录重定向到临时目录，跑完不会改动你的真实数据。
 
 ---
 
@@ -3849,7 +3849,7 @@ jobs:
 
 > 前端外壳：视图路由、SSE 事件分发、消息渲染、各视图绑定、图片库与产物面板、Rufus / 竞品两张卡的渲染
 >
-> 4894 行｜246.5 KB｜sha256:395f82a30b
+> 4902 行｜247.0 KB｜sha256:341989c3c4
 
 ````javascript
 /**
@@ -5119,15 +5119,17 @@ function renderSharedBars() {
   const bulletCount = val("lBullets")
     ? val("lBullets").split("\n").filter(Boolean).length
     : val("lFeatures").split("\n").filter(Boolean).length;
+  // [标签, 是否有值, 有值时显示什么] —— 卖点显示条数而不是勾，条数本身是信息
   const items = [
-    ["品牌", val("lBrand")],
-    ["产品名", val("lName")],
-    ["卖点", bulletCount ? `${bulletCount} 条` : ""],
-    ["规格", val("lSize")],
+    ["品牌", !!val("lBrand"), ""],
+    ["产品名", !!val("lName"), ""],
+    ["卖点", bulletCount > 0, bulletCount ? `${bulletCount} 条` : ""],
+    ["规格", !!val("lSize"), ""],
   ];
   const html =
     '<span class="shared-lab">共用一份数据</span>' +
-    items.map(([k, v]) => `<span class="shared-chip${v ? "" : " miss"}">${escapeHtml(k)}${v ? " ✓" : " 缺"}</span>`).join("") +
+    items.map(([k, ok, note]) =>
+      `<span class="shared-chip${ok ? "" : " miss"}">${escapeHtml(k)} ${ok ? (note || "✓") : "缺"}</span>`).join("") +
     '<button type="button" class="btn ghost sm" data-shared-go>去左栏补</button>';
   for (const b of bars) b.innerHTML = html;
 }
@@ -6260,13 +6262,19 @@ function renderRufus() {
       t === "official" ? "官方口径" : "从业者口径"
     }</span>`;
 
+  // 依据与来源默认收起：每条规则都带「为什么存在 + 口径出处」是判据层的要求，
+  // 但全展开会让一屏只剩 5 条规则、看不出「哪几条命中了」。收起来不等于删掉——
+  // 点开就能查，界面上仍然一个字段都没少。
   const row = (x) => `
     <div class="rule ${rufusRowClass(x)}">
       <div class="id">${escapeHtml(x.id)}</div>
       <div class="body">
         <b>${escapeHtml(x.detail)}</b>
-        <div class="why">${escapeHtml(x.why)}</div>
-        <div class="src">来源：${escapeHtml(x.source)} ${tierChip(x.sourceTier)}</div>
+        <details class="rule-ref">
+          <summary>依据与来源</summary>
+          <div class="why">${escapeHtml(x.why)}</div>
+          <div class="src">来源：${escapeHtml(x.source)} ${tierChip(x.sourceTier)}</div>
+        </details>
       </div>
       ${rufusBadge(x)}
     </div>`;
@@ -16672,7 +16680,7 @@ export function suggest(prefix, site = "US", limit = 11) {
 
 > 词根种子表（纯数据）：14 组 194 条人工挑过的英文词根。**词根是人的判断，长尾是机器的活**
 >
-> 168 行｜6.8 KB｜sha256:ef6705e0e8
+> 168 行｜6.7 KB｜sha256:a060749494
 
 ````javascript
 /**
@@ -18234,7 +18242,7 @@ export const TERM_FIELDS = { TERM_KEYS, VOL_KEYS, RANK_KEYS, ASIN_KEYS };
 
 > 竞品关键词内核（零网络）：词表 + 1–3 gram 切词 + 权重模型 + 类目识别
 >
-> 359 行｜20.4 KB｜sha256:2ce240ea49
+> 359 行｜20.0 KB｜sha256:596c61bb8f
 
 ````javascript
 /**
@@ -23212,7 +23220,7 @@ export const KEYWORD_INDEX = (() => {
 
 > 全站样式：颜色变量、布局、卡片、聊天流、图片墙与响应式
 >
-> 873 行｜46.8 KB｜sha256:1dcf17e038
+> 887 行｜46.8 KB｜sha256:24ce9da698
 
 ````css
 /*
@@ -24088,6 +24096,20 @@ label.f span.selui { display: block; margin: 0; font-size: inherit; font-weight:
 }
 .shared-echo b { font-weight: 600; color: var(--slate-700); word-break: break-word; }
 .shared-echo .btn { margin-left: auto; }
+
+/* ─────────── 规则卡的「依据与来源」默认收起 ───────────
+ * 判据层的硬要求是「每条都要有依据 + 来源」，不是「每条都要一直占三行」。
+ * 收起后一屏能看的规则数翻倍，命中项才看得见；点开仍能逐条查证。 */
+.rule .body .rule-ref { margin-top: 2px; }
+.rule .body .rule-ref > summary {
+  display: inline-block; cursor: pointer; list-style: none;
+  font-size: 11px; color: var(--slate-400); user-select: none;
+}
+.rule .body .rule-ref > summary::-webkit-details-marker { display: none; }
+.rule .body .rule-ref > summary::before { content: "▸ "; }
+.rule .body .rule-ref[open] > summary::before { content: "▾ "; }
+.rule .body .rule-ref > summary:hover { color: var(--slate-600); }
+.rule .body .rule-ref[open] > summary { margin-bottom: 2px; }
 ````
 
 #### `assets/selftest-browser.html`
@@ -24321,9 +24343,9 @@ window.__SMOKE_DONE__ = true;
 
 #### `tools/selftest.mjs`
 
-> 642 条断言：纯函数行为 + 源码级静态断言（28 条规则逐条的 fix、hits[].why/fix、覆盖度扩展向后兼容、CSV 往返、零 process.cwd()），不联网、不写盘
+> 643 条断言：纯函数行为 + 源码级静态断言（28 条规则逐条的 fix、hits[].why/fix、覆盖度扩展向后兼容、CSV 往返、零 process.cwd()），不联网、不写盘
 >
-> 5535 行｜323.5 KB｜sha256:7408c0c816
+> 5546 行｜324.3 KB｜sha256:40400b21e2
 
 ````javascript
 #!/usr/bin/env node
@@ -29835,6 +29857,17 @@ t("批量质检能带上当前这条（读右栏标题，不是左栏产品名�
   assert.match(fn, /\\n---\\n/, "块之间没加分隔符，批量和单条会串成一条");
 });
 
+t("规则卡的「依据与来源」默认收起，但没被删掉", () => {
+  // 判据层的硬要求是「每条都要有 why + source」，不是「每条都要一直占三行」。
+  // 这条锁的是「收起」而不是「删除」：DOM 里必须还在，只是 details 默认不展开。
+  const fn = APP.slice(APP.indexOf("function renderRufus()"), APP.indexOf("function renderRufus()") + 4000);
+  assert.match(fn, /<details class="rule-ref">/, "没有用 details 收起");
+  assert.match(fn, /<summary>依据与来源<\/summary>/, "没有可点开的入口");
+  assert.match(fn, /class="why"/, "把 why 删了 —— 那是「为什么有这条规则」的唯一解释");
+  assert.match(fn, /class="src">来源：/, "把来源删了 —— 判据必须能追到出处");
+  assert.ok(!/<details class="rule-ref"\s+open/.test(fn), "默认展开等于没收起");
+});
+
 /* ─────────────── 汇总 ─────────────── */
 process.stdout.write(`\n${"─".repeat(60)}\n`);
 process.stdout.write(`共 ${pass + fail} 条断言：通过 ${pass}，失败 ${fail}\n`);
@@ -33247,7 +33280,7 @@ process.exit(fail ? 1 : 0);
 
 > **自检专用假数据**（不是真实抓取结果）：6 个词根 × 若干建议词 + 3 个类目的 ASIN。只为验证管线
 >
-> 70 行｜3.0 KB｜sha256:28284c36d1
+> 70 行｜3.0 KB｜sha256:4ee0c41a06
 
 ````json
 {
@@ -34711,12 +34744,12 @@ export function checkAssertCount(suite, actual) {
 
 > 断言数期望值（唯一事实源）。只许上调，下调必须有理由
 >
-> 8 行｜316 B｜sha256:15d3952fe2
+> 8 行｜316 B｜sha256:4e2ccc3b7a
 
 ````json
 {
   "_comment": "断言数期望值。减少 = 有断言被删掉了（视为失败）；增加 = 新增断言（提示更新本文件，不算失败）。由 tools/assert-count.mjs 读取。",
-  "selftest": 642,
+  "selftest": 643,
   "verify-server": 290,
   "browser-selftest": 199,
   "mcp-selftest": 248,
@@ -37310,7 +37343,7 @@ server.listen(PORT, "127.0.0.1", () => {
 
 > 接入说明：stdio 与回环 HTTP 两种接法、是什么 / 不是什么、八个工具的参数与返回、一次可粘贴的完整调用、传输与协议、排错表、边界清单与明确不做清单、第三方数据为什么必须各自 Token
 >
-> 459 行｜28.4 KB｜sha256:af7ff96479
+> 459 行｜27.9 KB｜sha256:f1f3bb5d37
 
 ````markdown
 # listing-studio MCP server
@@ -39036,7 +39069,7 @@ R4 覆盖判定（可执行，A1 定稿；`K` = 该题的 key 类 hint 集合，
 
 > 竞品关键词整合的可执行方案：能力盘点、形态决策、五阶段步骤、删除清单、风险登记
 >
-> 272 行｜16.7 KB｜sha256:cf4a47933f
+> 272 行｜16.4 KB｜sha256:98c784c007
 
 ````markdown
 # 整合方案 · 竞品关键词 → 文案提示词（并入跨境 Listing 优化工作台）

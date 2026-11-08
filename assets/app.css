@@ -871,3 +871,17 @@ label.f span.selui { display: block; margin: 0; font-size: inherit; font-weight:
 }
 .shared-echo b { font-weight: 600; color: var(--slate-700); word-break: break-word; }
 .shared-echo .btn { margin-left: auto; }
+
+/* ─────────── 规则卡的「依据与来源」默认收起 ───────────
+ * 判据层的硬要求是「每条都要有依据 + 来源」，不是「每条都要一直占三行」。
+ * 收起后一屏能看的规则数翻倍，命中项才看得见；点开仍能逐条查证。 */
+.rule .body .rule-ref { margin-top: 2px; }
+.rule .body .rule-ref > summary {
+  display: inline-block; cursor: pointer; list-style: none;
+  font-size: 11px; color: var(--slate-400); user-select: none;
+}
+.rule .body .rule-ref > summary::-webkit-details-marker { display: none; }
+.rule .body .rule-ref > summary::before { content: "▸ "; }
+.rule .body .rule-ref[open] > summary::before { content: "▾ "; }
+.rule .body .rule-ref > summary:hover { color: var(--slate-600); }
+.rule .body .rule-ref[open] > summary { margin-bottom: 2px; }

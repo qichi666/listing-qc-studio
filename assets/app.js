@@ -1265,15 +1265,17 @@ function renderSharedBars() {
   const bulletCount = val("lBullets")
     ? val("lBullets").split("\n").filter(Boolean).length
     : val("lFeatures").split("\n").filter(Boolean).length;
+  // [标签, 是否有值, 有值时显示什么] —— 卖点显示条数而不是勾，条数本身是信息
   const items = [
-    ["品牌", val("lBrand")],
-    ["产品名", val("lName")],
-    ["卖点", bulletCount ? `${bulletCount} 条` : ""],
-    ["规格", val("lSize")],
+    ["品牌", !!val("lBrand"), ""],
+    ["产品名", !!val("lName"), ""],
+    ["卖点", bulletCount > 0, bulletCount ? `${bulletCount} 条` : ""],
+    ["规格", !!val("lSize"), ""],
   ];
   const html =
     '<span class="shared-lab">共用一份数据</span>' +
-    items.map(([k, v]) => `<span class="shared-chip${v ? "" : " miss"}">${escapeHtml(k)}${v ? " ✓" : " 缺"}</span>`).join("") +
+    items.map(([k, ok, note]) =>
+      `<span class="shared-chip${ok ? "" : " miss"}">${escapeHtml(k)} ${ok ? (note || "✓") : "缺"}</span>`).join("") +
     '<button type="button" class="btn ghost sm" data-shared-go>去左栏补</button>';
   for (const b of bars) b.innerHTML = html;
 }
@@ -2406,13 +2408,19 @@ function renderRufus() {
       t === "official" ? "官方口径" : "从业者口径"
     }</span>`;
 
+  // 依据与来源默认收起：每条规则都带「为什么存在 + 口径出处」是判据层的要求，
+  // 但全展开会让一屏只剩 5 条规则、看不出「哪几条命中了」。收起来不等于删掉——
+  // 点开就能查，界面上仍然一个字段都没少。
   const row = (x) => `
     <div class="rule ${rufusRowClass(x)}">
       <div class="id">${escapeHtml(x.id)}</div>
       <div class="body">
         <b>${escapeHtml(x.detail)}</b>
-        <div class="why">${escapeHtml(x.why)}</div>
-        <div class="src">来源：${escapeHtml(x.source)} ${tierChip(x.sourceTier)}</div>
+        <details class="rule-ref">
+          <summary>依据与来源</summary>
+          <div class="why">${escapeHtml(x.why)}</div>
+          <div class="src">来源：${escapeHtml(x.source)} ${tierChip(x.sourceTier)}</div>
+        </details>
       </div>
       ${rufusBadge(x)}
     </div>`;
