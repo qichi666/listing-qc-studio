@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "site": "US",
+  "lastAttemptAt": "2026-11-08T07:43:35.022Z",
+  "lastSuccessAt": "2026-11-08T07:43:35.022Z",
+  "ok": true,
+  "exitCode": 0,
+  "reason": "",
+  "host": "runnervm7aw5e",
+  "budget": 214,
+  "requests": 212,
+  "keywordCount": 2067,
+  "asinCount": 771,
+  "durationMs": 304815
+}
