@@ -5470,6 +5470,43 @@ t("CSV：keywordList 过滤空值，顺序保持文件顺序", () => {
   assert.deepEqual(keywordList([{ keyword: "a" }, { keyword: "" }, { keyword: "b" }]), ["a", "b"]);
 });
 
+/* ─────────────── 批七：一份输入，全站共用 ───────────────
+ * 起因：⑥⑦⑧ 三块其实吃的是同一份数据（品牌/产品名/卖点/规格），但 ⑦ 还挂着
+ * 一个独立的「产品名」输入框 —— 同一件事问两遍，用户看到的就是「每个窗口都要重填」。
+ * 这组断言锁三件事：不再出现第二个输入框、三块都有共用状态条、批量能带当前这条。
+ */
+section("批七：一份输入，全站共用");
+
+t("🔴 ⑦ 的产品名不再是第二个输入框（同一件事不问两遍）", () => {
+  const block = HTML.slice(HTML.indexOf('id="drawerCp"'), HTML.indexOf('id="drawerAplus"'));
+  assert.match(block, /<input type="hidden" id="cpProduct">/, "cpProduct 不是隐藏字段，界面上又多了个输入框");
+  assert.ok(!/<input(?![^>]*hidden)[^>]*id="cpProduct"/.test(block), "⑦ 里还有一个可见的 cpProduct 输入框");
+  assert.match(block, /id="cpProductEcho"/, "没有回显：用户看不出这个值来自左栏");
+});
+
+t("三块下游抽屉都带「共用数据」状态条（缺项要能一眼看到）", () => {
+  for (const id of ["drawerRufus", "drawerCp", "drawerAplus"]) {
+    const i = HTML.indexOf(`id="${id}"`);
+    assert.ok(i > 0, `找不到 ${id}`);
+    const body = HTML.slice(i, i + 900);
+    assert.match(body, /data-shared-bar/, `${id} 里没有共用状态条`);
+  }
+});
+
+t("左栏改动会镜像到 ⑦ 的产品名，且缺项可跳转", () => {
+  assert.match(APP, /function syncSharedInputs\(\)/, "没有 syncSharedInputs");
+  assert.match(APP, /cp\.value !== name/, "镜像时不比对，会把光标位置打乱");
+  assert.match(APP, /function focusFirstMissing\(\)/, "没有「去补」的跳转");
+  assert.match(APP, /const SHARED_ORDER = \["lBrand", "lName", "lFeatures", "lSize"\]/, "缺项检查顺序被改");
+});
+
+t("批量质检能带上当前这条（读右栏标题，不是左栏产品名）", () => {
+  assert.match(APP, /function fillBatchCurrent\(\)/, "没有 fillBatchCurrent");
+  const fn = APP.slice(APP.indexOf("function fillBatchCurrent()"));
+  assert.match(fn.slice(0, 700), /\$\("#lTitle"\)/, "没读右栏标题：带进来的会是产品名而不是已写好的标题");
+  assert.match(fn, /\\n---\\n/, "块之间没加分隔符，批量和单条会串成一条");
+});
+
 /* ─────────────── 汇总 ─────────────── */
 process.stdout.write(`\n${"─".repeat(60)}\n`);
 process.stdout.write(`共 ${pass + fail} 条断言：通过 ${pass}，失败 ${fail}\n`);

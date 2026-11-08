@@ -365,6 +365,7 @@
             <details class="drawer" id="drawerRufus">
               <summary><b>⑥ Rufus 信息架构检查</b><span>准入层 · 能不能被纳进结构化比对</span></summary>
               <div class="drawer-body">
+                <div class="shared-bar" data-shared-bar></div>
                 <p class="hint">⑤ 查「文案合不合规」，这一层查「能不能被纳入结构化比对」：必填字段有没有空、跨字段事实有没有矛盾、同一维度有没有两套单位制、买家高频问题有没有答案句、图里的字有没有文本化。<b>不做 OCR、不猜图上内容</b>；<b>跳过项一律列出来并说明原因</b>。</p>
                 <details class="why">
                   <summary>Rufus / Alexa+ 是什么关系、能力边界</summary>
@@ -395,6 +396,7 @@
             <details class="drawer" id="drawerCp">
               <summary><b>⑦ 竞品关键词 → 文案提示词</b><span>从 Best Sellers 实时抓标题 → 本地算权重</span></summary>
               <div class="drawer-body">
+                <div class="shared-bar" data-shared-bar></div>
                 <p class="hint">从亚马逊 <b>Best Sellers 公开榜单页实时抓</b>竞品标题 → <b>本地</b>算关键词权重（覆盖率×50% + 位置×30% + 精准度×20%）→ 生成可复制的文案提示词。
                   ⚠️ 亚马逊改页面结构时会<b>抓不到</b>（如实报错，不会静默给假数据）；带 10 分钟缓存。原「关键词搜索」路径（<code>/s?k=</code>）已被封锁，本工作台不提供。</p>
                 <div class="grid c3">
@@ -430,7 +432,13 @@
                         <option value="">否（标题 75 字符）</option>
                         <option value="1">是（标题 200 字符）</option>
                       </select></label>
-                    <label class="f"><span>产品名<span class="chip">必填</span></span><input class="in" id="cpProduct" placeholder="例：蒙氏忙碌板 / Montessori Busy Board"></label>
+                    <!-- 🔴 不再单独要一次产品名：与左栏「产品名 / 核心词」是同一个值。
+                         input 保留但隐藏，是为了让下面所有读 #cpProduct 的代码只有一条读取路径；
+                         界面上只展示回显 + 「去左栏改」，避免同一件事问两遍。 -->
+                    <label class="f"><span>产品名<span class="chip">取自左栏</span></span>
+                      <input type="hidden" id="cpProduct">
+                      <span class="shared-echo"><b id="cpProductEcho">未填</b><button type="button" class="btn ghost sm" id="btnCpGoName">去左栏填</button></span>
+                      <small>与「产品与语料」里的<b>产品名 / 核心词</b>是同一个值，改左栏这里就跟着变。</small></label>
                   </div>
                   <div class="rowline">
                     <button class="btn primary sm" id="btnCpGen">生成提示词</button>
@@ -445,6 +453,7 @@
             <details class="drawer" id="drawerAplus">
               <summary><b>⑧ A+ 内容模块骨架</b><span>品牌故事 / 对比表 / 模块网格 + 配图提示词</span></summary>
               <div class="drawer-body">
+                <div class="shared-bar" data-shared-bar></div>
                 <p class="hint">品牌备案后才有 A+。这里给<b>三块模块的结构、写作预算与配图提示词</b>，内容从上面「产品与语料」里的品牌 / 产品名 / 卖点派生 —— 不是通用模板。
                   <b>不生成可直接提交的模块代码、不生成图片</b>：后台编辑器只认它自己的字段，任何「导出即上传」的说法都是假的。</p>
                 <div class="rowline">
@@ -466,6 +475,7 @@
                   <button class="btn primary sm" id="btnBatch">批量质检</button>
                   <button class="btn sm" id="btnBatchCsv" disabled>导出汇总 CSV</button>
                   <button class="btn ghost sm" id="btnBatchDemo">填个示例</button>
+                  <button class="btn ghost sm" id="btnBatchCurrent">带上当前这条</button>
                   <span class="hint" style="margin:0" id="batchStatus"></span>
                 </div>
                 <div id="batchOut"></div>

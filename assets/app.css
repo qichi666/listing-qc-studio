@@ -846,3 +846,28 @@ label.f span.selui { display: block; margin: 0; font-size: inherit; font-weight:
 /* 批量表：标题列与数字列之间留出气口，数字列不折行（"41" 被折成两行读起来像 4 和 1） */
 #batchOut table th, #batchOut table td { padding-right: 10px; }
 #batchOut table td.num { white-space: nowrap; }
+
+/* ─────────── 共用一份输入：各抽屉顶部的状态条 ───────────
+ * 存在的意义：让「这一块用的是什么数据、缺哪项」在展开的一瞬间可见。
+ * 没有它，用户会以为每个抽屉都要重新填一遍产品信息。 */
+.shared-bar {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 6px;
+  margin: 0 0 10px; padding: 8px 10px;
+  border: 1px solid var(--slate-200); border-radius: 8px; background: var(--slate-50);
+}
+.shared-lab { font-size: 12px; color: var(--slate-500); margin-right: 2px; }
+.shared-chip {
+  font-size: 12px; padding: 1px 8px; border-radius: 999px;
+  background: #fff; border: 1px solid var(--slate-200); color: var(--slate-700);
+}
+/* 缺项用红：这是唯一需要他动手的信号，不该和「已有」长得一样 */
+.shared-chip.miss { color: #b42318; border-color: #fda29b; background: #fef3f2; }
+.shared-bar .btn { margin-left: auto; }
+
+/* ⑦ 的产品名改为回显（与左栏同一个值），不再提供第二个输入框 */
+.shared-echo {
+  display: flex; align-items: center; gap: 8px; padding: 6px 10px;
+  border: 1px dashed var(--slate-300); border-radius: 8px; background: #fff;
+}
+.shared-echo b { font-weight: 600; color: var(--slate-700); word-break: break-word; }
+.shared-echo .btn { margin-left: auto; }

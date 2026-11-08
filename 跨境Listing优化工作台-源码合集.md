@@ -1,6 +1,6 @@
 # 跨境 Listing 质检工作台 · 源码合集
 
-> 按**真实目录结构**整理的全量源码（2026-11-08 生成）。共 **73 个文件 / 38,360 行 / 2.06 MB**。
+> 按**真实目录结构**整理的全量源码（2026-11-08 生成）。共 **73 个文件 / 38,524 行 / 2.07 MB**。
 > 每个文件都标注了职责与对外接口；正文按目录顺序排列，可对照解压后的 zip 逐条核对。
 
 **这份文件适合谁**
@@ -123,7 +123,7 @@
 | 文件 | 行数 | 体积 | 指纹 | 职责 | 对外接口 |
 |---|---:|---:|---|---|---|
 | `package.json` | 28 | 1.3 KB | `4630456735` | 零依赖声明与 npm 脚本；`type: module` 与 `engines.node>=20.15` 是整站能跑起来的前提 | — |
-| `index.html` | 864 | 61.0 KB | `aa83b7cc53` | 8 个视图的 DOM 骨架，不含业务逻辑（逻辑全在 `assets/app.js`） | — |
+| `index.html` | 874 | 61.9 KB | `440a5b0bf9` | 8 个视图的 DOM 骨架，不含业务逻辑（逻辑全在 `assets/app.js`） | — |
 | `server.mjs` | 2490 | 121.6 KB | `74c536ec90` | 零依赖 HTTP 服务：25 个接口、静态白名单、Host / 同源校验、SSRF 拦截、配置原子写、SSE 转发 | 由 `node server.mjs` 直接启动 |
 | `server-public.mjs` | 23 | 1.2 KB | `18709be10d` | 线上部署入口：只覆盖 HOST / PUBLIC_HOSTS / LISTING_NO_KEY_WRITE 三个环境变量，其余全部复用 `server.mjs` | 由 `node server-public.mjs` 启动 |
 | `.env.example` | 51 | 2.8 KB | `de5d9e8a92` | 全部配置项的样例，密钥一律留空 | 复制为 `.env.local` 后填写 |
@@ -135,7 +135,7 @@
 
 | 文件 | 行数 | 体积 | 指纹 | 职责 | 对外接口 |
 |---|---:|---:|---|---|---|
-| `app.js` | 4802 | 241.9 KB | `1965a1181e` | 前端外壳：视图路由、SSE 事件分发、消息渲染、各视图绑定、图片库与产物面板、Rufus / 竞品两张卡的渲染 | `ICONS` / `iconSvg` |
+| `app.js` | 4894 | 246.5 KB | `395f82a30b` | 前端外壳：视图路由、SSE 事件分发、消息渲染、各视图绑定、图片库与产物面板、Rufus / 竞品两张卡的渲染 | `ICONS` / `iconSvg` |
 | `api.js` | 234 | 9.0 KB | `2a9fd8c1dc` | 传输层：配置读写、探活（成功 60s / 失败 5s 双档 TTL）、SSE 解析、上传 / 生图 / 识图 / LLM 请求 | `probeServer` `streamSSE` `generateImage` `callVision` 等 |
 | `orchestrator.js` | 712 | 41.0 KB | `fa98766a25` | 编排层：意图判定（含否定）、画幅解析、主体抽取、`runLocalTurn` 七步流程；浏览器与服务端共用同一份 | `runLocalTurn` `runTurn` `isNegative` `parseRatio` `extractSubject` |
 | `prompt-engine.js` | 1375 | 70.9 KB | `bb0f32ef42` | 规则引擎：色板 / 占比 / 信息架构 / 否定清单 / 角度景别 / Style Lock / 模板匹配 / Prompt 组装 / 机械自检 / 画幅映射表 | `composePrompt` `planImagePack` `auditPlan` `matchTemplate` `RATIO_PIXELS` |
@@ -168,7 +168,7 @@
 | `md.js` | 135 | 4.5 KB | `6402499f66` | 极简 Markdown 渲染：先整体转义再白名单放行标签，防 XSS | `renderMarkdown` `escapeHtml` |
 | `select-ui.js` | 279 | 11.5 KB | `963efd9255` | 原生 `<select>` 的自绘替身（渐进增强），原生控件保留为取值仓库 | `enhanceSelects` |
 | `templates.js` | 1994 | 78.6 KB | `a758beeab9` | **生成物**：25 个模板的结构化数据 + 关键词索引（305 个词条）。不手改，改参考数据后重跑 `build-templates` | `TEMPLATES` `TEMPLATE_LIST` `KEYWORD_INDEX` |
-| `app.css` | 848 | 45.5 KB | `7d65681fe3` | 全站样式：颜色变量、布局、卡片、聊天流、图片墙与响应式 | — |
+| `app.css` | 873 | 46.8 KB | `1dcf17e038` | 全站样式：颜色变量、布局、卡片、聊天流、图片墙与响应式 | — |
 | `selftest-browser.html` | 216 | 10.0 KB | `a5c7fa2f46` | 浏览器内自检页：IndexedDB 真往返等 Node 测不到的部分 | — |
 
 ### tools/
@@ -177,7 +177,7 @@
 
 | 文件 | 行数 | 体积 | 指纹 | 职责 | 对外接口 |
 |---|---:|---:|---|---|---|
-| `selftest.mjs` | 5498 | 321.1 KB | `0bc60ebcdc` | 638 条断言：纯函数行为 + 源码级静态断言（28 条规则逐条的 fix、hits[].why/fix、覆盖度扩展向后兼容、CSV 往返、零 process.cwd()），不联网、不写盘 | 由 `node tools/selftest.mjs` 运行 |
+| `selftest.mjs` | 5535 | 323.5 KB | `7408c0c816` | 642 条断言：纯函数行为 + 源码级静态断言（28 条规则逐条的 fix、hits[].why/fix、覆盖度扩展向后兼容、CSV 往返、零 process.cwd()），不联网、不写盘 | 由 `node tools/selftest.mjs` 运行 |
 | `verify-server.mjs` | 1119 | 66.2 KB | `1164c8c260` | 290 条断言：真起服务打接口（SSRF / 目录穿越 / Host / 同源 / 配置原子写 / 打包下载 / 外部数据源门禁 / 无账号时的示例数据 / 词根覆盖层 / CSV 导出 / 历史对比） | 由 `node tools/verify-server.mjs` 运行 |
 | `browser-selftest.mjs` | 1032 | 68.2 KB | `bf0bf8738f` | 199 条断言：CDP 驱动无头浏览器，点遍 8 个视图并跑采集→对比闭环、外部数据源的示例入口、词库页默认收起的 6 个折叠区与双覆盖率渲染 | 由 `node tools/browser-selftest.mjs` 运行 |
 | `collect-keywords.mjs` | 674 | 35.8 KB | `4953018b32` | 每周词库采集器：词根覆盖层 → 搜索建议（194 条基线）→ 类目榜单 → ASIN；合并上一份保 firstSeen，同日重跑写 `-2` 不覆盖，落一份 <40KB 的历史投影。一句话都不通时**拒绝写盘**（exit 2）；非 US 站点未实测则默认拒绝（exit 4，须显式 `--allow-unverified`） | 由 `node tools/collect-keywords.mjs` 运行，`--dry-run` 用 fixture 跑完整管线 |
@@ -186,7 +186,7 @@
 | `sellersprite-demo.json` | 26 | 1.5 KB | `ea30784d24` | **示例数据**（`demo: true`，12 个词）：给没有卖家精灵账号的人先看清「导入之后长什么样」。只读仓库里的这一份，不写 `data/external/` | 被 `/api/external/terms?demo=1` 读取（设置页「没有账号？看示例对比」） |
 | `mcp-selftest.mjs` | 1290 | 78.4 KB | `8f53384922` | 248 条断言：真起 MCP 进程、真灌 JSON-RPC，验 stdout 纯度 / 工具契约 / 「未判定 ≠ 通过」口径 / 客户端配置可用性；另用本地 mock 服务验 Streamable HTTP 客户端（SSE/JSON 双格式、会话 id、超时、401）与外部词表归一；结尾硬断言 `data/` 一字节未变 | 由 `node tools/mcp-selftest.mjs` 运行 |
 | `assert-count.mjs` | 42 | 1.9 KB | `18cac9cc75` | 断言数守卫：实际少于期望就算失败（删断言/循环集合变小都会红），多于期望只提示去更新期望值 | 被三套自检 import |
-| `expected-counts.json` | 8 | 324 B | `5bd9762ca4` | 断言数期望值（唯一事实源）。只许上调，下调必须有理由 | 被 tools/assert-count.mjs 读取 |
+| `expected-counts.json` | 8 | 316 B | `15d3952fe2` | 断言数期望值（唯一事实源）。只许上调，下调必须有理由 | 被 tools/assert-count.mjs 读取 |
 | `build-templates.mjs` | 119 | 4.9 KB | `9bd8fcde8b` | 从参考仓的模板 JSON 生成 `assets/templates.js`，含必填字段校验与回读校验 | 由 `node tools/build-templates.mjs` 运行 |
 | `check-doc-numbers.py` | 303 | 14.4 KB | `9ca1517d11` | 核对文档里的行数 / 断言数 / 文件数是否与磁盘一致（文档会安静地说出过期数字，所以需要机器核对） | 由 `python tools/check-doc-numbers.py` 运行 |
 | `mcp-setup.mjs` | 158 | 8.3 KB | `6e76f1ad5d` | 一键生成 6 份客户端配置到 `data/mcp-setup/`（claude-code / claude-desktop / cursor / vscode / codex / workbuddy）；**绝不覆盖**客户端已有配置 | 由 `node tools/mcp-setup.mjs` 运行，`--list` 只看不写 |
@@ -238,7 +238,7 @@
 | `整合方案-竞品关键词进工作台.md` | 272 | 16.7 KB | `cf4a47933f` | 竞品关键词整合的可执行方案：能力盘点、形态决策、五阶段步骤、删除清单、风险登记 | — |
 | `测试盲区清单.md` | 149 | 10.7 KB | `b39c32479a` | **全绿不等于对**：按「坏了会怎样」排序的盲区清单（外部站点改版、真实 API 漂移、IndexedDB 边界、规则本身、视觉/可达性、浏览器矩阵），含明确「不做」的清单与加断言的口径 | — |
 
-合计：**73 个文件 / 38,360 行 / 2.06 MB**。
+合计：**73 个文件 / 38,524 行 / 2.07 MB**。
 
 ---
 
@@ -251,12 +251,12 @@
 node server.mjs
 
 # 2. 三套自检必须**顺序**跑（并行会互相把对方生成的报告当成变动）
-node tools/selftest.mjs            # 638 条：纯函数 + 源码静态断言
+node tools/selftest.mjs            # 642 条：纯函数 + 源码静态断言
 node tools/verify-server.mjs       # 290 条：真起服务打接口
 node tools/browser-selftest.mjs    # 199 条：真浏览器端到端
 ```
 
-三套合计 **1127 条断言**（另有两套单列：MCP 248 条、词库 136 条）。自检脚本只读业务代码，且把数据目录重定向到临时目录，跑完不会改动你的真实数据。
+三套合计 **1131 条断言**（另有两套单列：MCP 248 条、词库 136 条）。自检脚本只读业务代码，且把数据目录重定向到临时目录，跑完不会改动你的真实数据。
 
 ---
 
@@ -307,7 +307,7 @@ node tools/browser-selftest.mjs    # 199 条：真浏览器端到端
 
 > 8 个视图的 DOM 骨架，不含业务逻辑（逻辑全在 `assets/app.js`）
 >
-> 864 行｜61.0 KB｜sha256:aa83b7cc53
+> 874 行｜61.9 KB｜sha256:440a5b0bf9
 
 ````html
 <!DOCTYPE html>
@@ -677,6 +677,7 @@ node tools/browser-selftest.mjs    # 199 条：真浏览器端到端
             <details class="drawer" id="drawerRufus">
               <summary><b>⑥ Rufus 信息架构检查</b><span>准入层 · 能不能被纳进结构化比对</span></summary>
               <div class="drawer-body">
+                <div class="shared-bar" data-shared-bar></div>
                 <p class="hint">⑤ 查「文案合不合规」，这一层查「能不能被纳入结构化比对」：必填字段有没有空、跨字段事实有没有矛盾、同一维度有没有两套单位制、买家高频问题有没有答案句、图里的字有没有文本化。<b>不做 OCR、不猜图上内容</b>；<b>跳过项一律列出来并说明原因</b>。</p>
                 <details class="why">
                   <summary>Rufus / Alexa+ 是什么关系、能力边界</summary>
@@ -707,6 +708,7 @@ node tools/browser-selftest.mjs    # 199 条：真浏览器端到端
             <details class="drawer" id="drawerCp">
               <summary><b>⑦ 竞品关键词 → 文案提示词</b><span>从 Best Sellers 实时抓标题 → 本地算权重</span></summary>
               <div class="drawer-body">
+                <div class="shared-bar" data-shared-bar></div>
                 <p class="hint">从亚马逊 <b>Best Sellers 公开榜单页实时抓</b>竞品标题 → <b>本地</b>算关键词权重（覆盖率×50% + 位置×30% + 精准度×20%）→ 生成可复制的文案提示词。
                   ⚠️ 亚马逊改页面结构时会<b>抓不到</b>（如实报错，不会静默给假数据）；带 10 分钟缓存。原「关键词搜索」路径（<code>/s?k=</code>）已被封锁，本工作台不提供。</p>
                 <div class="grid c3">
@@ -742,7 +744,13 @@ node tools/browser-selftest.mjs    # 199 条：真浏览器端到端
                         <option value="">否（标题 75 字符）</option>
                         <option value="1">是（标题 200 字符）</option>
                       </select></label>
-                    <label class="f"><span>产品名<span class="chip">必填</span></span><input class="in" id="cpProduct" placeholder="例：蒙氏忙碌板 / Montessori Busy Board"></label>
+                    <!-- 🔴 不再单独要一次产品名：与左栏「产品名 / 核心词」是同一个值。
+                         input 保留但隐藏，是为了让下面所有读 #cpProduct 的代码只有一条读取路径；
+                         界面上只展示回显 + 「去左栏改」，避免同一件事问两遍。 -->
+                    <label class="f"><span>产品名<span class="chip">取自左栏</span></span>
+                      <input type="hidden" id="cpProduct">
+                      <span class="shared-echo"><b id="cpProductEcho">未填</b><button type="button" class="btn ghost sm" id="btnCpGoName">去左栏填</button></span>
+                      <small>与「产品与语料」里的<b>产品名 / 核心词</b>是同一个值，改左栏这里就跟着变。</small></label>
                   </div>
                   <div class="rowline">
                     <button class="btn primary sm" id="btnCpGen">生成提示词</button>
@@ -757,6 +765,7 @@ node tools/browser-selftest.mjs    # 199 条：真浏览器端到端
             <details class="drawer" id="drawerAplus">
               <summary><b>⑧ A+ 内容模块骨架</b><span>品牌故事 / 对比表 / 模块网格 + 配图提示词</span></summary>
               <div class="drawer-body">
+                <div class="shared-bar" data-shared-bar></div>
                 <p class="hint">品牌备案后才有 A+。这里给<b>三块模块的结构、写作预算与配图提示词</b>，内容从上面「产品与语料」里的品牌 / 产品名 / 卖点派生 —— 不是通用模板。
                   <b>不生成可直接提交的模块代码、不生成图片</b>：后台编辑器只认它自己的字段，任何「导出即上传」的说法都是假的。</p>
                 <div class="rowline">
@@ -778,6 +787,7 @@ node tools/browser-selftest.mjs    # 199 条：真浏览器端到端
                   <button class="btn primary sm" id="btnBatch">批量质检</button>
                   <button class="btn sm" id="btnBatchCsv" disabled>导出汇总 CSV</button>
                   <button class="btn ghost sm" id="btnBatchDemo">填个示例</button>
+                  <button class="btn ghost sm" id="btnBatchCurrent">带上当前这条</button>
                   <span class="hint" style="margin:0" id="batchStatus"></span>
                 </div>
                 <div id="batchOut"></div>
@@ -3839,7 +3849,7 @@ jobs:
 
 > 前端外壳：视图路由、SSE 事件分发、消息渲染、各视图绑定、图片库与产物面板、Rufus / 竞品两张卡的渲染
 >
-> 4802 行｜241.9 KB｜sha256:1965a1181e
+> 4894 行｜246.5 KB｜sha256:395f82a30b
 
 ````javascript
 /**
@@ -4113,6 +4123,7 @@ async function boot() {
   bindComposer();
   bindTemplates();
   bindListing();
+  bindSharedInputs();   // 草稿已还原、按钮已绑，再把左栏与各抽屉的联动接上
   bindCompetitor();
   bindCapture();
   bindLibrary();
@@ -5074,11 +5085,102 @@ function bindFormPersistence() {
   const btn = $("#btnClearForm");
   if (btn) btn.addEventListener("click", () => clearForm(btn));
   restoreForm();
+  // 草稿还原完之后先同步一次：否则页面刚打开时 ⑦ 的产品名与各抽屉的状态条都是空的，
+  // 用户会以为"又要重填一遍"。
+  syncSharedInputs();
+}
+
+/* ─────────── 共用一份输入：左栏「产品与语料」是唯一事实源 ───────────
+ *
+ * ⑥ Rufus / ⑦ 竞品关键词 / ⑧ A+ 三块都吃同一份数据（品牌 / 产品名 / 卖点 / 规格）。
+ * 以前 ⑦ 还挂着一个独立的「产品名」输入框 —— 同一件事问两遍，用户看到的就是
+ * 「每个窗口都要重填」。现在它只留隐藏字段做单一读取路径，界面上只做回显。
+ */
+
+/** 缺项检查顺序：按「填起来最快」排，不是按表单顺序。 */
+const SHARED_ORDER = ["lBrand", "lName", "lFeatures", "lSize"];
+
+/** 把左栏的值镜像给下游用的隐藏字段，并刷新各抽屉顶部的状态条。 */
+function syncSharedInputs() {
+  const name = ($("#lName")?.value || "").trim();
+  const cp = $("#cpProduct");
+  // 只在值真的变了才写，避免把用户的输入光标位置打乱
+  if (cp && cp.value !== name) cp.value = name;
+  const echo = $("#cpProductEcho");
+  if (echo) echo.textContent = name || "未填";
+  renderSharedBars();
+}
+
+/** 「共用数据」状态条：缺什么一眼看到，点一下跳到要补的那个框。 */
+function renderSharedBars() {
+  const bars = document.querySelectorAll("[data-shared-bar]");
+  if (!bars.length) return;              // 抽屉被拆走时整页不能崩
+  const val = (id) => ($("#" + id)?.value || "").trim();
+  const bulletCount = val("lBullets")
+    ? val("lBullets").split("\n").filter(Boolean).length
+    : val("lFeatures").split("\n").filter(Boolean).length;
+  const items = [
+    ["品牌", val("lBrand")],
+    ["产品名", val("lName")],
+    ["卖点", bulletCount ? `${bulletCount} 条` : ""],
+    ["规格", val("lSize")],
+  ];
+  const html =
+    '<span class="shared-lab">共用一份数据</span>' +
+    items.map(([k, v]) => `<span class="shared-chip${v ? "" : " miss"}">${escapeHtml(k)}${v ? " ✓" : " 缺"}</span>`).join("") +
+    '<button type="button" class="btn ghost sm" data-shared-go>去左栏补</button>';
+  for (const b of bars) b.innerHTML = html;
+}
+
+/** 跳到左栏第一个空着的框；全填了就把焦点给产品名。 */
+function focusFirstMissing() {
+  const els = SHARED_ORDER.map((id) => $("#" + id)).filter(Boolean);
+  const target = els.find((el) => !el.value.trim()) || $("#lName") || els[0];
+  if (!target) return;
+  target.scrollIntoView({ behavior: "smooth", block: "center" });
+  target.focus({ preventScroll: true });
+}
+
+/** 把当前这条（标题 + 五点）作为最后一块放进批量质检，省得再粘一次。 */
+function fillBatchCurrent() {
+  const ta = $("#batchIn");
+  if (!ta) return;
+  const title = ($("#lTitle")?.value || "").trim();
+  const bullets = (($("#lBullets")?.value || "").trim() || ($("#lFeatures")?.value || "").trim());
+  if (!title && !bullets) {
+    $("#batchStatus").textContent = "左栏还没有标题和五点，先填一条再来";
+    return;
+  }
+  const block = [title, ...bullets.split("\n").map((s) => s.trim()).filter(Boolean)].filter(Boolean).join("\n");
+  ta.value = ta.value.trim() ? `${ta.value.trim()}\n---\n${block}` : block;
+  const n = ta.value.split(/^\s*[-=─—]{3,}\s*$/m).length;
+  $("#batchStatus").textContent = `已把当前这条放到最后一块（共 ${n} 条）`;
+  if (n > BATCH_MAX) $("#batchStatus").textContent += `，超过上限 ${BATCH_MAX}，质检会报错`;
+}
+
+/** 联动接线：左栏任何改动都会刷新隐藏字段与三个抽屉的状态条。 */
+function bindSharedInputs() {
+  for (const el of formEls()) {
+    el.addEventListener("input", syncSharedInputs);
+    el.addEventListener("change", syncSharedInputs);
+  }
+  $("#btnCpGoName")?.addEventListener("click", focusFirstMissing);
+  $("#btnBatchCurrent")?.addEventListener("click", fillBatchCurrent);
+  // 状态条是动态渲染的，所以用委托：不指望那几个「去左栏补」按钮在绑定时已存在
+  document.addEventListener("click", (e) => {
+    if (e.target.closest("[data-shared-go]")) focusFirstMissing();
+  });
+  // 展开抽屉时再同步一次：看到的是此刻的值，不是上次展开时的快照
+  for (const d of document.querySelectorAll("details.drawer")) {
+    d.addEventListener("toggle", () => { if (d.open) syncSharedInputs(); });
+  }
+  syncSharedInputs();
 }
 
 function bindListing() {
   // 🔴 必须最先调：先把上次没写完的草稿还原回来，后面所有渲染与计数才有数据可算。
   bindFormPersistence();
+  // 左栏 → 抽屉的联动见 bindSharedInputs()（boot 里另调，避免打乱此处先后顺序）
   $("#btnDraft").addEventListener("click", () => generateDraft());
   $("#btnLint").addEventListener("click", runLint);
   $("#btnCoverage").addEventListener("click", runCoverage);
@@ -23110,7 +23212,7 @@ export const KEYWORD_INDEX = (() => {
 
 > 全站样式：颜色变量、布局、卡片、聊天流、图片墙与响应式
 >
-> 848 行｜45.5 KB｜sha256:7d65681fe3
+> 873 行｜46.8 KB｜sha256:1dcf17e038
 
 ````css
 /*
@@ -23961,6 +24063,31 @@ label.f span.selui { display: block; margin: 0; font-size: inherit; font-weight:
 /* 批量表：标题列与数字列之间留出气口，数字列不折行（"41" 被折成两行读起来像 4 和 1） */
 #batchOut table th, #batchOut table td { padding-right: 10px; }
 #batchOut table td.num { white-space: nowrap; }
+
+/* ─────────── 共用一份输入：各抽屉顶部的状态条 ───────────
+ * 存在的意义：让「这一块用的是什么数据、缺哪项」在展开的一瞬间可见。
+ * 没有它，用户会以为每个抽屉都要重新填一遍产品信息。 */
+.shared-bar {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 6px;
+  margin: 0 0 10px; padding: 8px 10px;
+  border: 1px solid var(--slate-200); border-radius: 8px; background: var(--slate-50);
+}
+.shared-lab { font-size: 12px; color: var(--slate-500); margin-right: 2px; }
+.shared-chip {
+  font-size: 12px; padding: 1px 8px; border-radius: 999px;
+  background: #fff; border: 1px solid var(--slate-200); color: var(--slate-700);
+}
+/* 缺项用红：这是唯一需要他动手的信号，不该和「已有」长得一样 */
+.shared-chip.miss { color: #b42318; border-color: #fda29b; background: #fef3f2; }
+.shared-bar .btn { margin-left: auto; }
+
+/* ⑦ 的产品名改为回显（与左栏同一个值），不再提供第二个输入框 */
+.shared-echo {
+  display: flex; align-items: center; gap: 8px; padding: 6px 10px;
+  border: 1px dashed var(--slate-300); border-radius: 8px; background: #fff;
+}
+.shared-echo b { font-weight: 600; color: var(--slate-700); word-break: break-word; }
+.shared-echo .btn { margin-left: auto; }
 ````
 
 #### `assets/selftest-browser.html`
@@ -24194,9 +24321,9 @@ window.__SMOKE_DONE__ = true;
 
 #### `tools/selftest.mjs`
 
-> 638 条断言：纯函数行为 + 源码级静态断言（28 条规则逐条的 fix、hits[].why/fix、覆盖度扩展向后兼容、CSV 往返、零 process.cwd()），不联网、不写盘
+> 642 条断言：纯函数行为 + 源码级静态断言（28 条规则逐条的 fix、hits[].why/fix、覆盖度扩展向后兼容、CSV 往返、零 process.cwd()），不联网、不写盘
 >
-> 5498 行｜321.1 KB｜sha256:0bc60ebcdc
+> 5535 行｜323.5 KB｜sha256:7408c0c816
 
 ````javascript
 #!/usr/bin/env node
@@ -29671,6 +29798,43 @@ t("CSV：keywordList 过滤空值，顺序保持文件顺序", () => {
   assert.deepEqual(keywordList([{ keyword: "a" }, { keyword: "" }, { keyword: "b" }]), ["a", "b"]);
 });
 
+/* ─────────────── 批七：一份输入，全站共用 ───────────────
+ * 起因：⑥⑦⑧ 三块其实吃的是同一份数据（品牌/产品名/卖点/规格），但 ⑦ 还挂着
+ * 一个独立的「产品名」输入框 —— 同一件事问两遍，用户看到的就是「每个窗口都要重填」。
+ * 这组断言锁三件事：不再出现第二个输入框、三块都有共用状态条、批量能带当前这条。
+ */
+section("批七：一份输入，全站共用");
+
+t("🔴 ⑦ 的产品名不再是第二个输入框（同一件事不问两遍）", () => {
+  const block = HTML.slice(HTML.indexOf('id="drawerCp"'), HTML.indexOf('id="drawerAplus"'));
+  assert.match(block, /<input type="hidden" id="cpProduct">/, "cpProduct 不是隐藏字段，界面上又多了个输入框");
+  assert.ok(!/<input(?![^>]*hidden)[^>]*id="cpProduct"/.test(block), "⑦ 里还有一个可见的 cpProduct 输入框");
+  assert.match(block, /id="cpProductEcho"/, "没有回显：用户看不出这个值来自左栏");
+});
+
+t("三块下游抽屉都带「共用数据」状态条（缺项要能一眼看到）", () => {
+  for (const id of ["drawerRufus", "drawerCp", "drawerAplus"]) {
+    const i = HTML.indexOf(`id="${id}"`);
+    assert.ok(i > 0, `找不到 ${id}`);
+    const body = HTML.slice(i, i + 900);
+    assert.match(body, /data-shared-bar/, `${id} 里没有共用状态条`);
+  }
+});
+
+t("左栏改动会镜像到 ⑦ 的产品名，且缺项可跳转", () => {
+  assert.match(APP, /function syncSharedInputs\(\)/, "没有 syncSharedInputs");
+  assert.match(APP, /cp\.value !== name/, "镜像时不比对，会把光标位置打乱");
+  assert.match(APP, /function focusFirstMissing\(\)/, "没有「去补」的跳转");
+  assert.match(APP, /const SHARED_ORDER = \["lBrand", "lName", "lFeatures", "lSize"\]/, "缺项检查顺序被改");
+});
+
+t("批量质检能带上当前这条（读右栏标题，不是左栏产品名）", () => {
+  assert.match(APP, /function fillBatchCurrent\(\)/, "没有 fillBatchCurrent");
+  const fn = APP.slice(APP.indexOf("function fillBatchCurrent()"));
+  assert.match(fn.slice(0, 700), /\$\("#lTitle"\)/, "没读右栏标题：带进来的会是产品名而不是已写好的标题");
+  assert.match(fn, /\\n---\\n/, "块之间没加分隔符，批量和单条会串成一条");
+});
+
 /* ─────────────── 汇总 ─────────────── */
 process.stdout.write(`\n${"─".repeat(60)}\n`);
 process.stdout.write(`共 ${pass + fail} 条断言：通过 ${pass}，失败 ${fail}\n`);
@@ -34547,12 +34711,12 @@ export function checkAssertCount(suite, actual) {
 
 > 断言数期望值（唯一事实源）。只许上调，下调必须有理由
 >
-> 8 行｜324 B｜sha256:5bd9762ca4
+> 8 行｜316 B｜sha256:15d3952fe2
 
 ````json
 {
   "_comment": "断言数期望值。减少 = 有断言被删掉了（视为失败）；增加 = 新增断言（提示更新本文件，不算失败）。由 tools/assert-count.mjs 读取。",
-  "selftest": 638,
+  "selftest": 642,
   "verify-server": 290,
   "browser-selftest": 199,
   "mcp-selftest": 248,

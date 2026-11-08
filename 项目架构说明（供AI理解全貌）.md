@@ -55,7 +55,7 @@ node server-public.mjs   # 线上演示形态：绑 0.0.0.0 + 取 $PORT + 禁写
 ├── .github/workflows/
 │   └── keywords.yml                    每周一 02:17 UTC 采集词库（也可在 Actions 页面手动触发）
 ├── assets/
-│   ├── app.js                    4802   前端主控：路由、消息模型、四张工作卡、设置、健康分/VOC/快照/体检
+│   ├── app.js                    4894   前端主控：路由、消息模型、四张工作卡、设置、健康分/VOC/快照/体检
 │   ├── app.css                    848   全部样式（含自绘下拉、健康分、体检、A+ 骨架）
 │   ├── orchestrator.js            712   编排层：意图→主体→模板→驱动→StyleLock→组装
 │   ├── prompt-engine.js          1375   视觉 Prompt 引擎：匹配/诊断/构图/整套规划/机械自检
@@ -95,7 +95,7 @@ node server-public.mjs   # 线上演示形态：绑 0.0.0.0 + 取 $PORT + 禁写
 │   ├── README.md                  295   接入说明：是什么/不是什么、八个工具、排错表、边界
 │   └── clients/                        6 份现成配置（Claude Desktop/Code、Cursor、VS Code、Codex、WorkBuddy）
 ├── tools/
-│   ├── selftest.mjs              5498   纯逻辑回归，638 条
+│   ├── selftest.mjs              5535   纯逻辑回归，642 条
 │   ├── verify-server.mjs         1119   服务端安全回归，290 条（真起服务、真发请求）
 │   ├── browser-selftest.mjs      1032   端到端回归，199 条（真起浏览器，走 CDP）
 │   ├── mcp-selftest.mjs          1290   MCP 协议回归，248 条（真起进程灌 JSON-RPC；结尾硬断言 data/ 未变）
@@ -571,13 +571,13 @@ probeServer()  ──在线──► postChat() ──SSE──► server.mjs /a
 
 | 套件 | 条数 | 跑什么 | 特点 |
 |---|---|---|---|
-| `tools/selftest.mjs` | **638** | 纯逻辑：Prompt 9 段、首图法规层、模板匹配排序、词频、规则命中、导出、store 纯函数、zip | 断言对象是**行为**（Prompt 里到底有没有那串约束），不是实现细节 |
+| `tools/selftest.mjs` | **642** | 纯逻辑：Prompt 9 段、首图法规层、模板匹配排序、词频、规则命中、导出、store 纯函数、zip | 断言对象是**行为**（Prompt 里到底有没有那串约束），不是实现细节 |
 | `tools/verify-server.mjs` | **290** | 真起 `server.mjs`、真发请求 | 目录穿越、Host 校验、SSRF、图片库路径、竞品参数白名单；进出各备份/还原 `.env.local` |
 | `tools/browser-selftest.mjs` | **199** | 真起浏览器（CDP，Node 内置 WebSocket） | `file://` 不启动、真实渲染、IndexedDB 读写、下拉替身定位、事件链 |
 | `tools/mcp-selftest.mjs` | **248** | 真起 `mcp/server.mjs`、真灌 JSON-RPC | stdout 纯度、工具契约、四态口径、6 份客户端配置可用性；结尾硬断言 `data/` 未变 |
 | `tools/keywords-selftest.mjs` | **136** | 采集器 dry-run 到临时目录 | 种子口径、合并唯一性、陈旧四态、失败不覆盖、文件锁 |
-| **产品三套合计** | **1127** | — | 顺序执行，全绿（MCP / 词库两套单独计，不入三套合计；`test:all` 已跑满五套 = 1511） |
-| **五套合计** | **1511** | — | 顺序执行，全绿 |
+| **产品三套合计** | **1131** | — | 顺序执行，全绿（MCP / 词库两套单独计，不入三套合计；`test:all` 已跑满五套 = 1515） |
+| **五套合计** | **1515** | — | 顺序执行，全绿 |
 
 辅助：`tools/check-doc-numbers.py` 核对文档行数与断言数（跑完会打印「全部一致（N 项）」）；`tools/make-share-pack.py` 打包后**解压到干净目录再跑一遍 selftest 与 mcp-selftest**。
 

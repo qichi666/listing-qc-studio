@@ -269,6 +269,7 @@ async function boot() {
   bindComposer();
   bindTemplates();
   bindListing();
+  bindSharedInputs();   // 草稿已还原、按钮已绑，再把左栏与各抽屉的联动接上
   bindCompetitor();
   bindCapture();
   bindLibrary();
@@ -1230,11 +1231,102 @@ function bindFormPersistence() {
   const btn = $("#btnClearForm");
   if (btn) btn.addEventListener("click", () => clearForm(btn));
   restoreForm();
+  // 草稿还原完之后先同步一次：否则页面刚打开时 ⑦ 的产品名与各抽屉的状态条都是空的，
+  // 用户会以为"又要重填一遍"。
+  syncSharedInputs();
+}
+
+/* ─────────── 共用一份输入：左栏「产品与语料」是唯一事实源 ───────────
+ *
+ * ⑥ Rufus / ⑦ 竞品关键词 / ⑧ A+ 三块都吃同一份数据（品牌 / 产品名 / 卖点 / 规格）。
+ * 以前 ⑦ 还挂着一个独立的「产品名」输入框 —— 同一件事问两遍，用户看到的就是
+ * 「每个窗口都要重填」。现在它只留隐藏字段做单一读取路径，界面上只做回显。
+ */
+
+/** 缺项检查顺序：按「填起来最快」排，不是按表单顺序。 */
+const SHARED_ORDER = ["lBrand", "lName", "lFeatures", "lSize"];
+
+/** 把左栏的值镜像给下游用的隐藏字段，并刷新各抽屉顶部的状态条。 */
+function syncSharedInputs() {
+  const name = ($("#lName")?.value || "").trim();
+  const cp = $("#cpProduct");
+  // 只在值真的变了才写，避免把用户的输入光标位置打乱
+  if (cp && cp.value !== name) cp.value = name;
+  const echo = $("#cpProductEcho");
+  if (echo) echo.textContent = name || "未填";
+  renderSharedBars();
+}
+
+/** 「共用数据」状态条：缺什么一眼看到，点一下跳到要补的那个框。 */
+function renderSharedBars() {
+  const bars = document.querySelectorAll("[data-shared-bar]");
+  if (!bars.length) return;              // 抽屉被拆走时整页不能崩
+  const val = (id) => ($("#" + id)?.value || "").trim();
+  const bulletCount = val("lBullets")
+    ? val("lBullets").split("\n").filter(Boolean).length
+    : val("lFeatures").split("\n").filter(Boolean).length;
+  const items = [
+    ["品牌", val("lBrand")],
+    ["产品名", val("lName")],
+    ["卖点", bulletCount ? `${bulletCount} 条` : ""],
+    ["规格", val("lSize")],
+  ];
+  const html =
+    '<span class="shared-lab">共用一份数据</span>' +
+    items.map(([k, v]) => `<span class="shared-chip${v ? "" : " miss"}">${escapeHtml(k)}${v ? " ✓" : " 缺"}</span>`).join("") +
+    '<button type="button" class="btn ghost sm" data-shared-go>去左栏补</button>';
+  for (const b of bars) b.innerHTML = html;
+}
+
+/** 跳到左栏第一个空着的框；全填了就把焦点给产品名。 */
+function focusFirstMissing() {
+  const els = SHARED_ORDER.map((id) => $("#" + id)).filter(Boolean);
+  const target = els.find((el) => !el.value.trim()) || $("#lName") || els[0];
+  if (!target) return;
+  target.scrollIntoView({ behavior: "smooth", block: "center" });
+  target.focus({ preventScroll: true });
+}
+
+/** 把当前这条（标题 + 五点）作为最后一块放进批量质检，省得再粘一次。 */
+function fillBatchCurrent() {
+  const ta = $("#batchIn");
+  if (!ta) return;
+  const title = ($("#lTitle")?.value || "").trim();
+  const bullets = (($("#lBullets")?.value || "").trim() || ($("#lFeatures")?.value || "").trim());
+  if (!title && !bullets) {
+    $("#batchStatus").textContent = "左栏还没有标题和五点，先填一条再来";
+    return;
+  }
+  const block = [title, ...bullets.split("\n").map((s) => s.trim()).filter(Boolean)].filter(Boolean).join("\n");
+  ta.value = ta.value.trim() ? `${ta.value.trim()}\n---\n${block}` : block;
+  const n = ta.value.split(/^\s*[-=─—]{3,}\s*$/m).length;
+  $("#batchStatus").textContent = `已把当前这条放到最后一块（共 ${n} 条）`;
+  if (n > BATCH_MAX) $("#batchStatus").textContent += `，超过上限 ${BATCH_MAX}，质检会报错`;
+}
+
+/** 联动接线：左栏任何改动都会刷新隐藏字段与三个抽屉的状态条。 */
+function bindSharedInputs() {
+  for (const el of formEls()) {
+    el.addEventListener("input", syncSharedInputs);
+    el.addEventListener("change", syncSharedInputs);
+  }
+  $("#btnCpGoName")?.addEventListener("click", focusFirstMissing);
+  $("#btnBatchCurrent")?.addEventListener("click", fillBatchCurrent);
+  // 状态条是动态渲染的，所以用委托：不指望那几个「去左栏补」按钮在绑定时已存在
+  document.addEventListener("click", (e) => {
+    if (e.target.closest("[data-shared-go]")) focusFirstMissing();
+  });
+  // 展开抽屉时再同步一次：看到的是此刻的值，不是上次展开时的快照
+  for (const d of document.querySelectorAll("details.drawer")) {
+    d.addEventListener("toggle", () => { if (d.open) syncSharedInputs(); });
+  }
+  syncSharedInputs();
 }
 
 function bindListing() {
   // 🔴 必须最先调：先把上次没写完的草稿还原回来，后面所有渲染与计数才有数据可算。
   bindFormPersistence();
+  // 左栏 → 抽屉的联动见 bindSharedInputs()（boot 里另调，避免打乱此处先后顺序）
   $("#btnDraft").addEventListener("click", () => generateDraft());
   $("#btnLint").addEventListener("click", runLint);
   $("#btnCoverage").addEventListener("click", runCoverage);
