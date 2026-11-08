@@ -41,3 +41,6 @@ desktop.ini
 
 # ── 文档同步的中间产物（可随时由 _export-details.mjs 重新生成）──────
 tools/_details.out
+
+# ── 本机应用注册标记（含绝对路径，换机器即失效）─────────────
+*.genie
