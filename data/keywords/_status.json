@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "site": "US",
-  "lastAttemptAt": "2026-11-08T07:43:35.022Z",
-  "lastSuccessAt": "2026-11-08T07:43:35.022Z",
+  "lastAttemptAt": "2026-11-09T09:51:29.969Z",
+  "lastSuccessAt": "2026-11-09T09:51:29.969Z",
   "ok": true,
   "exitCode": 0,
   "reason": "",
@@ -10,6 +10,6 @@
   "budget": 214,
   "requests": 212,
   "keywordCount": 2067,
-  "asinCount": 771,
-  "durationMs": 304815
+  "asinCount": 686,
+  "durationMs": 304773
 }
