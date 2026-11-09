@@ -1160,6 +1160,76 @@ export function generateListingDraft(input) {
     }
   }
 
+  // 🔴 回填：剥完不能就停手。
+  //    实测缺陷（2026-11-09）：五条卖点里第一条 56 字符，塞不进 70 就被整段剥走，
+  //    算法随即停在 "MUGO Ceramic Coffee Mug" —— **23 / 70 字符**，
+  //    而同一份输入里明明还有 45 字符的卖点完全塞得下。
+  //    结果就是：自己生成的稿子，被自己的 P4 判据提示「离硬顶还剩 52 字符」。
+  //
+  //    两条规则：
+  //    ① 只要还有余量，就用**最短的**候选（被剥下来的 + 没用上的卖点）回填；
+  //    ② 一条都塞不下时允许**让位**：按 audience → spec → feature 的顺序挤掉低价值段
+  //       （brand / core 永不让位），只要换完更长、且不超限就接受。
+  //       被挤掉的规格/人群不会消失 —— 它们留在 titleOverflow 里，
+  //       由下面的 ② 步搬进 Item Highlights（官方新规正是这么建议的）。
+  {
+    const ROLE_RANK = { brand: 0, core: 1, feature: 2, spec: 3, audience: 4 };
+    const rank = (r) => (ROLE_RANK[r] == null ? 9 : ROLE_RANK[r]);
+    const insertByRole = (list, part) => {
+      const at = list.findIndex((p) => rank(p.role) > rank(part.role));
+      if (at < 0) list.push(part); else list.splice(at, 0, part);
+    };
+    const used = new Set(kept.map((p) => String(p.text).trim()));
+    const pool = [
+      ...titleOverflow.filter((p) => p.role !== "cut"),
+      // 卖点里第 4、5 条原来根本没机会进标题（只取前 3 条）—— 短的完全可以补进去
+      ...features.slice(3).map((f) => ({ text: f, role: "feature" })),
+    ]
+      .filter((p) => String(p.text || "").trim() && !used.has(String(p.text).trim()))
+      .sort((a, b) => String(a.text).length - String(b.text).length);
+
+    for (const cand of pool) {
+      if (title.length >= LIMITS.titleStrict) break;
+      let working = kept.slice();
+      let accepted = false;
+      // 最多让位 working.length 次（每次都少一段，必然收敛）
+      for (let guard = 0; guard <= working.length; guard += 1) {
+        const trial = working.slice();
+        insertByRole(trial, cand);
+        const len = joinParts(trial).length;
+        if (len <= LIMITS.titleStrict) {
+          // 只有"换完更长"才接受，避免把长的换成短的（那不是回填）
+          if (len > title.length) {
+            working = trial;
+            accepted = true;
+          }
+          break;
+        }
+        // 找一项可以牺牲的：角色优先级最低、且不高于候选（同级可换同级）
+        let idx = -1;
+        let worst = -1;
+        working.forEach((p, i) => {
+          if (p === cand) return;
+          if (p.role === "brand" || p.role === "core") return;
+          if (rank(p.role) < rank(cand.role)) return;
+          if (rank(p.role) > worst) { worst = rank(p.role); idx = i; }
+        });
+        if (idx < 0) break;              // 没有可让位的 → 这条塞不进
+        working.splice(idx, 1);
+      }
+      if (!accepted) continue;
+      // 被挤出去的段必须留痕（后面 Highlights 还会用到它们）
+      for (const p of kept) {
+        if (!working.includes(p) && !titleOverflow.includes(p)) titleOverflow.push(p);
+      }
+      kept.splice(0, kept.length, ...working);
+      title = joinParts(kept);
+      used.add(String(cand.text).trim());
+      const oi = titleOverflow.indexOf(cand);
+      if (oi >= 0) titleOverflow.splice(oi, 1);
+    }
+  }
+
   // 五点：引导词 + 利益 + 支撑细节（结构对齐 C9 的「引导词:」）
   const BULLET_LEADS = [
     "EFFORTLESS EVERYDAY USE", "BUILT TO LAST", "THOUGHTFUL DETAILS",
@@ -1167,9 +1237,13 @@ export function generateListingDraft(input) {
   ];
   const bullets = features.slice(0, LIMITS.bulletCount).map((f, i) => {
     const lead = BULLET_LEADS[i] || `FEATURE ${i + 1}`;
-    const body = String(f).replace(/[.!。！]$/, "");
-    const tail = sizeSpec && i === 0 ? ` Measures ${sizeSpec}.` : "";
-    let b = `${lead}: ${body}${tail}`;
+    // 🔴 实测缺陷（2026-11-09）：原来是 `body + " Measures 350ml."` 直接空格拼接，
+    //    得到 "…silicone ring Measures 350ml." —— 两句粘连、缺句号、句首还小写，
+    //    一眼就是机器拼的。现在补句号、并把句首字母大写（中文输入不受影响）。
+    const raw = String(f == null ? "" : f).replace(/[.!。！]+$/, "").trim();
+    const body = raw ? raw.charAt(0).toUpperCase() + raw.slice(1) : "";
+    const tail = sizeSpec && i === 0 ? `Measures ${sizeSpec}.` : "";
+    let b = body ? `${lead}: ${body}.${tail ? ` ${tail}` : ""}` : `${lead}: ${tail}`;
     if (b.length > LIMITS.bullet) b = b.slice(0, LIMITS.bullet - 1).trim() + ".";
     return b;
   });
@@ -1205,18 +1279,23 @@ export function generateListingDraft(input) {
   const hlParts = hlFromOverflow.length + hlMaterial.length === 0
     ? hlFallback
     : [...hlMaterial, ...hlFromOverflow];   // 材质在前：官方举的就是 materials 优先
-  let highlights = [...new Set(hlParts)].join(", ");
+  // 🔴 **每个 part 是不可再分的一段**，剥的时候按 part 剥，不能拿拼好的字符串再按 ", " 切。
+  //    实测缺陷（2026-11-09）：人群填「office workers, home coffee drinkers」，
+  //    拼成 "for office workers, home coffee drinkers" 后超 125，按 ", " 一切 →
+  //    后半截被当成独立短语整段丢进 highlightsDropped。用户填的是**一个字段**，
+  //    却被拆成两条、还少了一条，而界面上只是淡淡一句"1 段被挤出"。
+  let hlSegs = [...new Set(hlParts)];
+  let highlights = hlSegs.join(", ");
   // 🔴 剥离必须留痕。项目的铁律是"算不出来宁可给 None，不给假数字"；
   //    同理，"被删掉的词"必须能被看见 —— 静默丢词会让用户以为关键词已经覆盖了，
   //    上架后才发现某个材质/规格根本没进去，而界面上一切正常。
   const highlightsDropped = [];
   if (highlights.length > LIMITS.itemHighlights) {
-    // 逗号是分隔符 —— 优先整段整段地剥，避免留下半截短语；剥不动才硬截。
-    const segs = highlights.split(", ");
-    while (highlights.length > LIMITS.itemHighlights && segs.length > 1) {
-      const gone = segs.pop();
+    // 按 part 整段剥，避免留下半截短语；剥不动（只剩一段）才硬截。
+    while (highlights.length > LIMITS.itemHighlights && hlSegs.length > 1) {
+      const gone = hlSegs.pop();
       if (gone) highlightsDropped.unshift({ text: gone, why: `超出 ${LIMITS.itemHighlights} 字符，整段移除` });
-      highlights = segs.join(", ");
+      highlights = hlSegs.join(", ");
     }
     if (highlights.length > LIMITS.itemHighlights) {
       const cut = highlights.slice(LIMITS.itemHighlights);

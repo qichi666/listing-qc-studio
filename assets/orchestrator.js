@@ -33,9 +33,48 @@ import { probeServer, postChat, generateImage, callVision, callLLM, hasImageKey,
 const GENERATE_WORDS = ["生图", "生成图片", "生成图", "出图", "画一张", "做一张", "直接生成", "render", "generate image", "generate images", "generate picture", "生几张"];
 const PACK_WORDS = ["整套", "全套", "详情页", "pdp", "主图堆栈", "一整套", "9 张", "9张", "五张主图", "5 张主图", "full set", "whole set", "detail page", "image set", "set of images", "all images", "5 main images", "9 images"];
 
+/* ── 组合判定：出图动词 + 图像名词 ─────────────────────────────────
+ * 🔴 为什么不能直接把「主图」塞进 GENERATE_WORDS：
+ *    「主图有什么要求？」「帮我写主图的五点」都含"主图"，加进去就会**真的调图片 API 花钱**。
+ *    反过来，只认「生成图 / 出图」这种连写词也不行 —— 用户的自然表达是
+ *    「帮我生成一款咖啡杯的白底主图」，动词和名词中间隔着产品名，连写词一个都不命中，
+ *    于是最该出图的一句话反而只出了 Prompt（2026-11-09 端到端实验踩到的实缺陷）。
+ *    治法：**同一句里同时出现动词与图像名词**才算意图，单看任一半都会有假阳/假阴。
+ */
+const GEN_VERBS = /(?:生成|生图|出图|画一|画个|画张|绘制|渲染|做一|做个|做张|来一|来张|帮我画|帮我做|帮我出|帮我生成|出一张|出张|给我一|给我做|给我画|给我出|接一张|接张|render|generate|draw|make|create)/i;
+const IMAGE_NOUNS = /(?:主图|场景图|白底图|产品图|详情页?图|首图|附图|细节图|尺寸图|效果图|宣传图|海报|图片|图像|一张图|两张图|几张图|张图|banner|image|photo|mockup|visual)/i;
+/** 明确只要文字（不要图）的诉求。命中就**不**判成出图意图。 */
+const TEXT_ONLY = /(?:文案|五点|卖点|标题|描述|搜索词|关键词|prompt|提示词)/i;
+/** 无视 TEXT_ONLY 的强出图信号：用户已经把话说到"出图"这个程度了。 */
+const STRONG_GEN = /(?:出图|生图|直接出图|画一张|画个图|做一张图|帮我画|render|generate image)/i;
+
+/** 出图信号在文本里的位置（供否定判定使用，避免"组合判定"这一支绕过否定词检查）。 */
+function generateCues(t) {
+  const hits = [];
+  for (const w of GENERATE_WORDS) {
+    const needle = w.toLowerCase();
+    let i = t.indexOf(needle);
+    while (i >= 0) {
+      hits.push(i);
+      i = t.indexOf(needle, i + 1);
+    }
+  }
+  const re = new RegExp(GEN_VERBS.source, "gi");
+  let m;
+  while ((m = re.exec(t)) !== null) {
+    hits.push(m.index);
+    if (m[0].length === 0) re.lastIndex += 1;
+  }
+  return hits;
+}
+
 export function isGenerateIntent(message) {
   const t = String(message || "").toLowerCase();
-  return GENERATE_WORDS.some((w) => t.includes(w.toLowerCase()));
+  if (GENERATE_WORDS.some((w) => t.includes(w.toLowerCase()))) return true;
+  // 组合判定：名词 + 动词都要有；纯文字诉求（文案/五点/标题…）不算，除非有强出图信号
+  if (!IMAGE_NOUNS.test(t) || !GEN_VERBS.test(t)) return false;
+  if (TEXT_ONLY.test(t) && !STRONG_GEN.test(t)) return false;
+  return true;
 }
 export function isPackIntent(message) {
   const t = String(message || "").toLowerCase();
@@ -57,9 +96,11 @@ const NEGATION = /(?:不要|不用|不需要|不必|无需|先别|暂时不|暂�
  */
 export function isNegative(message) {
   const t = String(message || "").toLowerCase();
-  for (const w of GENERATE_WORDS) {
-    const i = t.indexOf(w.toLowerCase());
-    if (i < 0) continue;
+  // 没有出图意图就谈不上"否定出图"（也避免组合判定之外的分支出现假阳）
+  if (!isGenerateIntent(t)) return false;
+  // 🔴 用 generateCues 而不是只遍历 GENERATE_WORDS：组合判定命中的那一支
+  //    （"暂时不要生成主图"里的"生成"）也必须走否定检查，否则它会照样调 API 烧钱。
+  for (const i of generateCues(t)) {
     // 🔴 只取**同一个分句**里的前文：否定作用域不过逗号/句号。
     //    "不要加文字，直接出图" —— 前 12 字符里确实有"不要"，但它修饰的是"文字"，
     //    不是"出图"。按分句切开后前文只剩"直接"，误判消失。
@@ -540,7 +581,11 @@ function buildBriefMarkdown({ subject, subjectMissing, tpl, m, driver, cat, styl
   }
   L.push(`### ⑦ 下一步`);
   if (wantGenerate) {
-    L.push(`检测到「出图」意图。→ 发送后**服务端编排会自动调用**你配置的图片 API（不需要再点别的按钮）；若还没配 key，去「设置」里填 IMG_BASE_URL / IMG_MODEL / IMG_API_KEY。`);
+    // 🔴 措辞不能写"发送后会自动调用"就完事：没配 Key 时它**确实会被调用，然后失败**，
+    //    用户在简报里读到"会自动调用"、紧接着看到红条报错，会觉得前后矛盾。
+    //    所以这里只承诺"会尝试"，并把失败时该看哪儿写在同一段里（2026-11-09 实验的 BUG-3）。
+    L.push(`检测到「出图」意图 → 本次会**尝试调用**你配置的图片 API（不需要再点别的按钮）。`);
+    L.push(`若下方没有出现图片：红条会写明原因 —— 最常见的是**还没配 Key**（那次不会产生费用），去「设置」填 IMG_BASE_URL / IMG_MODEL / IMG_API_KEY 即可。`);
   } else {
     L.push(`当前是 **Brief / Prompt 模式**（只出 Prompt，不出图）。想直接出图，把话里加上「**直接出图**」四个字再发一次即可（带上「出图」两个字就会真的调图片 API）。`);
   }

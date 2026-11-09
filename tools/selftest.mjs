@@ -1345,7 +1345,12 @@ t("草稿：标题溢出搬进 Highlights，而不是丢掉", () => {
   assert.ok(!/[.。]$/.test(d.highlights), `Highlights 写成了句子：${d.highlights}`);
   // 材质与规格要进 Highlights（这是官方给这个字段的定位）
   assert.match(d.highlights, /stainless steel/);
-  assert.match(d.highlights, /500ml/);
+  // 🔴 2026-11-10：标题加了「回填/让位」后，500ml 可能被塞回标题 —— 那是更好的结果，
+  //    但**不许**因此从两段里消失，也不许两段重复（官方要求两段各说各的）。
+  const specInTitle = d.title.includes("500ml");
+  const specInHl = d.highlights.includes("500ml");
+  assert.ok(specInTitle || specInHl, "500ml 既不在标题也不在 Highlights —— 被静默丢了");
+  assert.ok(!(specInTitle && specInHl), "500ml 同时在标题与 Highlights 里 —— 两段该各说各的");
   // 长卖点句**不该**被搬进来 —— 它们本来就要进五点，搬过来只是重复
   assert.ok(!d.highlights.includes("Double-wall vacuum insulation keeps drinks cold"), "长卖点句被重复搬进 Highlights 了");
   assert.equal(d.headlineChars, d.title.length + d.highlights.length);
@@ -4218,6 +4223,70 @@ t("Highlights 超限被挤出的短语必须留痕（不能静默丢词）", () 
 t("被挤出短语的长度合计与 highlightsDroppedChars 一致", () => {
   const sum = HL_LONG.highlightsDropped.reduce((n, d) => n + d.text.length, 0);
   assert.equal(HL_LONG.highlightsDroppedChars, sum);
+});
+
+/* ── 2026-11-09 端到端实验发现的三个缺陷（修复后补的回归）────────────
+ * 当时用户是真机点了一遍：出图意图不触发、人群字段后半截被丢、标题剥到 23/70。
+ * 这三条都不是"理论问题"，所以断言也照着**当时那句话**写。
+ */
+t("🔴 出图意图：自然表达「生成…主图」也触发（不再只认连写词）", () => {
+  for (const s of [
+    "帮我生成一款350ml陶瓷咖啡杯的白底主图",
+    "帮我出一张场景图",
+    "给我一张产品图",
+    "generate a hero image for this mug",
+  ]) {
+    assert.equal(isGenerateIntent(s), true, s);
+  }
+});
+
+t("🔴 只问图 / 只要文案不能被判成出图（误判会真的花钱调 API）", () => {
+  for (const s of ["主图有什么要求？", "帮我写主图的五点", "生成主图的文案", "帮我生成一条文案"]) {
+    assert.equal(isGenerateIntent(s), false, s);
+  }
+});
+
+t("🔴 组合判定命中的那支也要过否定检查（否则「暂时不要生成主图」照样烧钱）", () => {
+  assert.equal(isGenerateIntent("暂时不要生成主图"), true);
+  assert.equal(isNegative("暂时不要生成主图"), true);
+  assert.equal(isNegative("生成一张主图，画面不要文字"), false, "否定修饰的是「文字」，不是出图");
+});
+
+t("🔴 人群字段里的逗号不算短语分隔符（整段保留，不许丢后半截）", () => {
+  const d = generateListingDraft({
+    brand: "MUGO", productName: "Ceramic Coffee Mug", primaryKeyword: "Ceramic Coffee Mug",
+    features: ["Food-grade ceramic, lead free glaze"],
+    audience: "office workers, home coffee drinkers", sizeSpec: "350ml",
+  });
+  assert.ok(d.highlights.includes("office workers, home coffee drinkers"), `人群被拆开了：${d.highlights}`);
+  assert.deepEqual(d.highlightsDropped, [], JSON.stringify(d.highlightsDropped));
+});
+
+t("🔴 标题剥光了要回填：不许停在品牌+核心词（原缺陷 23/70）", () => {
+  const d = generateListingDraft({
+    brand: "MUGO", productName: "Ceramic Coffee Mug", primaryKeyword: "Ceramic Coffee Mug",
+    features: [
+      "Leak proof bamboo lid with food grade silicone ring seal",
+      "Double wall vacuum insulation keeps drinks hot 2 hours",
+      "Dishwasher safe matte glaze resists coffee stains",
+      "Comfort grip handle fits most car cup holders",
+      "Gift ready box for birthdays and office desks",
+    ],
+    audience: "office workers, home coffee drinkers", sizeSpec: "350ml", quantity: "1 Pack",
+  });
+  assert.ok(d.title.length <= LIMITS.titleStrict, `标题 ${d.title.length} 字符`);
+  assert.ok(d.title.length >= 60, `剥完只回填到 ${d.title.length} 字符（原缺陷是 23），余量浪费太多：${d.title}`);
+  assert.ok(/^MUGO /.test(d.title), d.title);
+  // 让位换下来的规格/人群不许消失 —— 必须落到两段之一
+  const both = `${d.title} || ${d.highlights}`;
+  assert.match(both, /350ml/, both);
+  assert.match(both, /office workers, home coffee drinkers/, both);
+});
+
+t("🔴 五点的卖点与规格之间要断开（原缺陷：'…ring Measures 350ml.' 两句粘连）", () => {
+  const d = generateListingDraft({ productName: "Ceramic Mug", features: ["leak proof bamboo lid"], sizeSpec: "350ml" });
+  assert.match(d.bullets[0], /\. Measures 350ml\.$/, d.bullets[0]);
+  assert.match(d.bullets[0], /^EFFORTLESS EVERYDAY USE: [A-Z]/, `句首没大写：${d.bullets[0]}`);
 });
 
 t("导出 JSON 带上被挤出的短语（否则字段看起来是填满的）", () => {

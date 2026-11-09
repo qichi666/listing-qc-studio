@@ -1,6 +1,6 @@
 # 跨境 Listing 质检工作台 · 源码合集
 
-> 按**真实目录结构**整理的全量源码（2026-11-08 生成）。共 **73 个文件 / 38,557 行 / 2.07 MB**。
+> 按**真实目录结构**整理的全量源码（2026-11-10 生成）。共 **73 个文件 / 38,750 行 / 2.08 MB**。
 > 每个文件都标注了职责与对外接口；正文按目录顺序排列，可对照解压后的 zip 逐条核对。
 
 **这份文件适合谁**
@@ -137,9 +137,9 @@
 |---|---:|---:|---|---|---|
 | `app.js` | 4902 | 247.0 KB | `341989c3c4` | 前端外壳：视图路由、SSE 事件分发、消息渲染、各视图绑定、图片库与产物面板、Rufus / 竞品两张卡的渲染 | `ICONS` / `iconSvg` |
 | `api.js` | 234 | 9.0 KB | `2a9fd8c1dc` | 传输层：配置读写、探活（成功 60s / 失败 5s 双档 TTL）、SSE 解析、上传 / 生图 / 识图 / LLM 请求 | `probeServer` `streamSSE` `generateImage` `callVision` 等 |
-| `orchestrator.js` | 712 | 41.0 KB | `fa98766a25` | 编排层：意图判定（含否定）、画幅解析、主体抽取、`runLocalTurn` 七步流程；浏览器与服务端共用同一份 | `runLocalTurn` `runTurn` `isNegative` `parseRatio` `extractSubject` |
+| `orchestrator.js` | 757 | 44.2 KB | `0092aeea64` | 编排层：意图判定（含否定）、画幅解析、主体抽取、`runLocalTurn` 七步流程；浏览器与服务端共用同一份 | `runLocalTurn` `runTurn` `isNegative` `parseRatio` `extractSubject` |
 | `prompt-engine.js` | 1375 | 70.9 KB | `bb0f32ef42` | 规则引擎：色板 / 占比 / 信息架构 / 否定清单 / 角度景别 / Style Lock / 模板匹配 / Prompt 组装 / 机械自检 / 画幅映射表 | `composePrompt` `planImagePack` `auditPlan` `matchTemplate` `RATIO_PIXELS` |
-| `listing.js` | 1800 | 109.3 KB | `53ebb60d64` | Listing 规则与字段：28 条质检规则（每条带可执行的 `fix`）、关键词挖掘、草稿生成、后台字段导出、Flat File CSV、覆盖度分析（支持 `targets` 分组）、多竞品对比 | `lintListing` `generateListingDraft` `exportListingFields` `analyzeCoverage` |
+| `listing.js` | 1879 | 113.6 KB | `0fdae1eb32` | Listing 规则与字段：28 条质检规则（每条带可执行的 `fix`）、关键词挖掘、草稿生成、后台字段导出、Flat File CSV、覆盖度分析（支持 `targets` 分组）、多竞品对比 | `lintListing` `generateListingDraft` `exportListingFields` `analyzeCoverage` |
 | `score.js` | 303 | 12.9 KB | `5cbf07b70d` | 健康分（项目自定义加权）：8 维权重单源、硬规则命中封顶 55、扣分项带 ruleId/source/fix、缺数据的维度不参与计分（按已计权重归一） | `scoreListing` `SCORE_DIMS` `gradeOf` |
 | `reviews.js` | 303 | 14.3 KB | `c5fa900d39` | 评论（VOC）本地分析：14 个方面的词表聚类（同一词表两种情感）、高频疑问、词频线索；样本 <5 只出线索 | `analyzeReviews` `reviewsFromPayload` `REVIEW_ASPECTS` |
 | `image-audit.js` | 307 | 12.6 KB | `f17b94c8e7` | 成图体检（纯像素，Canvas 原生）：背景是否接近纯白、商品占比 ≥85%、最长边分档、透明通道、文字线索；不做 OCR、不判 Logo | `auditPixels` `auditFileMeta` `auditImageBlob` |
@@ -177,7 +177,7 @@
 
 | 文件 | 行数 | 体积 | 指纹 | 职责 | 对外接口 |
 |---|---:|---:|---|---|---|
-| `selftest.mjs` | 5546 | 324.3 KB | `40400b21e2` | 643 条断言：纯函数行为 + 源码级静态断言（28 条规则逐条的 fix、hits[].why/fix、覆盖度扩展向后兼容、CSV 往返、零 process.cwd()），不联网、不写盘 | 由 `node tools/selftest.mjs` 运行 |
+| `selftest.mjs` | 5615 | 328.2 KB | `ae79ea3651` | 649 条断言：纯函数行为 + 源码级静态断言（28 条规则逐条的 fix、hits[].why/fix、覆盖度扩展向后兼容、CSV 往返、零 process.cwd()），不联网、不写盘 | 由 `node tools/selftest.mjs` 运行 |
 | `verify-server.mjs` | 1119 | 66.2 KB | `1164c8c260` | 290 条断言：真起服务打接口（SSRF / 目录穿越 / Host / 同源 / 配置原子写 / 打包下载 / 外部数据源门禁 / 无账号时的示例数据 / 词根覆盖层 / CSV 导出 / 历史对比） | 由 `node tools/verify-server.mjs` 运行 |
 | `browser-selftest.mjs` | 1032 | 68.2 KB | `bf0bf8738f` | 199 条断言：CDP 驱动无头浏览器，点遍 8 个视图并跑采集→对比闭环、外部数据源的示例入口、词库页默认收起的 6 个折叠区与双覆盖率渲染 | 由 `node tools/browser-selftest.mjs` 运行 |
 | `collect-keywords.mjs` | 674 | 35.8 KB | `4953018b32` | 每周词库采集器：词根覆盖层 → 搜索建议（194 条基线）→ 类目榜单 → ASIN；合并上一份保 firstSeen，同日重跑写 `-2` 不覆盖，落一份 <40KB 的历史投影。一句话都不通时**拒绝写盘**（exit 2）；非 US 站点未实测则默认拒绝（exit 4，须显式 `--allow-unverified`） | 由 `node tools/collect-keywords.mjs` 运行，`--dry-run` 用 fixture 跑完整管线 |
@@ -186,7 +186,7 @@
 | `sellersprite-demo.json` | 26 | 1.5 KB | `ea30784d24` | **示例数据**（`demo: true`，12 个词）：给没有卖家精灵账号的人先看清「导入之后长什么样」。只读仓库里的这一份，不写 `data/external/` | 被 `/api/external/terms?demo=1` 读取（设置页「没有账号？看示例对比」） |
 | `mcp-selftest.mjs` | 1290 | 78.4 KB | `8f53384922` | 248 条断言：真起 MCP 进程、真灌 JSON-RPC，验 stdout 纯度 / 工具契约 / 「未判定 ≠ 通过」口径 / 客户端配置可用性；另用本地 mock 服务验 Streamable HTTP 客户端（SSE/JSON 双格式、会话 id、超时、401）与外部词表归一；结尾硬断言 `data/` 一字节未变 | 由 `node tools/mcp-selftest.mjs` 运行 |
 | `assert-count.mjs` | 42 | 1.9 KB | `18cac9cc75` | 断言数守卫：实际少于期望就算失败（删断言/循环集合变小都会红），多于期望只提示去更新期望值 | 被三套自检 import |
-| `expected-counts.json` | 8 | 316 B | `4e2ccc3b7a` | 断言数期望值（唯一事实源）。只许上调，下调必须有理由 | 被 tools/assert-count.mjs 读取 |
+| `expected-counts.json` | 8 | 316 B | `c2f8b9a280` | 断言数期望值（唯一事实源）。只许上调，下调必须有理由 | 被 tools/assert-count.mjs 读取 |
 | `build-templates.mjs` | 119 | 4.9 KB | `9bd8fcde8b` | 从参考仓的模板 JSON 生成 `assets/templates.js`，含必填字段校验与回读校验 | 由 `node tools/build-templates.mjs` 运行 |
 | `check-doc-numbers.py` | 303 | 14.4 KB | `9ca1517d11` | 核对文档里的行数 / 断言数 / 文件数是否与磁盘一致（文档会安静地说出过期数字，所以需要机器核对） | 由 `python tools/check-doc-numbers.py` 运行 |
 | `mcp-setup.mjs` | 158 | 8.3 KB | `6e76f1ad5d` | 一键生成 6 份客户端配置到 `data/mcp-setup/`（claude-code / claude-desktop / cursor / vscode / codex / workbuddy）；**绝不覆盖**客户端已有配置 | 由 `node tools/mcp-setup.mjs` 运行，`--list` 只看不写 |
@@ -238,7 +238,7 @@
 | `整合方案-竞品关键词进工作台.md` | 272 | 16.4 KB | `98c784c007` | 竞品关键词整合的可执行方案：能力盘点、形态决策、五阶段步骤、删除清单、风险登记 | — |
 | `测试盲区清单.md` | 149 | 10.7 KB | `b39c32479a` | **全绿不等于对**：按「坏了会怎样」排序的盲区清单（外部站点改版、真实 API 漂移、IndexedDB 边界、规则本身、视觉/可达性、浏览器矩阵），含明确「不做」的清单与加断言的口径 | — |
 
-合计：**73 个文件 / 38,557 行 / 2.07 MB**。
+合计：**73 个文件 / 38,750 行 / 2.08 MB**。
 
 ---
 
@@ -251,12 +251,12 @@
 node server.mjs
 
 # 2. 三套自检必须**顺序**跑（并行会互相把对方生成的报告当成变动）
-node tools/selftest.mjs            # 643 条：纯函数 + 源码静态断言
+node tools/selftest.mjs            # 649 条：纯函数 + 源码静态断言
 node tools/verify-server.mjs       # 290 条：真起服务打接口
 node tools/browser-selftest.mjs    # 199 条：真浏览器端到端
 ```
 
-三套合计 **1132 条断言**（另有两套单列：MCP 248 条、词库 136 条）。自检脚本只读业务代码，且把数据目录重定向到临时目录，跑完不会改动你的真实数据。
+三套合计 **1138 条断言**（另有两套单列：MCP 248 条、词库 136 条）。自检脚本只读业务代码，且把数据目录重定向到临时目录，跑完不会改动你的真实数据。
 
 ---
 
@@ -9003,7 +9003,7 @@ export function downloadJSON(filename, obj) {
 
 > 编排层：意图判定（含否定）、画幅解析、主体抽取、`runLocalTurn` 七步流程；浏览器与服务端共用同一份
 >
-> 712 行｜41.0 KB｜sha256:fa98766a25
+> 757 行｜44.2 KB｜sha256:0092aeea64
 
 ````javascript
 /**
@@ -9041,9 +9041,48 @@ import { probeServer, postChat, generateImage, callVision, callLLM, hasImageKey,
 const GENERATE_WORDS = ["生图", "生成图片", "生成图", "出图", "画一张", "做一张", "直接生成", "render", "generate image", "generate images", "generate picture", "生几张"];
 const PACK_WORDS = ["整套", "全套", "详情页", "pdp", "主图堆栈", "一整套", "9 张", "9张", "五张主图", "5 张主图", "full set", "whole set", "detail page", "image set", "set of images", "all images", "5 main images", "9 images"];
 
+/* ── 组合判定：出图动词 + 图像名词 ─────────────────────────────────
+ * 🔴 为什么不能直接把「主图」塞进 GENERATE_WORDS：
+ *    「主图有什么要求？」「帮我写主图的五点」都含"主图"，加进去就会**真的调图片 API 花钱**。
+ *    反过来，只认「生成图 / 出图」这种连写词也不行 —— 用户的自然表达是
+ *    「帮我生成一款咖啡杯的白底主图」，动词和名词中间隔着产品名，连写词一个都不命中，
+ *    于是最该出图的一句话反而只出了 Prompt（2026-11-09 端到端实验踩到的实缺陷）。
+ *    治法：**同一句里同时出现动词与图像名词**才算意图，单看任一半都会有假阳/假阴。
+ */
+const GEN_VERBS = /(?:生成|生图|出图|画一|画个|画张|绘制|渲染|做一|做个|做张|来一|来张|帮我画|帮我做|帮我出|帮我生成|出一张|出张|给我一|给我做|给我画|给我出|接一张|接张|render|generate|draw|make|create)/i;
+const IMAGE_NOUNS = /(?:主图|场景图|白底图|产品图|详情页?图|首图|附图|细节图|尺寸图|效果图|宣传图|海报|图片|图像|一张图|两张图|几张图|张图|banner|image|photo|mockup|visual)/i;
+/** 明确只要文字（不要图）的诉求。命中就**不**判成出图意图。 */
+const TEXT_ONLY = /(?:文案|五点|卖点|标题|描述|搜索词|关键词|prompt|提示词)/i;
+/** 无视 TEXT_ONLY 的强出图信号：用户已经把话说到"出图"这个程度了。 */
+const STRONG_GEN = /(?:出图|生图|直接出图|画一张|画个图|做一张图|帮我画|render|generate image)/i;
+
+/** 出图信号在文本里的位置（供否定判定使用，避免"组合判定"这一支绕过否定词检查）。 */
+function generateCues(t) {
+  const hits = [];
+  for (const w of GENERATE_WORDS) {
+    const needle = w.toLowerCase();
+    let i = t.indexOf(needle);
+    while (i >= 0) {
+      hits.push(i);
+      i = t.indexOf(needle, i + 1);
+    }
+  }
+  const re = new RegExp(GEN_VERBS.source, "gi");
+  let m;
+  while ((m = re.exec(t)) !== null) {
+    hits.push(m.index);
+    if (m[0].length === 0) re.lastIndex += 1;
+  }
+  return hits;
+}
+
 export function isGenerateIntent(message) {
   const t = String(message || "").toLowerCase();
-  return GENERATE_WORDS.some((w) => t.includes(w.toLowerCase()));
+  if (GENERATE_WORDS.some((w) => t.includes(w.toLowerCase()))) return true;
+  // 组合判定：名词 + 动词都要有；纯文字诉求（文案/五点/标题…）不算，除非有强出图信号
+  if (!IMAGE_NOUNS.test(t) || !GEN_VERBS.test(t)) return false;
+  if (TEXT_ONLY.test(t) && !STRONG_GEN.test(t)) return false;
+  return true;
 }
 export function isPackIntent(message) {
   const t = String(message || "").toLowerCase();
@@ -9065,9 +9104,11 @@ const NEGATION = /(?:不要|不用|不需要|不必|无需|先别|暂时不|暂�
  */
 export function isNegative(message) {
   const t = String(message || "").toLowerCase();
-  for (const w of GENERATE_WORDS) {
-    const i = t.indexOf(w.toLowerCase());
-    if (i < 0) continue;
+  // 没有出图意图就谈不上"否定出图"（也避免组合判定之外的分支出现假阳）
+  if (!isGenerateIntent(t)) return false;
+  // 🔴 用 generateCues 而不是只遍历 GENERATE_WORDS：组合判定命中的那一支
+  //    （"暂时不要生成主图"里的"生成"）也必须走否定检查，否则它会照样调 API 烧钱。
+  for (const i of generateCues(t)) {
     // 🔴 只取**同一个分句**里的前文：否定作用域不过逗号/句号。
     //    "不要加文字，直接出图" —— 前 12 字符里确实有"不要"，但它修饰的是"文字"，
     //    不是"出图"。按分句切开后前文只剩"直接"，误判消失。
@@ -9548,7 +9589,11 @@ function buildBriefMarkdown({ subject, subjectMissing, tpl, m, driver, cat, styl
   }
   L.push(`### ⑦ 下一步`);
   if (wantGenerate) {
-    L.push(`检测到「出图」意图。→ 发送后**服务端编排会自动调用**你配置的图片 API（不需要再点别的按钮）；若还没配 key，去「设置」里填 IMG_BASE_URL / IMG_MODEL / IMG_API_KEY。`);
+    // 🔴 措辞不能写"发送后会自动调用"就完事：没配 Key 时它**确实会被调用，然后失败**，
+    //    用户在简报里读到"会自动调用"、紧接着看到红条报错，会觉得前后矛盾。
+    //    所以这里只承诺"会尝试"，并把失败时该看哪儿写在同一段里（2026-11-09 实验的 BUG-3）。
+    L.push(`检测到「出图」意图 → 本次会**尝试调用**你配置的图片 API（不需要再点别的按钮）。`);
+    L.push(`若下方没有出现图片：红条会写明原因 —— 最常见的是**还没配 Key**（那次不会产生费用），去「设置」填 IMG_BASE_URL / IMG_MODEL / IMG_API_KEY 即可。`);
   } else {
     L.push(`当前是 **Brief / Prompt 模式**（只出 Prompt，不出图）。想直接出图，把话里加上「**直接出图**」四个字再发一次即可（带上「出图」两个字就会真的调图片 API）。`);
   }
@@ -11108,7 +11153,7 @@ export { TEMPLATES, TEMPLATE_LIST, SIZE_BY_FIGURE, PROMPT_MAX_CHARS };
 
 > Listing 规则与字段：28 条质检规则（每条带可执行的 `fix`）、关键词挖掘、草稿生成、后台字段导出、Flat File CSV、覆盖度分析（支持 `targets` 分组）、多竞品对比
 >
-> 1800 行｜109.3 KB｜sha256:53ebb60d64
+> 1879 行｜113.6 KB｜sha256:0fdae1eb32
 
 ````javascript
 /**
@@ -12273,6 +12318,76 @@ export function generateListingDraft(input) {
     }
   }
 
+  // 🔴 回填：剥完不能就停手。
+  //    实测缺陷（2026-11-09）：五条卖点里第一条 56 字符，塞不进 70 就被整段剥走，
+  //    算法随即停在 "MUGO Ceramic Coffee Mug" —— **23 / 70 字符**，
+  //    而同一份输入里明明还有 45 字符的卖点完全塞得下。
+  //    结果就是：自己生成的稿子，被自己的 P4 判据提示「离硬顶还剩 52 字符」。
+  //
+  //    两条规则：
+  //    ① 只要还有余量，就用**最短的**候选（被剥下来的 + 没用上的卖点）回填；
+  //    ② 一条都塞不下时允许**让位**：按 audience → spec → feature 的顺序挤掉低价值段
+  //       （brand / core 永不让位），只要换完更长、且不超限就接受。
+  //       被挤掉的规格/人群不会消失 —— 它们留在 titleOverflow 里，
+  //       由下面的 ② 步搬进 Item Highlights（官方新规正是这么建议的）。
+  {
+    const ROLE_RANK = { brand: 0, core: 1, feature: 2, spec: 3, audience: 4 };
+    const rank = (r) => (ROLE_RANK[r] == null ? 9 : ROLE_RANK[r]);
+    const insertByRole = (list, part) => {
+      const at = list.findIndex((p) => rank(p.role) > rank(part.role));
+      if (at < 0) list.push(part); else list.splice(at, 0, part);
+    };
+    const used = new Set(kept.map((p) => String(p.text).trim()));
+    const pool = [
+      ...titleOverflow.filter((p) => p.role !== "cut"),
+      // 卖点里第 4、5 条原来根本没机会进标题（只取前 3 条）—— 短的完全可以补进去
+      ...features.slice(3).map((f) => ({ text: f, role: "feature" })),
+    ]
+      .filter((p) => String(p.text || "").trim() && !used.has(String(p.text).trim()))
+      .sort((a, b) => String(a.text).length - String(b.text).length);
+
+    for (const cand of pool) {
+      if (title.length >= LIMITS.titleStrict) break;
+      let working = kept.slice();
+      let accepted = false;
+      // 最多让位 working.length 次（每次都少一段，必然收敛）
+      for (let guard = 0; guard <= working.length; guard += 1) {
+        const trial = working.slice();
+        insertByRole(trial, cand);
+        const len = joinParts(trial).length;
+        if (len <= LIMITS.titleStrict) {
+          // 只有"换完更长"才接受，避免把长的换成短的（那不是回填）
+          if (len > title.length) {
+            working = trial;
+            accepted = true;
+          }
+          break;
+        }
+        // 找一项可以牺牲的：角色优先级最低、且不高于候选（同级可换同级）
+        let idx = -1;
+        let worst = -1;
+        working.forEach((p, i) => {
+          if (p === cand) return;
+          if (p.role === "brand" || p.role === "core") return;
+          if (rank(p.role) < rank(cand.role)) return;
+          if (rank(p.role) > worst) { worst = rank(p.role); idx = i; }
+        });
+        if (idx < 0) break;              // 没有可让位的 → 这条塞不进
+        working.splice(idx, 1);
+      }
+      if (!accepted) continue;
+      // 被挤出去的段必须留痕（后面 Highlights 还会用到它们）
+      for (const p of kept) {
+        if (!working.includes(p) && !titleOverflow.includes(p)) titleOverflow.push(p);
+      }
+      kept.splice(0, kept.length, ...working);
+      title = joinParts(kept);
+      used.add(String(cand.text).trim());
+      const oi = titleOverflow.indexOf(cand);
+      if (oi >= 0) titleOverflow.splice(oi, 1);
+    }
+  }
+
   // 五点：引导词 + 利益 + 支撑细节（结构对齐 C9 的「引导词:」）
   const BULLET_LEADS = [
     "EFFORTLESS EVERYDAY USE", "BUILT TO LAST", "THOUGHTFUL DETAILS",
@@ -12280,9 +12395,13 @@ export function generateListingDraft(input) {
   ];
   const bullets = features.slice(0, LIMITS.bulletCount).map((f, i) => {
     const lead = BULLET_LEADS[i] || `FEATURE ${i + 1}`;
-    const body = String(f).replace(/[.!。！]$/, "");
-    const tail = sizeSpec && i === 0 ? ` Measures ${sizeSpec}.` : "";
-    let b = `${lead}: ${body}${tail}`;
+    // 🔴 实测缺陷（2026-11-09）：原来是 `body + " Measures 350ml."` 直接空格拼接，
+    //    得到 "…silicone ring Measures 350ml." —— 两句粘连、缺句号、句首还小写，
+    //    一眼就是机器拼的。现在补句号、并把句首字母大写（中文输入不受影响）。
+    const raw = String(f == null ? "" : f).replace(/[.!。！]+$/, "").trim();
+    const body = raw ? raw.charAt(0).toUpperCase() + raw.slice(1) : "";
+    const tail = sizeSpec && i === 0 ? `Measures ${sizeSpec}.` : "";
+    let b = body ? `${lead}: ${body}.${tail ? ` ${tail}` : ""}` : `${lead}: ${tail}`;
     if (b.length > LIMITS.bullet) b = b.slice(0, LIMITS.bullet - 1).trim() + ".";
     return b;
   });
@@ -12318,18 +12437,23 @@ export function generateListingDraft(input) {
   const hlParts = hlFromOverflow.length + hlMaterial.length === 0
     ? hlFallback
     : [...hlMaterial, ...hlFromOverflow];   // 材质在前：官方举的就是 materials 优先
-  let highlights = [...new Set(hlParts)].join(", ");
+  // 🔴 **每个 part 是不可再分的一段**，剥的时候按 part 剥，不能拿拼好的字符串再按 ", " 切。
+  //    实测缺陷（2026-11-09）：人群填「office workers, home coffee drinkers」，
+  //    拼成 "for office workers, home coffee drinkers" 后超 125，按 ", " 一切 →
+  //    后半截被当成独立短语整段丢进 highlightsDropped。用户填的是**一个字段**，
+  //    却被拆成两条、还少了一条，而界面上只是淡淡一句"1 段被挤出"。
+  let hlSegs = [...new Set(hlParts)];
+  let highlights = hlSegs.join(", ");
   // 🔴 剥离必须留痕。项目的铁律是"算不出来宁可给 None，不给假数字"；
   //    同理，"被删掉的词"必须能被看见 —— 静默丢词会让用户以为关键词已经覆盖了，
   //    上架后才发现某个材质/规格根本没进去，而界面上一切正常。
   const highlightsDropped = [];
   if (highlights.length > LIMITS.itemHighlights) {
-    // 逗号是分隔符 —— 优先整段整段地剥，避免留下半截短语；剥不动才硬截。
-    const segs = highlights.split(", ");
-    while (highlights.length > LIMITS.itemHighlights && segs.length > 1) {
-      const gone = segs.pop();
+    // 按 part 整段剥，避免留下半截短语；剥不动（只剩一段）才硬截。
+    while (highlights.length > LIMITS.itemHighlights && hlSegs.length > 1) {
+      const gone = hlSegs.pop();
       if (gone) highlightsDropped.unshift({ text: gone, why: `超出 ${LIMITS.itemHighlights} 字符，整段移除` });
-      highlights = segs.join(", ");
+      highlights = hlSegs.join(", ");
     }
     if (highlights.length > LIMITS.itemHighlights) {
       const cut = highlights.slice(LIMITS.itemHighlights);
@@ -24343,9 +24467,9 @@ window.__SMOKE_DONE__ = true;
 
 #### `tools/selftest.mjs`
 
-> 643 条断言：纯函数行为 + 源码级静态断言（28 条规则逐条的 fix、hits[].why/fix、覆盖度扩展向后兼容、CSV 往返、零 process.cwd()），不联网、不写盘
+> 649 条断言：纯函数行为 + 源码级静态断言（28 条规则逐条的 fix、hits[].why/fix、覆盖度扩展向后兼容、CSV 往返、零 process.cwd()），不联网、不写盘
 >
-> 5546 行｜324.3 KB｜sha256:40400b21e2
+> 5615 行｜328.2 KB｜sha256:ae79ea3651
 
 ````javascript
 #!/usr/bin/env node
@@ -25695,7 +25819,12 @@ t("草稿：标题溢出搬进 Highlights，而不是丢掉", () => {
   assert.ok(!/[.。]$/.test(d.highlights), `Highlights 写成了句子：${d.highlights}`);
   // 材质与规格要进 Highlights（这是官方给这个字段的定位）
   assert.match(d.highlights, /stainless steel/);
-  assert.match(d.highlights, /500ml/);
+  // 🔴 2026-11-10：标题加了「回填/让位」后，500ml 可能被塞回标题 —— 那是更好的结果，
+  //    但**不许**因此从两段里消失，也不许两段重复（官方要求两段各说各的）。
+  const specInTitle = d.title.includes("500ml");
+  const specInHl = d.highlights.includes("500ml");
+  assert.ok(specInTitle || specInHl, "500ml 既不在标题也不在 Highlights —— 被静默丢了");
+  assert.ok(!(specInTitle && specInHl), "500ml 同时在标题与 Highlights 里 —— 两段该各说各的");
   // 长卖点句**不该**被搬进来 —— 它们本来就要进五点，搬过来只是重复
   assert.ok(!d.highlights.includes("Double-wall vacuum insulation keeps drinks cold"), "长卖点句被重复搬进 Highlights 了");
   assert.equal(d.headlineChars, d.title.length + d.highlights.length);
@@ -28568,6 +28697,70 @@ t("Highlights 超限被挤出的短语必须留痕（不能静默丢词）", () 
 t("被挤出短语的长度合计与 highlightsDroppedChars 一致", () => {
   const sum = HL_LONG.highlightsDropped.reduce((n, d) => n + d.text.length, 0);
   assert.equal(HL_LONG.highlightsDroppedChars, sum);
+});
+
+/* ── 2026-11-09 端到端实验发现的三个缺陷（修复后补的回归）────────────
+ * 当时用户是真机点了一遍：出图意图不触发、人群字段后半截被丢、标题剥到 23/70。
+ * 这三条都不是"理论问题"，所以断言也照着**当时那句话**写。
+ */
+t("🔴 出图意图：自然表达「生成…主图」也触发（不再只认连写词）", () => {
+  for (const s of [
+    "帮我生成一款350ml陶瓷咖啡杯的白底主图",
+    "帮我出一张场景图",
+    "给我一张产品图",
+    "generate a hero image for this mug",
+  ]) {
+    assert.equal(isGenerateIntent(s), true, s);
+  }
+});
+
+t("🔴 只问图 / 只要文案不能被判成出图（误判会真的花钱调 API）", () => {
+  for (const s of ["主图有什么要求？", "帮我写主图的五点", "生成主图的文案", "帮我生成一条文案"]) {
+    assert.equal(isGenerateIntent(s), false, s);
+  }
+});
+
+t("🔴 组合判定命中的那支也要过否定检查（否则「暂时不要生成主图」照样烧钱）", () => {
+  assert.equal(isGenerateIntent("暂时不要生成主图"), true);
+  assert.equal(isNegative("暂时不要生成主图"), true);
+  assert.equal(isNegative("生成一张主图，画面不要文字"), false, "否定修饰的是「文字」，不是出图");
+});
+
+t("🔴 人群字段里的逗号不算短语分隔符（整段保留，不许丢后半截）", () => {
+  const d = generateListingDraft({
+    brand: "MUGO", productName: "Ceramic Coffee Mug", primaryKeyword: "Ceramic Coffee Mug",
+    features: ["Food-grade ceramic, lead free glaze"],
+    audience: "office workers, home coffee drinkers", sizeSpec: "350ml",
+  });
+  assert.ok(d.highlights.includes("office workers, home coffee drinkers"), `人群被拆开了：${d.highlights}`);
+  assert.deepEqual(d.highlightsDropped, [], JSON.stringify(d.highlightsDropped));
+});
+
+t("🔴 标题剥光了要回填：不许停在品牌+核心词（原缺陷 23/70）", () => {
+  const d = generateListingDraft({
+    brand: "MUGO", productName: "Ceramic Coffee Mug", primaryKeyword: "Ceramic Coffee Mug",
+    features: [
+      "Leak proof bamboo lid with food grade silicone ring seal",
+      "Double wall vacuum insulation keeps drinks hot 2 hours",
+      "Dishwasher safe matte glaze resists coffee stains",
+      "Comfort grip handle fits most car cup holders",
+      "Gift ready box for birthdays and office desks",
+    ],
+    audience: "office workers, home coffee drinkers", sizeSpec: "350ml", quantity: "1 Pack",
+  });
+  assert.ok(d.title.length <= LIMITS.titleStrict, `标题 ${d.title.length} 字符`);
+  assert.ok(d.title.length >= 60, `剥完只回填到 ${d.title.length} 字符（原缺陷是 23），余量浪费太多：${d.title}`);
+  assert.ok(/^MUGO /.test(d.title), d.title);
+  // 让位换下来的规格/人群不许消失 —— 必须落到两段之一
+  const both = `${d.title} || ${d.highlights}`;
+  assert.match(both, /350ml/, both);
+  assert.match(both, /office workers, home coffee drinkers/, both);
+});
+
+t("🔴 五点的卖点与规格之间要断开（原缺陷：'…ring Measures 350ml.' 两句粘连）", () => {
+  const d = generateListingDraft({ productName: "Ceramic Mug", features: ["leak proof bamboo lid"], sizeSpec: "350ml" });
+  assert.match(d.bullets[0], /\. Measures 350ml\.$/, d.bullets[0]);
+  assert.match(d.bullets[0], /^EFFORTLESS EVERYDAY USE: [A-Z]/, `句首没大写：${d.bullets[0]}`);
 });
 
 t("导出 JSON 带上被挤出的短语（否则字段看起来是填满的）", () => {
@@ -34744,12 +34937,12 @@ export function checkAssertCount(suite, actual) {
 
 > 断言数期望值（唯一事实源）。只许上调，下调必须有理由
 >
-> 8 行｜316 B｜sha256:4e2ccc3b7a
+> 8 行｜316 B｜sha256:c2f8b9a280
 
 ````json
 {
   "_comment": "断言数期望值。减少 = 有断言被删掉了（视为失败）；增加 = 新增断言（提示更新本文件，不算失败）。由 tools/assert-count.mjs 读取。",
-  "selftest": 643,
+  "selftest": 649,
   "verify-server": 290,
   "browser-selftest": 199,
   "mcp-selftest": 248,
