@@ -3917,8 +3917,12 @@ t("N. 抓取模块不引入第三方依赖（保持项目零依赖）", () => {
 t("O1. 🔴 .env 必须真的被读到（原来只读 .env.local，而 5 处文案教用户写 .env）", () => {
   const srv = readFileSync(path.join(ROOT, "server.mjs"), "utf8");
   // 两个路径都要有；只留 ENV_LOCAL 就等于"文档说的文件名不生效"
-  assert.ok(/const ENV_LOCAL = path\.join\(HERE, "\.env\.local"\)/.test(srv), "缺少 .env.local 路径常量");
-  assert.ok(/const ENV_PLAIN = path\.join\(HERE, "\.env"\)/.test(srv), "缺少 .env 路径常量（.env 又会被忽略）");
+  //   两个文件都挂在 ENV_DIR 下（可被 LISTING_ENV_DIR 重定向到临时目录，
+  //   否则回归脚本构造不出「没配 Key」这个状态），默认值仍是项目根。
+  assert.ok(/const ENV_LOCAL = path\.join\(ENV_DIR, "\.env\.local"\)/.test(srv), "缺少 .env.local 路径常量");
+  assert.ok(/const ENV_PLAIN = path\.join\(ENV_DIR, "\.env"\)/.test(srv), "缺少 .env 路径常量（.env 又会被忽略）");
+  assert.ok(/const ENV_DIR = process\.env\.LISTING_ENV_DIR \? path\.resolve\(process\.env\.LISTING_ENV_DIR\) : HERE/.test(srv),
+    "缺少 LISTING_ENV_DIR 重定向入口：回归脚本无法构造「没配 Key」场景，且写配置会碰用户真实密钥文件");
   // envFileConfig 必须按顺序遍历两个文件，且先读到的不被覆盖（.env.local 优先）
   const fn = srv.slice(srv.indexOf("function envFileConfig()"), srv.indexOf("function getEnv("));
   assert.ok(/\[ENV_LOCAL, ENV_PLAIN\]/.test(fn), "envFileConfig 没有同时遍历 .env.local 与 .env");

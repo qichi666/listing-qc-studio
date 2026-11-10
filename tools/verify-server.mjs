@@ -1106,6 +1106,103 @@ for (const [tag, url, expectStatus, expectCode] of [
   }
 }
 
+/* ── 11c. 「没配 Key」的错误码：400 not-configured（绝不是 500） ─────────
+ * 🔴 语义：500 = 服务端自己坏了 → 监控告警、调用方重试、外部集成当事故；
+ *    这里其实是"请求前提不满足"（用户还没填 Key），和抠图代理的 not-configured 同类。
+ *    上游真的挂了才是网关故障 → 502 + code=upstream（用只回 401 的本地桩验证）。
+ */
+console.log("\n11c. AI 能力未配置 → 400 not-configured（不是 500） / 上游故障 → 502");
+
+{
+  const P12 = PORT + 9;
+  const dir12 = fs.mkdtempSync(path.join(os.tmpdir(), "clx-verify-cfg-"));
+  // 🔴 配置目录也重定向：本机若真配了 Key，"未配置"这个场景就构造不出来了
+  fs.mkdirSync(path.join(dir12, "gen"), { recursive: true });
+  const PNG_1X1 = Buffer.from(
+    "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==",
+    "base64",
+  );
+  fs.writeFileSync(path.join(dir12, "gen", "probe.png"), PNG_1X1);
+
+  const srv12 = spawn(process.execPath, [path.join(HERE, "server.mjs")], {
+    cwd: HERE,
+    env: { ...process.env, PORT: String(P12), HOST: "127.0.0.1",
+      LISTING_DATA: dir12, LISTING_KEYWORDS: path.join(dir12, "keywords"),
+      LISTING_ENV_DIR: dir12,          // 空目录 → 一定"没配"
+      CHAT_BASE_URL: "", CHAT_API_KEY: "", CHAT_MODEL: "", IMG_BASE_URL: "", IMG_API_KEY: "", IMG_MODEL: "" },
+    stdio: "ignore",
+  });
+  const stub = http.createServer((req, res) => {
+    res.writeHead(401, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ error: { message: "invalid api key" } }));
+  });
+  await new Promise((r) => stub.listen(P12 + 1, "127.0.0.1", r));
+  try {
+    await new Promise((r) => setTimeout(r, 1400));
+    const B12 = `http://127.0.0.1:${P12}`;
+    const post12 = (p, body) => fetch(B12 + p, {
+      method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body),
+    });
+
+    const llm = await post12("/api/llm", { user: "hi" });
+    const llmBody = await llm.json();
+    ck("🔴 POST /api/llm 未配置 → 400（不是 500，外部监控才不会当服务故障）",
+      llm.status === 400, `status=${llm.status}`);
+    ck("并且 code=not-configured + ok:false（调用方可判定「去配置」而不是「重试」）",
+      llmBody.ok === false && llmBody.code === "not-configured", JSON.stringify(llmBody).slice(0, 200));
+    ck("带可执行的 hint（说清去哪配、不配也不影响本地规则）",
+      typeof llmBody.hint === "string" && llmBody.hint.length > 10 && /不影响/.test(llmBody.hint), String(llmBody.hint));
+
+    const vis = await post12("/api/vision", { imageKey: "gen/probe.png" });
+    const visBody = await vis.json();
+    ck("POST /api/vision 未配置 → 400 + not-configured（识图与出图共用同一套配置）",
+      vis.status === 400 && visBody.code === "not-configured", `status=${vis.status} ${JSON.stringify(visBody).slice(0, 160)}`);
+
+    const img = await post12("/api/image", { prompt: "a mug" });
+    const imgBody = await img.json();
+    ck("POST /api/image 未配置 → 400 + not-configured（抛错路径也要带上 code）",
+      img.status === 400 && imgBody.code === "not-configured" && imgBody.ok === false,
+      `status=${img.status} ${JSON.stringify(imgBody).slice(0, 160)}`);
+  } finally {
+    srv12.kill();
+    await new Promise((r) => setTimeout(r, 250));
+    stub.close();
+    try { fs.rmSync(dir12, { recursive: true, force: true }); } catch { /* ignore */ }
+  }
+
+  /* 上游回 401：那是"网关下游失败"，语义是 502，不是 500。 */
+  const P13 = PORT + 11;
+  const dir13 = fs.mkdtempSync(path.join(os.tmpdir(), "clx-verify-up-"));
+  const srv13 = spawn(process.execPath, [path.join(HERE, "server.mjs")], {
+    cwd: HERE,
+    env: { ...process.env, PORT: String(P13), HOST: "127.0.0.1",
+      LISTING_DATA: dir13, LISTING_KEYWORDS: path.join(dir13, "keywords"), LISTING_ENV_DIR: dir13,
+      CHAT_BASE_URL: `http://127.0.0.1:${P13 + 1}`, CHAT_MODEL: "stub-model", CHAT_API_KEY: "stub-key" },
+    stdio: "ignore",
+  });
+  const stub2 = http.createServer((req, res) => {
+    res.writeHead(401, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ error: { message: "invalid api key" } }));
+  });
+  await new Promise((r) => stub2.listen(P13 + 1, "127.0.0.1", r));
+  try {
+    await new Promise((r) => setTimeout(r, 1400));
+    const r = await fetch(`http://127.0.0.1:${P13}/api/llm`, {
+      method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ user: "hi" }),
+    });
+    const b = await r.json().catch(() => ({}));
+    ck("🔴 上游 401 → 502 + code=upstream（网关下游失败，不是本站 500）",
+      r.status === 502 && b.code === "upstream", `status=${r.status} ${JSON.stringify(b).slice(0, 160)}`);
+    ck("502 的 error 里保留上游状态码（排查时要看得见 401，不能只说「调用失败」）",
+      /HTTP 401/.test(String(b.error)), String(b.error).slice(0, 120));
+  } finally {
+    srv13.kill();
+    await new Promise((r) => setTimeout(r, 250));
+    stub2.close();
+    try { fs.rmSync(dir13, { recursive: true, force: true }); } catch { /* ignore */ }
+  }
+}
+
 /* ── 硬断言：用户真实配置逐字节未变 ─────────────────────── */
 const after = fs.existsSync(ENV_LOCAL) ? fs.readFileSync(ENV_LOCAL) : null;
 const same = envBackup === null ? after === null : Boolean(after && envBackup.equals(after));

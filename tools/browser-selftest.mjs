@@ -266,6 +266,18 @@ try {
     /暂时没法对比/.test(String(demoInfo.text)) || /两边都有/.test(String(demoInfo.text)),
     JSON.stringify(String(demoInfo.text).slice(0, 160)));
 
+  /* ── 2d. 空输入点按钮：必须给反馈，不许"点了没反应" ──────────────
+   * 这两处原来是 `if (!x) return;`，点击后界面毫无变化 —— 用户只会以为按钮坏了。
+   * 项目铁律是"没数据也要说清原因"。此处刻意在**还没解析任何商品**时点快照按钮。 */
+  console.log("\n2d. 空输入的两个按钮：必须说清为什么没动作");
+  {
+    await cdp.eval("document.getElementById('btnSnapSave').click()");
+    await wait(350);
+    const toast = String(await cdp.eval("(document.getElementById('uiToast')||{}).textContent||''"));
+    ck("🔴 没采集商品时点「记一条快照」→ 弹出原因（不再静默 return）",
+      /还没有商品数据/.test(toast) && /采集/.test(toast), toast.slice(0, 160));
+  }
+
   /* ── 3. 本轮新增功能真的渲染出东西 ────────────────────────── */
   console.log("\n3. 本轮新增功能的界面");
   await cdp.eval("[...document.querySelectorAll('#nav button')].find(b=>b.dataset.view==='library').click()");
@@ -676,6 +688,28 @@ try {
   await cdp.eval("document.getElementById('btnMine').click()");
   await wait(500);
   ck("整页作为竞品语料也能跑词频", /Top1/.test(String(await cdp.eval("document.getElementById('mineOut').innerText"))));
+
+  /* ── 4a1. 语料为空时的词频挖掘：说清原因，而不是点了没反应 ──────
+   * 先备份语料、清空、点按钮、断言，再把语料写回去 —— 后面的用例还要用它。 */
+  {
+    const keepCorpus = String(await cdp.eval("document.getElementById('lCorpus').value"));
+    await cdp.eval(`(()=>{
+      const t=document.getElementById('lCorpus');
+      t.value=''; t.dispatchEvent(new Event('input',{bubbles:true}));
+      document.getElementById('mineOut').innerHTML='';
+      document.getElementById('btnMine').click();
+    })()`);
+    await wait(400);
+    const mineEmpty = String(await cdp.eval("document.getElementById('mineOut').textContent"));
+    ck("🔴 语料为空时点「词频挖掘」→ 给出原因与下一步（不再静默 return）",
+      /还没有语料/.test(mineEmpty) && /类目语料/.test(mineEmpty), mineEmpty.slice(0, 160));
+    ck("并且不产出任何词条 chip（空输入不许凑一张空表出来）",
+      (await cdp.eval("document.querySelectorAll('#mineOut .chip').length")) === 0);
+    await cdp.eval(`(()=>{
+      const t=document.getElementById('lCorpus');
+      t.value=${JSON.stringify(keepCorpus)}; t.dispatchEvent(new Event('input',{bubbles:true}));
+    })()`);
+  }
 
   /* ── 4a2. 本周词库：**没有数据时必须说清"还没生成"** ──
    * 本脚本把 LISTING_KEYWORDS 指到一个空的临时目录（见起服务处），所以这里必然是"没有快照"。

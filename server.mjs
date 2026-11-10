@@ -91,13 +91,19 @@ const DATA = process.env.LISTING_DATA
   : path.join(HERE, "data");
 const UPLOADS = path.join(DATA, "uploads");
 const GEN = path.join(DATA, "gen");
-const ENV_LOCAL = path.join(HERE, ".env.local");
+/* 配置文件目录可重定向：与上面 LISTING_DATA 同一套路。
+ * 🔴 为什么要这个开关：回归脚本必须能构造「没配 Key」这个状态，否则
+ *    「未配置 → 400 not-configured」这条根本测不了（用户一旦配了 Key，测试就测不到）。
+ *    顺带让"回归脚本绝不碰用户真实密钥文件"从"备份+还原"升级成"物理上另一个目录"。
+ *    默认值仍是项目根 —— 不设这个变量时行为与以前完全一致。 */
+const ENV_DIR = process.env.LISTING_ENV_DIR ? path.resolve(process.env.LISTING_ENV_DIR) : HERE;
+const ENV_LOCAL = path.join(ENV_DIR, ".env.local");
 // 🔴 两个名字都读，`.env.local` 优先。
 //    原因（2026-10-30 实测）：原来只读 `.env.local`，但 `.env.example` 第一行、启动日志、
 //    「未配置图片 API」的报错、设置页说明、README 一共 5 处都在教用户写 `.env`。
 //    照着做的人会得到 image=false，且**没有任何报错** —— 看起来像工具坏了。
 //    对照实验：只写 .env → capabilities.image=false；只写 .env.local → true。
-const ENV_PLAIN = path.join(HERE, ".env");
+const ENV_PLAIN = path.join(ENV_DIR, ".env");
 const UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36";
 const VERSION = "listing-studio/1.0.0";
 
@@ -416,10 +422,20 @@ function readBody(req, limitBytes = 32 * 1024 * 1024) {
 }
 
 /** 带 HTTP 状态码的错误：让上层能区分 415 / 400，而不是把一切都报成 400。 */
-function httpError(status, message) {
+function httpError(status, message, code) {
   const e = new Error(message);
   e.status = status;
+  if (code) e.code = code;
   return e;
+}
+
+/* 「这项能力没配 Key」的唯一出口：400 + code=not-configured + hint。
+ * 🔴 不许再回 500。500 的意思是"服务端自己坏了" —— 监控会告警、调用方会重试、外部集成会当成事故；
+ *    而这里其实是"请求前提不满足"（用户还没填 Key），和抠图代理的 not-configured 是同一类。
+ *    同一个语义必须同一个状态码同一个 code，否则调用方要按接口各写一套判断。
+ */
+function notConfigured(res, error, hint) {
+  return json(res, 400, { ok: false, code: "not-configured", error, ...(hint ? { hint } : {}) });
 }
 
 const JSON_CT = /^application\/(?:[\w.+-]+\+)?json\b/i;
@@ -583,7 +599,7 @@ function detectMode(baseUrl, explicit) {
 
 async function callImageAPI({ prompt, size, imageDataUri, onProgress, signal }) {
   const cfg = imgCfg();
-  if (!cfg.baseUrl || !cfg.apiKey) throw new Error("缺少 IMG_BASE_URL / IMG_API_KEY 配置");
+  if (!cfg.baseUrl || !cfg.apiKey) throw httpError(400, "缺少 IMG_BASE_URL / IMG_API_KEY 配置", "not-configured");
   const mode = detectMode(cfg.baseUrl, cfg.mode);
   const endpoint = `${cfg.baseUrl}/images/generations`;
   const send = resolveSendSize(size, mode, cfg.syncSizeMode);
@@ -1484,7 +1500,11 @@ async function handleImage(req, res) {
       progress,
     });
   } catch (e) {
-    json(res, e.status || 500, { error: e.message, elapsedMs: Date.now() - t0 });
+    json(res, e.status || 500, {
+      error: e.message, elapsedMs: Date.now() - t0,
+      // code 只在有意义时带上（not-configured / upstream），前端据此决定是"去配置"还是"重试"
+      ...(e.code ? { ok: false, code: e.code } : {}),
+    });
   }
 }
 
@@ -1494,7 +1514,7 @@ async function handleVision(req, res) {
     const p = keyToPath(imageKey);
     if (!p || !fs.existsSync(p)) return json(res, 400, { error: `imageKey 无效：${imageKey}` });
     const cfg = imgCfg();
-    if (!cfg.baseUrl || !cfg.apiKey) return json(res, 500, { error: "缺少 IMG_BASE_URL / IMG_API_KEY" });
+    if (!cfg.baseUrl || !cfg.apiKey) return notConfigured(res, "缺少 IMG_BASE_URL / IMG_API_KEY", "去「设置」填图片 API 的接口地址与 Key，或写进项目根目录的 .env.local 后重启服务。识图与出图共用这三项配置。");
     const ext = path.extname(p).slice(1).toLowerCase();
     const mime = ext === "jpg" ? "image/jpeg" : `image/${ext}`;
     const dataUri = `data:${mime};base64,${fs.readFileSync(p).toString("base64")}`;
@@ -1514,7 +1534,7 @@ async function handleVision(req, res) {
       }),
     }, 120000, abortOnDisconnect(res).signal);
     const j = await resp.json().catch(() => ({}));
-    if (!resp.ok) return json(res, 500, { error: `vision HTTP ${resp.status}: ${JSON.stringify(j).slice(0, 300)}` });
+    if (!resp.ok) return json(res, 502, { ok: false, code: "upstream", error: `vision HTTP ${resp.status}: ${JSON.stringify(j).slice(0, 300)}` });
     const raw = j?.choices?.[0]?.message?.content || "";
     let analysis = null;
     try { analysis = JSON.parse(raw.replace(/^```json\s*|\s*```$/g, "")); } catch { /* 保底给原始文本 */ }
@@ -1529,7 +1549,11 @@ async function handleLLM(req, res) {
     const { system = "", user = "", temperature = 0.6 } = await readJSON(req, { requireJson: true });
     const cfg = llmCfg();
     if (!cfg.baseUrl || !cfg.apiKey || !cfg.model) {
-      return json(res, 500, { error: "未配置 CHAT_BASE_URL / CHAT_MODEL / CHAT_API_KEY（这三项是可选的，不配也能用本地规则）" });
+      return notConfigured(
+        res,
+        "未配置 CHAT_BASE_URL / CHAT_MODEL / CHAT_API_KEY（这三项是可选的，不配也能用本地规则）",
+        "去「设置」填「AI 润色」那三项，或写进项目根目录的 .env.local 后重启服务。不配也不影响本地规则与 Prompt 生成。",
+      );
     }
     const resp = await fetchWithTimeout(`${cfg.baseUrl}/chat/completions`, {
       method: "POST",
@@ -1540,7 +1564,7 @@ async function handleLLM(req, res) {
       }),
     }, 120000, abortOnDisconnect(res).signal);
     const j = await resp.json().catch(() => ({}));
-    if (!resp.ok) return json(res, 500, { error: `HTTP ${resp.status}: ${JSON.stringify(j).slice(0, 300)}` });
+    if (!resp.ok) return json(res, 502, { ok: false, code: "upstream", error: `HTTP ${resp.status}: ${JSON.stringify(j).slice(0, 300)}` });
     json(res, 200, { text: j?.choices?.[0]?.message?.content || "", model: cfg.model });
   } catch (e) {
     json(res, e.status || 500, { error: e.message });

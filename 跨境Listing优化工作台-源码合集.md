@@ -1,6 +1,6 @@
 # 跨境 Listing 质检工作台 · 源码合集
 
-> 按**真实目录结构**整理的全量源码（2026-11-10 生成）。共 **73 个文件 / 38,750 行 / 2.08 MB**。
+> 按**真实目录结构**整理的全量源码（2026-11-10 生成）。共 **73 个文件 / 38,923 行 / 2.09 MB**。
 > 每个文件都标注了职责与对外接口；正文按目录顺序排列，可对照解压后的 zip 逐条核对。
 
 **这份文件适合谁**
@@ -124,7 +124,7 @@
 |---|---:|---:|---|---|---|
 | `package.json` | 28 | 1.3 KB | `4630456735` | 零依赖声明与 npm 脚本；`type: module` 与 `engines.node>=20.15` 是整站能跑起来的前提 | — |
 | `index.html` | 874 | 61.9 KB | `440a5b0bf9` | 8 个视图的 DOM 骨架，不含业务逻辑（逻辑全在 `assets/app.js`） | — |
-| `server.mjs` | 2490 | 121.6 KB | `74c536ec90` | 零依赖 HTTP 服务：25 个接口、静态白名单、Host / 同源校验、SSRF 拦截、配置原子写、SSE 转发 | 由 `node server.mjs` 直接启动 |
+| `server.mjs` | 2514 | 123.4 KB | `fad3f671db` | 零依赖 HTTP 服务：25 个接口、静态白名单、Host / 同源校验、SSRF 拦截、配置原子写、SSE 转发 | 由 `node server.mjs` 直接启动 |
 | `server-public.mjs` | 23 | 1.2 KB | `18709be10d` | 线上部署入口：只覆盖 HOST / PUBLIC_HOSTS / LISTING_NO_KEY_WRITE 三个环境变量，其余全部复用 `server.mjs` | 由 `node server-public.mjs` 启动 |
 | `.env.example` | 51 | 2.8 KB | `de5d9e8a92` | 全部配置项的样例，密钥一律留空 | 复制为 `.env.local` 后填写 |
 | `.github/workflows/keywords.yml` | 55 | 2.3 KB | `fa7dab151b` | 每周定时采集词库（周一 02:17 UTC + 手动触发）：跑采集器 → 跑词库自检 → 提交快照。失败不覆盖旧数据，job 会红 | 由 GitHub Actions 触发 |
@@ -135,7 +135,7 @@
 
 | 文件 | 行数 | 体积 | 指纹 | 职责 | 对外接口 |
 |---|---:|---:|---|---|---|
-| `app.js` | 4902 | 247.0 KB | `341989c3c4` | 前端外壳：视图路由、SSE 事件分发、消息渲染、各视图绑定、图片库与产物面板、Rufus / 竞品两张卡的渲染 | `ICONS` / `iconSvg` |
+| `app.js` | 4916 | 248.1 KB | `73982d3141` | 前端外壳：视图路由、SSE 事件分发、消息渲染、各视图绑定、图片库与产物面板、Rufus / 竞品两张卡的渲染 | `ICONS` / `iconSvg` |
 | `api.js` | 234 | 9.0 KB | `2a9fd8c1dc` | 传输层：配置读写、探活（成功 60s / 失败 5s 双档 TTL）、SSE 解析、上传 / 生图 / 识图 / LLM 请求 | `probeServer` `streamSSE` `generateImage` `callVision` 等 |
 | `orchestrator.js` | 757 | 44.2 KB | `0092aeea64` | 编排层：意图判定（含否定）、画幅解析、主体抽取、`runLocalTurn` 七步流程；浏览器与服务端共用同一份 | `runLocalTurn` `runTurn` `isNegative` `parseRatio` `extractSubject` |
 | `prompt-engine.js` | 1375 | 70.9 KB | `bb0f32ef42` | 规则引擎：色板 / 占比 / 信息架构 / 否定清单 / 角度景别 / Style Lock / 模板匹配 / Prompt 组装 / 机械自检 / 画幅映射表 | `composePrompt` `planImagePack` `auditPlan` `matchTemplate` `RATIO_PIXELS` |
@@ -177,16 +177,16 @@
 
 | 文件 | 行数 | 体积 | 指纹 | 职责 | 对外接口 |
 |---|---:|---:|---|---|---|
-| `selftest.mjs` | 5615 | 328.2 KB | `ae79ea3651` | 649 条断言：纯函数行为 + 源码级静态断言（28 条规则逐条的 fix、hits[].why/fix、覆盖度扩展向后兼容、CSV 往返、零 process.cwd()），不联网、不写盘 | 由 `node tools/selftest.mjs` 运行 |
-| `verify-server.mjs` | 1119 | 66.2 KB | `1164c8c260` | 290 条断言：真起服务打接口（SSRF / 目录穿越 / Host / 同源 / 配置原子写 / 打包下载 / 外部数据源门禁 / 无账号时的示例数据 / 词根覆盖层 / CSV 导出 / 历史对比） | 由 `node tools/verify-server.mjs` 运行 |
-| `browser-selftest.mjs` | 1032 | 68.2 KB | `bf0bf8738f` | 199 条断言：CDP 驱动无头浏览器，点遍 8 个视图并跑采集→对比闭环、外部数据源的示例入口、词库页默认收起的 6 个折叠区与双覆盖率渲染 | 由 `node tools/browser-selftest.mjs` 运行 |
+| `selftest.mjs` | 5619 | 328.7 KB | `07eb0a03ab` | 649 条断言：纯函数行为 + 源码级静态断言（28 条规则逐条的 fix、hits[].why/fix、覆盖度扩展向后兼容、CSV 往返、零 process.cwd()），不联网、不写盘 | 由 `node tools/selftest.mjs` 运行 |
+| `verify-server.mjs` | 1216 | 71.3 KB | `094c571b8f` | 297 条断言：真起服务打接口（SSRF / 目录穿越 / Host / 同源 / 配置原子写 / 打包下载 / 外部数据源门禁 / 无账号时的示例数据 / 词根覆盖层 / CSV 导出 / 历史对比） | 由 `node tools/verify-server.mjs` 运行 |
+| `browser-selftest.mjs` | 1066 | 70.3 KB | `df1a73cfc8` | 202 条断言：CDP 驱动无头浏览器，点遍 8 个视图并跑采集→对比闭环、外部数据源的示例入口、词库页默认收起的 6 个折叠区与双覆盖率渲染 | 由 `node tools/browser-selftest.mjs` 运行 |
 | `collect-keywords.mjs` | 674 | 35.8 KB | `4953018b32` | 每周词库采集器：词根覆盖层 → 搜索建议（194 条基线）→ 类目榜单 → ASIN；合并上一份保 firstSeen，同日重跑写 `-2` 不覆盖，落一份 <40KB 的历史投影。一句话都不通时**拒绝写盘**（exit 2）；非 US 站点未实测则默认拒绝（exit 4，须显式 `--allow-unverified`） | 由 `node tools/collect-keywords.mjs` 运行，`--dry-run` 用 fixture 跑完整管线 |
 | `keywords-selftest.mjs` | 519 | 35.5 KB | `418f683901` | 136 条断言：种子表口径、ASIN 字段对齐、合并唯一性、陈旧四态边界、采集器实跑（dry-run 到临时目录）、失败不覆盖、状态文件与文件锁、词面契约、词根覆盖层冲突语义、站点文件路径、历史投影体积、两期词 / ASIN 对比 | 由 `node tools/keywords-selftest.mjs` 运行 |
 | `dry-run.json` | 70 | 3.0 KB | `4ee0c41a06` | **自检专用假数据**（不是真实抓取结果）：6 个词根 × 若干建议词 + 3 个类目的 ASIN。只为验证管线 | 被 --dry-run 与 keywords-selftest 读取 |
 | `sellersprite-demo.json` | 26 | 1.5 KB | `ea30784d24` | **示例数据**（`demo: true`，12 个词）：给没有卖家精灵账号的人先看清「导入之后长什么样」。只读仓库里的这一份，不写 `data/external/` | 被 `/api/external/terms?demo=1` 读取（设置页「没有账号？看示例对比」） |
 | `mcp-selftest.mjs` | 1290 | 78.4 KB | `8f53384922` | 248 条断言：真起 MCP 进程、真灌 JSON-RPC，验 stdout 纯度 / 工具契约 / 「未判定 ≠ 通过」口径 / 客户端配置可用性；另用本地 mock 服务验 Streamable HTTP 客户端（SSE/JSON 双格式、会话 id、超时、401）与外部词表归一；结尾硬断言 `data/` 一字节未变 | 由 `node tools/mcp-selftest.mjs` 运行 |
 | `assert-count.mjs` | 42 | 1.9 KB | `18cac9cc75` | 断言数守卫：实际少于期望就算失败（删断言/循环集合变小都会红），多于期望只提示去更新期望值 | 被三套自检 import |
-| `expected-counts.json` | 8 | 316 B | `c2f8b9a280` | 断言数期望值（唯一事实源）。只许上调，下调必须有理由 | 被 tools/assert-count.mjs 读取 |
+| `expected-counts.json` | 8 | 316 B | `8bb6395331` | 断言数期望值（唯一事实源）。只许上调，下调必须有理由 | 被 tools/assert-count.mjs 读取 |
 | `build-templates.mjs` | 119 | 4.9 KB | `9bd8fcde8b` | 从参考仓的模板 JSON 生成 `assets/templates.js`，含必填字段校验与回读校验 | 由 `node tools/build-templates.mjs` 运行 |
 | `check-doc-numbers.py` | 303 | 14.4 KB | `9ca1517d11` | 核对文档里的行数 / 断言数 / 文件数是否与磁盘一致（文档会安静地说出过期数字，所以需要机器核对） | 由 `python tools/check-doc-numbers.py` 运行 |
 | `mcp-setup.mjs` | 158 | 8.3 KB | `6e76f1ad5d` | 一键生成 6 份客户端配置到 `data/mcp-setup/`（claude-code / claude-desktop / cursor / vscode / codex / workbuddy）；**绝不覆盖**客户端已有配置 | 由 `node tools/mcp-setup.mjs` 运行，`--list` 只看不写 |
@@ -238,7 +238,7 @@
 | `整合方案-竞品关键词进工作台.md` | 272 | 16.4 KB | `98c784c007` | 竞品关键词整合的可执行方案：能力盘点、形态决策、五阶段步骤、删除清单、风险登记 | — |
 | `测试盲区清单.md` | 149 | 10.7 KB | `b39c32479a` | **全绿不等于对**：按「坏了会怎样」排序的盲区清单（外部站点改版、真实 API 漂移、IndexedDB 边界、规则本身、视觉/可达性、浏览器矩阵），含明确「不做」的清单与加断言的口径 | — |
 
-合计：**73 个文件 / 38,750 行 / 2.08 MB**。
+合计：**73 个文件 / 38,923 行 / 2.09 MB**。
 
 ---
 
@@ -252,11 +252,11 @@ node server.mjs
 
 # 2. 三套自检必须**顺序**跑（并行会互相把对方生成的报告当成变动）
 node tools/selftest.mjs            # 649 条：纯函数 + 源码静态断言
-node tools/verify-server.mjs       # 290 条：真起服务打接口
-node tools/browser-selftest.mjs    # 199 条：真浏览器端到端
+node tools/verify-server.mjs       # 297 条：真起服务打接口
+node tools/browser-selftest.mjs    # 202 条：真浏览器端到端
 ```
 
-三套合计 **1138 条断言**（另有两套单列：MCP 248 条、词库 136 条）。自检脚本只读业务代码，且把数据目录重定向到临时目录，跑完不会改动你的真实数据。
+三套合计 **1148 条断言**（另有两套单列：MCP 248 条、词库 136 条）。自检脚本只读业务代码，且把数据目录重定向到临时目录，跑完不会改动你的真实数据。
 
 ---
 
@@ -1190,7 +1190,7 @@ node server.mjs
 
 > 零依赖 HTTP 服务：25 个接口、静态白名单、Host / 同源校验、SSRF 拦截、配置原子写、SSE 转发
 >
-> 2490 行｜121.6 KB｜sha256:74c536ec90
+> 2514 行｜123.4 KB｜sha256:fad3f671db
 
 ````javascript
 #!/usr/bin/env node
@@ -1286,13 +1286,19 @@ const DATA = process.env.LISTING_DATA
   : path.join(HERE, "data");
 const UPLOADS = path.join(DATA, "uploads");
 const GEN = path.join(DATA, "gen");
-const ENV_LOCAL = path.join(HERE, ".env.local");
+/* 配置文件目录可重定向：与上面 LISTING_DATA 同一套路。
+ * 🔴 为什么要这个开关：回归脚本必须能构造「没配 Key」这个状态，否则
+ *    「未配置 → 400 not-configured」这条根本测不了（用户一旦配了 Key，测试就测不到）。
+ *    顺带让"回归脚本绝不碰用户真实密钥文件"从"备份+还原"升级成"物理上另一个目录"。
+ *    默认值仍是项目根 —— 不设这个变量时行为与以前完全一致。 */
+const ENV_DIR = process.env.LISTING_ENV_DIR ? path.resolve(process.env.LISTING_ENV_DIR) : HERE;
+const ENV_LOCAL = path.join(ENV_DIR, ".env.local");
 // 🔴 两个名字都读，`.env.local` 优先。
 //    原因（2026-10-30 实测）：原来只读 `.env.local`，但 `.env.example` 第一行、启动日志、
 //    「未配置图片 API」的报错、设置页说明、README 一共 5 处都在教用户写 `.env`。
 //    照着做的人会得到 image=false，且**没有任何报错** —— 看起来像工具坏了。
 //    对照实验：只写 .env → capabilities.image=false；只写 .env.local → true。
-const ENV_PLAIN = path.join(HERE, ".env");
+const ENV_PLAIN = path.join(ENV_DIR, ".env");
 const UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36";
 const VERSION = "listing-studio/1.0.0";
 
@@ -1611,10 +1617,20 @@ function readBody(req, limitBytes = 32 * 1024 * 1024) {
 }
 
 /** 带 HTTP 状态码的错误：让上层能区分 415 / 400，而不是把一切都报成 400。 */
-function httpError(status, message) {
+function httpError(status, message, code) {
   const e = new Error(message);
   e.status = status;
+  if (code) e.code = code;
   return e;
+}
+
+/* 「这项能力没配 Key」的唯一出口：400 + code=not-configured + hint。
+ * 🔴 不许再回 500。500 的意思是"服务端自己坏了" —— 监控会告警、调用方会重试、外部集成会当成事故；
+ *    而这里其实是"请求前提不满足"（用户还没填 Key），和抠图代理的 not-configured 是同一类。
+ *    同一个语义必须同一个状态码同一个 code，否则调用方要按接口各写一套判断。
+ */
+function notConfigured(res, error, hint) {
+  return json(res, 400, { ok: false, code: "not-configured", error, ...(hint ? { hint } : {}) });
 }
 
 const JSON_CT = /^application\/(?:[\w.+-]+\+)?json\b/i;
@@ -1778,7 +1794,7 @@ function detectMode(baseUrl, explicit) {
 
 async function callImageAPI({ prompt, size, imageDataUri, onProgress, signal }) {
   const cfg = imgCfg();
-  if (!cfg.baseUrl || !cfg.apiKey) throw new Error("缺少 IMG_BASE_URL / IMG_API_KEY 配置");
+  if (!cfg.baseUrl || !cfg.apiKey) throw httpError(400, "缺少 IMG_BASE_URL / IMG_API_KEY 配置", "not-configured");
   const mode = detectMode(cfg.baseUrl, cfg.mode);
   const endpoint = `${cfg.baseUrl}/images/generations`;
   const send = resolveSendSize(size, mode, cfg.syncSizeMode);
@@ -2679,7 +2695,11 @@ async function handleImage(req, res) {
       progress,
     });
   } catch (e) {
-    json(res, e.status || 500, { error: e.message, elapsedMs: Date.now() - t0 });
+    json(res, e.status || 500, {
+      error: e.message, elapsedMs: Date.now() - t0,
+      // code 只在有意义时带上（not-configured / upstream），前端据此决定是"去配置"还是"重试"
+      ...(e.code ? { ok: false, code: e.code } : {}),
+    });
   }
 }
 
@@ -2689,7 +2709,7 @@ async function handleVision(req, res) {
     const p = keyToPath(imageKey);
     if (!p || !fs.existsSync(p)) return json(res, 400, { error: `imageKey 无效：${imageKey}` });
     const cfg = imgCfg();
-    if (!cfg.baseUrl || !cfg.apiKey) return json(res, 500, { error: "缺少 IMG_BASE_URL / IMG_API_KEY" });
+    if (!cfg.baseUrl || !cfg.apiKey) return notConfigured(res, "缺少 IMG_BASE_URL / IMG_API_KEY", "去「设置」填图片 API 的接口地址与 Key，或写进项目根目录的 .env.local 后重启服务。识图与出图共用这三项配置。");
     const ext = path.extname(p).slice(1).toLowerCase();
     const mime = ext === "jpg" ? "image/jpeg" : `image/${ext}`;
     const dataUri = `data:${mime};base64,${fs.readFileSync(p).toString("base64")}`;
@@ -2709,7 +2729,7 @@ async function handleVision(req, res) {
       }),
     }, 120000, abortOnDisconnect(res).signal);
     const j = await resp.json().catch(() => ({}));
-    if (!resp.ok) return json(res, 500, { error: `vision HTTP ${resp.status}: ${JSON.stringify(j).slice(0, 300)}` });
+    if (!resp.ok) return json(res, 502, { ok: false, code: "upstream", error: `vision HTTP ${resp.status}: ${JSON.stringify(j).slice(0, 300)}` });
     const raw = j?.choices?.[0]?.message?.content || "";
     let analysis = null;
     try { analysis = JSON.parse(raw.replace(/^```json\s*|\s*```$/g, "")); } catch { /* 保底给原始文本 */ }
@@ -2724,7 +2744,11 @@ async function handleLLM(req, res) {
     const { system = "", user = "", temperature = 0.6 } = await readJSON(req, { requireJson: true });
     const cfg = llmCfg();
     if (!cfg.baseUrl || !cfg.apiKey || !cfg.model) {
-      return json(res, 500, { error: "未配置 CHAT_BASE_URL / CHAT_MODEL / CHAT_API_KEY（这三项是可选的，不配也能用本地规则）" });
+      return notConfigured(
+        res,
+        "未配置 CHAT_BASE_URL / CHAT_MODEL / CHAT_API_KEY（这三项是可选的，不配也能用本地规则）",
+        "去「设置」填「AI 润色」那三项，或写进项目根目录的 .env.local 后重启服务。不配也不影响本地规则与 Prompt 生成。",
+      );
     }
     const resp = await fetchWithTimeout(`${cfg.baseUrl}/chat/completions`, {
       method: "POST",
@@ -2735,7 +2759,7 @@ async function handleLLM(req, res) {
       }),
     }, 120000, abortOnDisconnect(res).signal);
     const j = await resp.json().catch(() => ({}));
-    if (!resp.ok) return json(res, 500, { error: `HTTP ${resp.status}: ${JSON.stringify(j).slice(0, 300)}` });
+    if (!resp.ok) return json(res, 502, { ok: false, code: "upstream", error: `HTTP ${resp.status}: ${JSON.stringify(j).slice(0, 300)}` });
     json(res, 200, { text: j?.choices?.[0]?.message?.content || "", model: cfg.model });
   } catch (e) {
     json(res, e.status || 500, { error: e.message });
@@ -3849,7 +3873,7 @@ jobs:
 
 > 前端外壳：视图路由、SSE 事件分发、消息渲染、各视图绑定、图片库与产物面板、Rufus / 竞品两张卡的渲染
 >
-> 4902 行｜247.0 KB｜sha256:341989c3c4
+> 4916 行｜248.1 KB｜sha256:73982d3141
 
 ````javascript
 /**
@@ -5285,7 +5309,16 @@ function bindListing() {
   });
   $("#btnMine").addEventListener("click", () => {
     const text = $("#lCorpus").value;
-    if (!text.trim()) return;
+    // 🔴 原来这里是 `if (!text.trim()) return;` —— 点了按钮整页毫无反应，用户只会以为坏了。
+    //    本项目的铁律是"没数据也要说清原因"，所以空输入给出原因 + 下一步，而不是静默返回。
+    if (!text.trim()) {
+      $("#mineOut").innerHTML = `<div class="note warn">
+        还没有语料，算不出词频 —— 空输入我不会给你一张空表。<br>
+        把竞品标题 / 五点 / 评论粘进上面的 <b>「竞品文本 / 类目语料」</b>，多个竞品用一行 <code>---</code> 分隔，再点这个按钮。
+      </div>`;
+      uiToast("还没有语料：先在「竞品文本 / 类目语料」里粘点内容。", "warn");
+      return;
+    }
     const lang = $("#lLang").value;
     // 多段（--- 分隔）时只在第一段上做词频会丢信息 —— 但那正是"多竞品对比"要解决的问题，
     // 所以这里对整段跑词频，并在界面上提示"要按竞品分别看请点旁边那个按钮"。
@@ -6870,7 +6903,12 @@ async function loadSnapshots() {
 
 async function saveSnapshot() {
   const p = S.product;
-  if (!p) return;
+  // 🔴 原来是 `if (!p) return;`：没采集商品时点按钮**什么都不发生**；反而"有商品但 ASIN 非法"有提示。
+  //    同一件事两种反馈，用户会以为按钮坏了。
+  if (!p) {
+    uiToast("还没有商品数据 —— 先去「采集」页粘贴商品页内容或跑书签脚本，解析出 ASIN 后才能记快照。", "warn");
+    return;
+  }
   const asin = String(p.asin || "").trim().toUpperCase();
   if (!/^[A-Z0-9]{10}$/.test(asin)) {
     uiToast("这个商品没有合法 ASIN，记不了快照（搜索页数据请先打开某个商品页采集）。", "warn");
@@ -24469,7 +24507,7 @@ window.__SMOKE_DONE__ = true;
 
 > 649 条断言：纯函数行为 + 源码级静态断言（28 条规则逐条的 fix、hits[].why/fix、覆盖度扩展向后兼容、CSV 往返、零 process.cwd()），不联网、不写盘
 >
-> 5615 行｜328.2 KB｜sha256:ae79ea3651
+> 5619 行｜328.7 KB｜sha256:07eb0a03ab
 
 ````javascript
 #!/usr/bin/env node
@@ -28391,8 +28429,12 @@ t("N. 抓取模块不引入第三方依赖（保持项目零依赖）", () => {
 t("O1. 🔴 .env 必须真的被读到（原来只读 .env.local，而 5 处文案教用户写 .env）", () => {
   const srv = readFileSync(path.join(ROOT, "server.mjs"), "utf8");
   // 两个路径都要有；只留 ENV_LOCAL 就等于"文档说的文件名不生效"
-  assert.ok(/const ENV_LOCAL = path\.join\(HERE, "\.env\.local"\)/.test(srv), "缺少 .env.local 路径常量");
-  assert.ok(/const ENV_PLAIN = path\.join\(HERE, "\.env"\)/.test(srv), "缺少 .env 路径常量（.env 又会被忽略）");
+  //   两个文件都挂在 ENV_DIR 下（可被 LISTING_ENV_DIR 重定向到临时目录，
+  //   否则回归脚本构造不出「没配 Key」这个状态），默认值仍是项目根。
+  assert.ok(/const ENV_LOCAL = path\.join\(ENV_DIR, "\.env\.local"\)/.test(srv), "缺少 .env.local 路径常量");
+  assert.ok(/const ENV_PLAIN = path\.join\(ENV_DIR, "\.env"\)/.test(srv), "缺少 .env 路径常量（.env 又会被忽略）");
+  assert.ok(/const ENV_DIR = process\.env\.LISTING_ENV_DIR \? path\.resolve\(process\.env\.LISTING_ENV_DIR\) : HERE/.test(srv),
+    "缺少 LISTING_ENV_DIR 重定向入口：回归脚本无法构造「没配 Key」场景，且写配置会碰用户真实密钥文件");
   // envFileConfig 必须按顺序遍历两个文件，且先读到的不被覆盖（.env.local 优先）
   const fn = srv.slice(srv.indexOf("function envFileConfig()"), srv.indexOf("function getEnv("));
   assert.ok(/\[ENV_LOCAL, ENV_PLAIN\]/.test(fn), "envFileConfig 没有同时遍历 .env.local 与 .env");
@@ -30091,9 +30133,9 @@ process.stdout.write(`全部通过 ✓\n`);
 
 #### `tools/verify-server.mjs`
 
-> 290 条断言：真起服务打接口（SSRF / 目录穿越 / Host / 同源 / 配置原子写 / 打包下载 / 外部数据源门禁 / 无账号时的示例数据 / 词根覆盖层 / CSV 导出 / 历史对比）
+> 297 条断言：真起服务打接口（SSRF / 目录穿越 / Host / 同源 / 配置原子写 / 打包下载 / 外部数据源门禁 / 无账号时的示例数据 / 词根覆盖层 / CSV 导出 / 历史对比）
 >
-> 1119 行｜66.2 KB｜sha256:1164c8c260
+> 1216 行｜71.3 KB｜sha256:094c571b8f
 
 ````javascript
 #!/usr/bin/env node
@@ -31204,6 +31246,103 @@ for (const [tag, url, expectStatus, expectCode] of [
   }
 }
 
+/* ── 11c. 「没配 Key」的错误码：400 not-configured（绝不是 500） ─────────
+ * 🔴 语义：500 = 服务端自己坏了 → 监控告警、调用方重试、外部集成当事故；
+ *    这里其实是"请求前提不满足"（用户还没填 Key），和抠图代理的 not-configured 同类。
+ *    上游真的挂了才是网关故障 → 502 + code=upstream（用只回 401 的本地桩验证）。
+ */
+console.log("\n11c. AI 能力未配置 → 400 not-configured（不是 500） / 上游故障 → 502");
+
+{
+  const P12 = PORT + 9;
+  const dir12 = fs.mkdtempSync(path.join(os.tmpdir(), "clx-verify-cfg-"));
+  // 🔴 配置目录也重定向：本机若真配了 Key，"未配置"这个场景就构造不出来了
+  fs.mkdirSync(path.join(dir12, "gen"), { recursive: true });
+  const PNG_1X1 = Buffer.from(
+    "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==",
+    "base64",
+  );
+  fs.writeFileSync(path.join(dir12, "gen", "probe.png"), PNG_1X1);
+
+  const srv12 = spawn(process.execPath, [path.join(HERE, "server.mjs")], {
+    cwd: HERE,
+    env: { ...process.env, PORT: String(P12), HOST: "127.0.0.1",
+      LISTING_DATA: dir12, LISTING_KEYWORDS: path.join(dir12, "keywords"),
+      LISTING_ENV_DIR: dir12,          // 空目录 → 一定"没配"
+      CHAT_BASE_URL: "", CHAT_API_KEY: "", CHAT_MODEL: "", IMG_BASE_URL: "", IMG_API_KEY: "", IMG_MODEL: "" },
+    stdio: "ignore",
+  });
+  const stub = http.createServer((req, res) => {
+    res.writeHead(401, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ error: { message: "invalid api key" } }));
+  });
+  await new Promise((r) => stub.listen(P12 + 1, "127.0.0.1", r));
+  try {
+    await new Promise((r) => setTimeout(r, 1400));
+    const B12 = `http://127.0.0.1:${P12}`;
+    const post12 = (p, body) => fetch(B12 + p, {
+      method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body),
+    });
+
+    const llm = await post12("/api/llm", { user: "hi" });
+    const llmBody = await llm.json();
+    ck("🔴 POST /api/llm 未配置 → 400（不是 500，外部监控才不会当服务故障）",
+      llm.status === 400, `status=${llm.status}`);
+    ck("并且 code=not-configured + ok:false（调用方可判定「去配置」而不是「重试」）",
+      llmBody.ok === false && llmBody.code === "not-configured", JSON.stringify(llmBody).slice(0, 200));
+    ck("带可执行的 hint（说清去哪配、不配也不影响本地规则）",
+      typeof llmBody.hint === "string" && llmBody.hint.length > 10 && /不影响/.test(llmBody.hint), String(llmBody.hint));
+
+    const vis = await post12("/api/vision", { imageKey: "gen/probe.png" });
+    const visBody = await vis.json();
+    ck("POST /api/vision 未配置 → 400 + not-configured（识图与出图共用同一套配置）",
+      vis.status === 400 && visBody.code === "not-configured", `status=${vis.status} ${JSON.stringify(visBody).slice(0, 160)}`);
+
+    const img = await post12("/api/image", { prompt: "a mug" });
+    const imgBody = await img.json();
+    ck("POST /api/image 未配置 → 400 + not-configured（抛错路径也要带上 code）",
+      img.status === 400 && imgBody.code === "not-configured" && imgBody.ok === false,
+      `status=${img.status} ${JSON.stringify(imgBody).slice(0, 160)}`);
+  } finally {
+    srv12.kill();
+    await new Promise((r) => setTimeout(r, 250));
+    stub.close();
+    try { fs.rmSync(dir12, { recursive: true, force: true }); } catch { /* ignore */ }
+  }
+
+  /* 上游回 401：那是"网关下游失败"，语义是 502，不是 500。 */
+  const P13 = PORT + 11;
+  const dir13 = fs.mkdtempSync(path.join(os.tmpdir(), "clx-verify-up-"));
+  const srv13 = spawn(process.execPath, [path.join(HERE, "server.mjs")], {
+    cwd: HERE,
+    env: { ...process.env, PORT: String(P13), HOST: "127.0.0.1",
+      LISTING_DATA: dir13, LISTING_KEYWORDS: path.join(dir13, "keywords"), LISTING_ENV_DIR: dir13,
+      CHAT_BASE_URL: `http://127.0.0.1:${P13 + 1}`, CHAT_MODEL: "stub-model", CHAT_API_KEY: "stub-key" },
+    stdio: "ignore",
+  });
+  const stub2 = http.createServer((req, res) => {
+    res.writeHead(401, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ error: { message: "invalid api key" } }));
+  });
+  await new Promise((r) => stub2.listen(P13 + 1, "127.0.0.1", r));
+  try {
+    await new Promise((r) => setTimeout(r, 1400));
+    const r = await fetch(`http://127.0.0.1:${P13}/api/llm`, {
+      method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ user: "hi" }),
+    });
+    const b = await r.json().catch(() => ({}));
+    ck("🔴 上游 401 → 502 + code=upstream（网关下游失败，不是本站 500）",
+      r.status === 502 && b.code === "upstream", `status=${r.status} ${JSON.stringify(b).slice(0, 160)}`);
+    ck("502 的 error 里保留上游状态码（排查时要看得见 401，不能只说「调用失败」）",
+      /HTTP 401/.test(String(b.error)), String(b.error).slice(0, 120));
+  } finally {
+    srv13.kill();
+    await new Promise((r) => setTimeout(r, 250));
+    stub2.close();
+    try { fs.rmSync(dir13, { recursive: true, force: true }); } catch { /* ignore */ }
+  }
+}
+
 /* ── 硬断言：用户真实配置逐字节未变 ─────────────────────── */
 const after = fs.existsSync(ENV_LOCAL) ? fs.readFileSync(ENV_LOCAL) : null;
 const same = envBackup === null ? after === null : Boolean(after && envBackup.equals(after));
@@ -31219,9 +31358,9 @@ process.exit(fail ? 1 : 0);
 
 #### `tools/browser-selftest.mjs`
 
-> 199 条断言：CDP 驱动无头浏览器，点遍 8 个视图并跑采集→对比闭环、外部数据源的示例入口、词库页默认收起的 6 个折叠区与双覆盖率渲染
+> 202 条断言：CDP 驱动无头浏览器，点遍 8 个视图并跑采集→对比闭环、外部数据源的示例入口、词库页默认收起的 6 个折叠区与双覆盖率渲染
 >
-> 1032 行｜68.2 KB｜sha256:bf0bf8738f
+> 1066 行｜70.3 KB｜sha256:df1a73cfc8
 
 ````javascript
 #!/usr/bin/env node
@@ -31491,6 +31630,18 @@ try {
   ck("没有本地词库时，示例也如实说「暂时没法对比」，而不是给 0",
     /暂时没法对比/.test(String(demoInfo.text)) || /两边都有/.test(String(demoInfo.text)),
     JSON.stringify(String(demoInfo.text).slice(0, 160)));
+
+  /* ── 2d. 空输入点按钮：必须给反馈，不许"点了没反应" ──────────────
+   * 这两处原来是 `if (!x) return;`，点击后界面毫无变化 —— 用户只会以为按钮坏了。
+   * 项目铁律是"没数据也要说清原因"。此处刻意在**还没解析任何商品**时点快照按钮。 */
+  console.log("\n2d. 空输入的两个按钮：必须说清为什么没动作");
+  {
+    await cdp.eval("document.getElementById('btnSnapSave').click()");
+    await wait(350);
+    const toast = String(await cdp.eval("(document.getElementById('uiToast')||{}).textContent||''"));
+    ck("🔴 没采集商品时点「记一条快照」→ 弹出原因（不再静默 return）",
+      /还没有商品数据/.test(toast) && /采集/.test(toast), toast.slice(0, 160));
+  }
 
   /* ── 3. 本轮新增功能真的渲染出东西 ────────────────────────── */
   console.log("\n3. 本轮新增功能的界面");
@@ -31902,6 +32053,28 @@ try {
   await cdp.eval("document.getElementById('btnMine').click()");
   await wait(500);
   ck("整页作为竞品语料也能跑词频", /Top1/.test(String(await cdp.eval("document.getElementById('mineOut').innerText"))));
+
+  /* ── 4a1. 语料为空时的词频挖掘：说清原因，而不是点了没反应 ──────
+   * 先备份语料、清空、点按钮、断言，再把语料写回去 —— 后面的用例还要用它。 */
+  {
+    const keepCorpus = String(await cdp.eval("document.getElementById('lCorpus').value"));
+    await cdp.eval(`(()=>{
+      const t=document.getElementById('lCorpus');
+      t.value=''; t.dispatchEvent(new Event('input',{bubbles:true}));
+      document.getElementById('mineOut').innerHTML='';
+      document.getElementById('btnMine').click();
+    })()`);
+    await wait(400);
+    const mineEmpty = String(await cdp.eval("document.getElementById('mineOut').textContent"));
+    ck("🔴 语料为空时点「词频挖掘」→ 给出原因与下一步（不再静默 return）",
+      /还没有语料/.test(mineEmpty) && /类目语料/.test(mineEmpty), mineEmpty.slice(0, 160));
+    ck("并且不产出任何词条 chip（空输入不许凑一张空表出来）",
+      (await cdp.eval("document.querySelectorAll('#mineOut .chip').length")) === 0);
+    await cdp.eval(`(()=>{
+      const t=document.getElementById('lCorpus');
+      t.value=${JSON.stringify(keepCorpus)}; t.dispatchEvent(new Event('input',{bubbles:true}));
+    })()`);
+  }
 
   /* ── 4a2. 本周词库：**没有数据时必须说清"还没生成"** ──
    * 本脚本把 LISTING_KEYWORDS 指到一个空的临时目录（见起服务处），所以这里必然是"没有快照"。
@@ -34937,14 +35110,14 @@ export function checkAssertCount(suite, actual) {
 
 > 断言数期望值（唯一事实源）。只许上调，下调必须有理由
 >
-> 8 行｜316 B｜sha256:c2f8b9a280
+> 8 行｜316 B｜sha256:8bb6395331
 
 ````json
 {
   "_comment": "断言数期望值。减少 = 有断言被删掉了（视为失败）；增加 = 新增断言（提示更新本文件，不算失败）。由 tools/assert-count.mjs 读取。",
   "selftest": 649,
-  "verify-server": 290,
-  "browser-selftest": 199,
+  "verify-server": 297,
+  "browser-selftest": 202,
   "mcp-selftest": 248,
   "keywords-selftest": 136
 }

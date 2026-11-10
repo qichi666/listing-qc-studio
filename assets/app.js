@@ -1431,7 +1431,16 @@ function bindListing() {
   });
   $("#btnMine").addEventListener("click", () => {
     const text = $("#lCorpus").value;
-    if (!text.trim()) return;
+    // 🔴 原来这里是 `if (!text.trim()) return;` —— 点了按钮整页毫无反应，用户只会以为坏了。
+    //    本项目的铁律是"没数据也要说清原因"，所以空输入给出原因 + 下一步，而不是静默返回。
+    if (!text.trim()) {
+      $("#mineOut").innerHTML = `<div class="note warn">
+        还没有语料，算不出词频 —— 空输入我不会给你一张空表。<br>
+        把竞品标题 / 五点 / 评论粘进上面的 <b>「竞品文本 / 类目语料」</b>，多个竞品用一行 <code>---</code> 分隔，再点这个按钮。
+      </div>`;
+      uiToast("还没有语料：先在「竞品文本 / 类目语料」里粘点内容。", "warn");
+      return;
+    }
     const lang = $("#lLang").value;
     // 多段（--- 分隔）时只在第一段上做词频会丢信息 —— 但那正是"多竞品对比"要解决的问题，
     // 所以这里对整段跑词频，并在界面上提示"要按竞品分别看请点旁边那个按钮"。
@@ -3016,7 +3025,12 @@ async function loadSnapshots() {
 
 async function saveSnapshot() {
   const p = S.product;
-  if (!p) return;
+  // 🔴 原来是 `if (!p) return;`：没采集商品时点按钮**什么都不发生**；反而"有商品但 ASIN 非法"有提示。
+  //    同一件事两种反馈，用户会以为按钮坏了。
+  if (!p) {
+    uiToast("还没有商品数据 —— 先去「采集」页粘贴商品页内容或跑书签脚本，解析出 ASIN 后才能记快照。", "warn");
+    return;
+  }
   const asin = String(p.asin || "").trim().toUpperCase();
   if (!/^[A-Z0-9]{10}$/.test(asin)) {
     uiToast("这个商品没有合法 ASIN，记不了快照（搜索页数据请先打开某个商品页采集）。", "warn");
